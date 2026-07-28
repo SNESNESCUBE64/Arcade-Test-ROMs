@@ -145,18 +145,32 @@ toggle_boom_sound:
     ret
 
 analog_sound_test:
+    ld bc, $0040
+    ld a, $1
+    ld ix, $7560
+    ld (ix+0), a
+    add ix, bc
+    ld hl, string_sound_test
+    call print_by_address_and_length
+
     call toggle_walk_sound
     ld a, $02
 wait_analog_sound1:
     call delay_1s
     dec a
     jr nz, wait_analog_sound1
+    ld a, $2
+    ld ix, $7560
+    ld (ix+0), a
     call toggle_jump_sound
     ld a, $02
 wait_analog_sound2:
     call delay_1s
     dec a
     jr nz, wait_analog_sound2
+    ld a, $3
+    ld ix, $7560
+    ld (ix+0), a
     call toggle_boom_sound
     ld a, $02
 wait_analog_sound3:
@@ -164,9 +178,29 @@ wait_analog_sound3:
     dec a
     jr nz, wait_analog_sound3
     ret
-    
+
+;Assume that IX is our print location
+;Assume that HL has our string
+;Assume that '$3F' is our end character
+print_by_address_and_length:
+    push bc
+    ld bc, $0020
+load_character_by_addr:    
+    ld a, (hl)
+    cp $3F
+    jr z, print_return
+    ld (ix+0), a
+    add ix, bc
+    inc hl
+    jr load_character_by_addr
+print_return:
+    pop bc
+    ret
+
+string_sound_test: DB $14, $1E, $25, $1F, $23, $10, $15, $24, $15, $22, $13, $23, $19, $14, $3F
+
 align $0FD0
-DB "TKG Test ROM    SNESNESCUBE64   27 July 2026   ",$20
+DB "TKG Test ROM    SNESNESCUBE64   28 July 2026   ",$20
 
 
 ds $1000 - $
