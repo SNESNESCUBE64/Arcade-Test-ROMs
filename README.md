@@ -21,3 +21,8 @@ This is a work in progress and is nowhere near completion.
 - radarscope specific sound tests
 - dk jr specific sound tests
 - color pallet tests
+
+## Miscellaneous To-Do's
+- write manual
+- write text utility
+- write build utility
