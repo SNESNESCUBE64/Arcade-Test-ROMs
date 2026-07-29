@@ -63,6 +63,7 @@ video_ram_erase:
 ;This is just a test routine. No real work is being done at this point. This should be replaced later.
 loop:
     call triggered_sound_test
+    call music_sound_test
     jr loop
 
 
@@ -141,6 +142,33 @@ triggered_sound_loop:
     inc a
     cp $7
     jr nz, triggered_sound_loop
+    ret
+
+music_sound_test:
+    ld bc, $0040
+    ld ix, music_sound_test_addr
+    add ix, bc
+    ld hl, string_music
+    call print_by_address_and_length
+    ld ix, music_sound_test_addr
+    ld hl, music_addr
+    ld a, $1
+music_sound_loop:
+    ld (ix+0), a
+    ld b, a
+    ld (hl), a
+    ld a, $05
+    call delay
+    xor a
+    ld (hl), a
+    ld a, $0A
+    call delay
+    ld a, b
+    inc a
+    cp $10
+    jr nz, music_sound_loop
+    xor a
+    ld (hl), a
     ret
 
 ;Assume that IX is our print location
