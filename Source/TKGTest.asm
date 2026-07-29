@@ -62,7 +62,7 @@ video_ram_erase:
 
 ;This is just a test routine. No real work is being done at this point. This should be replaced later.
 loop:
-    call analog_sound_test
+    call triggered_sound_test
     jr loop
 
 
@@ -121,35 +121,26 @@ toggle_discrete_feature:
     pop af
     ret
 
-analog_sound_test:
+triggered_sound_test:
     ld bc, $0040
-    ld a, $1
-    ld ix, discrete_sound_test_addr
-    ld (ix+0), a
+    ld ix, triggered_sound_test_addr
     add ix, bc
-    ld hl, string_sound_test
+    ld hl, string_sound
     call print_by_address_and_length
-    ;Test walk sound
+    ld ix, triggered_sound_test_addr
     ld hl, walk_sound_addr
-    call toggle_discrete_feature
-    ld a, $02
-    call delay
-    ld a, $2
-    ld ix, discrete_sound_test_addr
+    ld a, $1
+triggered_sound_loop:
     ld (ix+0), a
-    ;Test Jump Sound
-    ld hl, jump_sound_addr
+    ld b, a
     call toggle_discrete_feature
     ld a, $02
     call delay
-    ld a, $3
-    ld ix, discrete_sound_test_addr
-    ld (ix+0), a
-    ;Test Boom Sound
-    ld hl, boom_sound_addr
-    call toggle_discrete_feature
-    ld a, $02
-    call delay
+    ld a, b
+    inc l
+    inc a
+    cp $7
+    jr nz, triggered_sound_loop
     ret
 
 ;Assume that IX is our print location
