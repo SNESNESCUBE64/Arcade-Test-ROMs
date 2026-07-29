@@ -69,36 +69,34 @@ loop:
 invert_screen:
     push af
     ld a, $f0
-    ld ($7d82), a
+    ld (screen_invert_addr), a
     pop af
     ret
 
 uninvert_screen:
     push af
     ld a, $0f
-    ld ($7d82), a
+    ld (screen_invert_addr), a
     pop af
     ret
 
 delay_1s:
-    push de
+    ld a, $01
+;assume a is the coundown so long as a is greater than one.
+delay:
     push hl
 
     ld hl, $ffff
-    ld de, $0001
 
-delay_1s_loop:
+delay_loop:
     dec l
-    jr nz, delay_1s_loop
+    jr nz, delay_loop
     dec h
-    jr nz, delay_1s_loop
-    dec e
-    jr nz, delay_1s_loop
-
+    jr nz, delay_loop
+    dec a
+    jr nz, delay_loop
 
     pop hl
-    pop de
-    
     ret
 
 set_digital_sound:
@@ -112,10 +110,10 @@ toggle_walk_sound:
     push af
 
     ld a, $0f
-    ld ($7D00), a
+    ld (walk_sound_addr), a
     call delay_1s
     ld a, $f0
-    ld ($7D00), a
+    ld (walk_sound_addr), a
 
     pop af
     ret
@@ -124,10 +122,10 @@ toggle_jump_sound:
     push af
 
     ld a, $0f
-    ld ($7D01), a
+    ld (jump_sound_addr), a
     call delay_1s
     ld a, $f0
-    ld ($7D01), a
+    ld (jump_sound_addr), a
 
     pop af
     ret
@@ -136,10 +134,10 @@ toggle_boom_sound:
     push af
 
     ld a, $0f
-    ld ($7D02), a
+    ld (boom_sound_addr), a
     call delay_1s
     ld a, $f0
-    ld ($7D02), a
+    ld (boom_sound_addr), a
 
     pop af
     ret
@@ -147,36 +145,29 @@ toggle_boom_sound:
 analog_sound_test:
     ld bc, $0040
     ld a, $1
-    ld ix, $7560
+    ld ix, discrete_sound_test_addr
     ld (ix+0), a
     add ix, bc
     ld hl, string_sound_test
     call print_by_address_and_length
-
+    ;Test walk sound
     call toggle_walk_sound
     ld a, $02
-wait_analog_sound1:
-    call delay_1s
-    dec a
-    jr nz, wait_analog_sound1
+    call delay
     ld a, $2
-    ld ix, $7560
+    ld ix, discrete_sound_test_addr
     ld (ix+0), a
+    ;Test Jump Sound
     call toggle_jump_sound
     ld a, $02
-wait_analog_sound2:
-    call delay_1s
-    dec a
-    jr nz, wait_analog_sound2
+    call delay
     ld a, $3
-    ld ix, $7560
+    ld ix, discrete_sound_test_addr
     ld (ix+0), a
+    ;Test Boom Sound
     call toggle_boom_sound
     ld a, $02
-wait_analog_sound3:
-    call delay_1s
-    dec a
-    jr nz, wait_analog_sound3
+    call delay
     ret
 
 ;Assume that IX is our print location
@@ -197,6 +188,14 @@ print_return:
     pop bc
     ret
 
+;Constants
+discrete_sound_test_addr equ $75A2
+screen_invert_addr equ $7d82
+walk_sound_addr equ $7D00
+jump_sound_addr equ $7D01
+boom_sound_addr equ $7D02
+
+;Strings
 string_sound_test: DB $14, $1E, $25, $1F, $23, $10, $15, $24, $15, $22, $13, $23, $19, $14, $3F
 
 align $0FD0
