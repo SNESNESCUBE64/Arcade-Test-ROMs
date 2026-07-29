@@ -106,38 +106,17 @@ set_digital_sound:
 clear_analog_sounds:
     ret
 
-toggle_walk_sound:
+;this will toggle something like an analog sound or screen flip depending on what is required
+;assumes hl is the address
+;works with walk, jump, and boom sounds
+toggle_discrete_feature:
     push af
 
     ld a, $0f
-    ld (walk_sound_addr), a
+    ld (hl), a
     call delay_1s
     ld a, $f0
-    ld (walk_sound_addr), a
-
-    pop af
-    ret
-
-toggle_jump_sound:
-    push af
-
-    ld a, $0f
-    ld (jump_sound_addr), a
-    call delay_1s
-    ld a, $f0
-    ld (jump_sound_addr), a
-
-    pop af
-    ret
-
-toggle_boom_sound:
-    push af
-
-    ld a, $0f
-    ld (boom_sound_addr), a
-    call delay_1s
-    ld a, $f0
-    ld (boom_sound_addr), a
+    ld (hl), a
 
     pop af
     ret
@@ -151,21 +130,24 @@ analog_sound_test:
     ld hl, string_sound_test
     call print_by_address_and_length
     ;Test walk sound
-    call toggle_walk_sound
+    ld hl, walk_sound_addr
+    call toggle_discrete_feature
     ld a, $02
     call delay
     ld a, $2
     ld ix, discrete_sound_test_addr
     ld (ix+0), a
     ;Test Jump Sound
-    call toggle_jump_sound
+    ld hl, jump_sound_addr
+    call toggle_discrete_feature
     ld a, $02
     call delay
     ld a, $3
     ld ix, discrete_sound_test_addr
     ld (ix+0), a
     ;Test Boom Sound
-    call toggle_boom_sound
+    ld hl, boom_sound_addr
+    call toggle_discrete_feature
     ld a, $02
     call delay
     ret
