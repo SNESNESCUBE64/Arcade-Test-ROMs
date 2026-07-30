@@ -155,9 +155,13 @@ music_sound_test:
     ld hl, music_addr
     ld a, $1
 music_sound_loop:
-    ld (ix+0), a
     ld b, a
-    ld (hl), a
+    cp a, $0A
+    jr c, music_not_letter
+    add a, $07
+music_not_letter:
+    ld (ix+0), a
+    ld (hl), b
     ld a, $05
     call delay
     xor a
