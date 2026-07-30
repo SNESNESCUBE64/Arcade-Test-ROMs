@@ -62,12 +62,7 @@ video_ram_erase:
 
 ;This is just a test routine. No real work is being done at this point. This should be replaced later.
 loop:
-    call rom_checksum_calculation
-    ld hl, rom0_print_address
-    ld a, c
-    call print_two_digit
-    ld a, b
-    call print_two_digit
+    call rom_check_main
     call triggered_sound_test
     call music_sound_test
     jr loop
@@ -177,11 +172,106 @@ music_sound_loop:
     ld (hl), a
     ret
 
+rom_check_main:
+    ld hl, $0000 ;current address
+    call rom_checksum_calculation
+    ld hl, rom0_print_address
+    ld a, c
+    call print_two_digit
+    ld a, b
+    call print_two_digit
+    ld de, $0040
+    add hl, de
+    ld (hl), $00
+    add hl, de 
+    ld ix, $0000
+    ld de, hl
+    add ix, de
+    ld hl, string_rom
+    call print_by_address_and_length
+    
+    ld hl, $1000 ;current address
+    call rom_checksum_calculation
+    ld hl, rom0_print_address
+    inc hl
+    ld a, c
+    call print_two_digit
+    ld a, b
+    call print_two_digit
+    ld de, $0040
+    add hl, de
+    ld (hl), $01
+    add hl, de 
+    ld ix, $0000
+    ld de, hl
+    add ix, de
+    ld hl, string_rom
+    call print_by_address_and_length
+
+    ld hl, $1000 ;current address
+    call rom_checksum_calculation
+    ld hl, rom0_print_address
+    inc hl
+    ld a, c
+    call print_two_digit
+    ld a, b
+    call print_two_digit
+    ld de, $0040
+    add hl, de
+    ld (hl), $01
+    add hl, de 
+    ld ix, $0000
+    ld de, hl
+    add ix, de
+    ld hl, string_rom
+    call print_by_address_and_length
+
+    ld hl, $2000 ;current address
+    call rom_checksum_calculation
+    ld hl, rom0_print_address
+    inc hl
+    inc hl
+    ld a, c
+    call print_two_digit
+    ld a, b
+    call print_two_digit
+    ld de, $0040
+    add hl, de
+    ld (hl), $02
+    add hl, de 
+    ld ix, $0000
+    ld de, hl
+    add ix, de
+    ld hl, string_rom
+    call print_by_address_and_length
+
+    ld hl, $3000 ;current address
+    call rom_checksum_calculation
+    ld hl, rom0_print_address
+    inc hl
+    inc hl
+    inc hl
+    ld a, c
+    call print_two_digit
+    ld a, b
+    call print_two_digit
+    ld de, $0040
+    add hl, de
+    ld (hl), $03
+    add hl, de 
+    ld ix, $0000
+    ld de, hl
+    add ix, de
+    ld hl, string_rom
+    call print_by_address_and_length
+
+    ret
+
+; Assume that HL is the start address
 rom_checksum_calculation:
     ld a, $00
     ld bc, $0000 ;result
     ld de, $1000 ;counter
-    ld hl, $0000 ;current address
 
 rom_add:
     add a, (hl)
