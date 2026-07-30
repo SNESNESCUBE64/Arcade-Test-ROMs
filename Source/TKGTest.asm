@@ -62,6 +62,12 @@ video_ram_erase:
 
 ;This is just a test routine. No real work is being done at this point. This should be replaced later.
 loop:
+    call rom_checksum_calculation
+    ld hl, rom0_print_address
+    ld a, c
+    call print_two_digit
+    ld a, b
+    call print_two_digit
     call triggered_sound_test
     call music_sound_test
     jr loop
@@ -171,6 +177,28 @@ music_sound_loop:
     ld (hl), a
     ret
 
+rom_checksum_calculation:
+    ld a, $00
+    ld bc, $0000 ;result
+    ld de, $1000 ;counter
+    ld hl, $0000 ;current address
+
+rom_add:
+    add a, (hl)
+    inc hl
+    jr nc, rom_no_carry
+    inc b
+rom_no_carry:   
+    ld c, a
+    dec de
+    ld a, d
+    or a, e
+    ret z
+    ld a,c
+    jr rom_add
+
+
+
 ;Assume that IX is our print location
 ;Assume that HL has our string
 ;Assume that '$3F' is our end character
@@ -189,6 +217,37 @@ print_return:
     pop bc
     ret
 
+;prints a two digit character from a
+;assumes hl is the print address
+;assumes a is what is being printed
+print_two_digit:
+    push bc
+    push de
+    ld de, $0020
+
+    ld b, a
+    and a, $0F
+    cp a, $0A
+    jr c, skip_first_letter
+    add a, $07
+skip_first_letter:
+    ld (hl), a
+    add hl, de
+    ld a, b
+    and a, $F0
+    rra
+    rra
+    rra
+    rra
+    cp a, $0A
+    jr c, skip_second_letter
+    add a, $07
+skip_second_letter:
+    ld (hl), a
+    add hl, de
+    pop de
+    pop bc
+    ret
 
 
 include "TKG_Def.asm"
