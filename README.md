@@ -4,10 +4,10 @@ Test ROM suite for TRS, TKG, and DJR hardware
 This is a work in progress and is nowhere near completion.
 
 ## Currently Supported Tests
+- ROM Checksum printing
 - Dk specific sound/music test
 
 ## Planned Tests
-- ROM Checksum printing
 - RAM check
     - sprite and video ram
     - check for correct RAM chip writting
