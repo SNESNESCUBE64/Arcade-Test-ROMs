@@ -63,8 +63,7 @@ video_ram_erase:
 ;This is just a test routine. No real work is being done at this point. This should be replaced later.
 loop:
     call rom_check_main
-    call triggered_sound_test
-    call music_sound_test
+    call audio_test_main
     jr loop
 
 
@@ -101,11 +100,21 @@ delay_loop:
     pop hl
     ret
 
-set_digital_sound:
-    ld ($7C00), a
-    ret
+audio_test_main:
+    ld ix, $0000
+    ld de, audio_header_address
+    add ix, de
+    ld hl, string_audio_test
+    call print_by_address_and_length
 
-clear_analog_sounds:
+    ld ix, $0000
+    ld de, audio_line_address
+    add ix, de
+    ld hl, string_line
+    call print_by_address_and_length
+
+    call triggered_sound_test
+    call music_sound_test
     ret
 
 ;this will toggle something like an analog sound or screen flip depending on what is required
@@ -176,103 +185,59 @@ music_not_letter:
     ld (hl), a
     ret
 
+
 rom_check_main:
-    ld hl, $0000 ;current address
-    call rom_checksum_calculation
-    ld hl, rom0_print_address
-    ld a, c
-    call print_two_digit
-    ld a, b
-    call print_two_digit
-    ld de, $0040
-    add hl, de
-    ld (hl), $00
-    add hl, de 
     ld ix, $0000
-    ld de, hl
+    ld de, rom_test_header_address
     add ix, de
-    ld hl, string_rom
-    call print_by_address_and_length
-    
-    ld hl, $1000 ;current address
-    call rom_checksum_calculation
-    ld hl, rom0_print_address
-    inc hl
-    ld a, c
-    call print_two_digit
-    ld a, b
-    call print_two_digit
-    ld de, $0040
-    add hl, de
-    ld (hl), $01
-    add hl, de 
-    ld ix, $0000
-    ld de, hl
-    add ix, de
-    ld hl, string_rom
+    ld hl, string_rom_checksums
     call print_by_address_and_length
 
-    ld hl, $1000 ;current address
+    ld ix, $0000
+    ld de, rom_test_line_address
+    add ix, de
+    ld hl, string_line
+    call print_by_address_and_length
+
+    ld a, $04
+    ld hl, $0000 ;starting address
+checksum_loop:
     call rom_checksum_calculation
+    push bc
+    dec a
+    jr nz, checksum_loop
+    ld a, $04
+print_loop:
     ld hl, rom0_print_address
-    inc hl
+    dec a
+    ld b, 00
+    ld c, a
+    add hl, bc
+    pop bc
+    inc a
+    push af
     ld a, c
     call print_two_digit
     ld a, b
     call print_two_digit
+    pop af
+    dec a
     ld de, $0040
     add hl, de
-    ld (hl), $01
+    ld (hl), a
     add hl, de 
     ld ix, $0000
     ld de, hl
     add ix, de
     ld hl, string_rom
     call print_by_address_and_length
-
-    ld hl, $2000 ;current address
-    call rom_checksum_calculation
-    ld hl, rom0_print_address
-    inc hl
-    inc hl
-    ld a, c
-    call print_two_digit
-    ld a, b
-    call print_two_digit
-    ld de, $0040
-    add hl, de
-    ld (hl), $02
-    add hl, de 
-    ld ix, $0000
-    ld de, hl
-    add ix, de
-    ld hl, string_rom
-    call print_by_address_and_length
-
-    ld hl, $3000 ;current address
-    call rom_checksum_calculation
-    ld hl, rom0_print_address
-    inc hl
-    inc hl
-    inc hl
-    ld a, c
-    call print_two_digit
-    ld a, b
-    call print_two_digit
-    ld de, $0040
-    add hl, de
-    ld (hl), $03
-    add hl, de 
-    ld ix, $0000
-    ld de, hl
-    add ix, de
-    ld hl, string_rom
-    call print_by_address_and_length
-
+    jr nz, print_loop
     ret
+
 
 ; Assume that HL is the start address
 rom_checksum_calculation:
+    push af
     ld a, $00
     ld bc, $0000 ;result
     ld de, $1000 ;counter
@@ -287,9 +252,12 @@ rom_no_carry:
     dec de
     ld a, d
     or a, e
-    ret z
+    jr z, checksum_finish
     ld a,c
     jr rom_add
+checksum_finish:
+    pop af
+    ret
 
 
 
@@ -297,6 +265,7 @@ rom_no_carry:
 ;Assume that HL has our string
 ;Assume that '$3F' is our end character
 print_by_address_and_length:
+    push af
     push bc
     ld bc, $0020
 load_character_by_addr:    
@@ -309,6 +278,7 @@ load_character_by_addr:
     jr load_character_by_addr
 print_return:
     pop bc
+    pop af
     ret
 
 ;prints a two digit character from a
