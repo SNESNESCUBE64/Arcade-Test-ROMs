@@ -26,3 +26,6 @@ This is a work in progress and is nowhere near completion.
 - write manual
 - write text utility
 - write build utility
+
+## Images
+![Auto Test Screenshot](Images/TKGAutoTestScreenshot.png)
