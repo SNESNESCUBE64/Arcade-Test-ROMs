@@ -1,6 +1,10 @@
 ;TKG Hardware Test ROM
 ;(C) SNESNESCUBE64
 
+
+print:
+    ld ix, $0000
+    add ix, de
 ;Assume that IX is our print location
 ;Assume that HL has our string
 ;Assume that '$3F' is our end character

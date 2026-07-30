@@ -2,17 +2,13 @@
 ;(C) SNESNESCUBE64
 
 rom_check_main:
-    ld ix, $0000
     ld de, rom_test_header_address
-    add ix, de
     ld hl, string_rom_checksums
-    call print_by_address_and_length
+    call print
 
-    ld ix, $0000
     ld de, rom_test_line_address
-    add ix, de
     ld hl, string_line
-    call print_by_address_and_length
+    call print
 
     ld a, $04
     ld hl, $0000 ;starting address
@@ -41,11 +37,9 @@ print_loop:
     add hl, de
     ld (hl), a
     add hl, de 
-    ld ix, $0000
     ld de, hl
-    add ix, de
     ld hl, string_rom
-    call print_by_address_and_length
+    call print
     jr nz, print_loop
     ret
 
@@ -73,4 +67,3 @@ rom_no_carry:
 checksum_finish:
     pop af
     ret
-    

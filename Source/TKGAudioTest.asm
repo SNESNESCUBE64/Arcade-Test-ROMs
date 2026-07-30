@@ -2,17 +2,13 @@
 ;(C) SNESNESCUBE64
 
 audio_test_main:
-    ld ix, $0000
     ld de, audio_header_address
-    add ix, de
     ld hl, string_audio_test
-    call print_by_address_and_length
+    call print
 
-    ld ix, $0000
     ld de, audio_line_address
-    add ix, de
     ld hl, string_line
-    call print_by_address_and_length
+    call print
 
     call triggered_sound_test
     call music_sound_test
