@@ -3,24 +3,20 @@
 
 org $0000
 init: 
-    ld sp, $6BFF
+    ld sp, $6C00
     jp code_start
 
 align $66
 nmi_routine:
-    push af
-    push bc
-    push de
-    push hl
-    push ix
-    push iy   
+    exx
+    ld b, a
     ld a, ($7D00)
-    pop iy
-    pop ix
-    pop hl
-    pop de
-    pop bc
-    pop af
+    ld a, $01
+    ld h, a
+    ;ld a, $0f
+    ;ld (interrupt_enable), a
+    ld a, b
+    exx
     ret
 
 
@@ -58,28 +54,16 @@ video_ram_erase:
     jr nz, video_ram_erase
     
     call uninvert_screen
+    call set_background_palette_2
     xor a
 
 ;This is just a test routine. No real work is being done at this point. This should be replaced later.
 loop:
     call rom_check_main
     call audio_test_main
+    ;call interrupt_enable ;currently causes a crash during the sound test
     jr loop
 
-
-invert_screen:
-    push af
-    ld a, $f0
-    ld (screen_invert_addr), a
-    pop af
-    ret
-
-uninvert_screen:
-    push af
-    ld a, $0f
-    ld (screen_invert_addr), a
-    pop af
-    ret
 
 delay_1s:
     ld a, $01
@@ -115,6 +99,7 @@ toggle_discrete_feature:
     pop af
     ret
 
+include "TKGSystem.asm"
 include "TKGRomTest.asm"
 include "TKGAudioTest.asm"
 include "TKGPrint.asm"

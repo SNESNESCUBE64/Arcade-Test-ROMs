@@ -6,7 +6,6 @@ audio_line_address equ $75CC
 rom0_print_address equ $7604
 triggered_sound_test_addr equ $768D
 music_sound_test_addr equ $768E
-screen_invert_addr equ $7d82
 ;Discrete Sounds
 walk_sound_addr equ $7D00
 jump_sound_addr equ $7D01
@@ -17,6 +16,12 @@ fall_sound_addr equ $7D04
 prize_sound_addr equ $7D05
 
 music_addr equ $7C00
+
+;DK System Addresses
+screen_invert_addr equ $7d82
+palette_bit_0_addr equ $7D86
+palette_bit_1_addr equ $7D87
+int_enable_addr equ $7D84
 
 ;Strings
 string_rom:           DB $1D, $1F, $22, $3F
