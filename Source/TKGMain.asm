@@ -4,8 +4,8 @@
 org $0000
 init: 
     ld sp, $6C00
-    ld iy, main ;Load the jump address into iy, RAM stuff is all inline
-    jp ram_erase
+    ld ix, main ;Load the jump address into iy, RAM stuff is all inline
+    jp ram_test_main
 
 align $66
 nmi_routine:
@@ -21,13 +21,15 @@ nmi_routine:
     ret
 
 
-align $100
+align $A0
 
-main:   
+main:
+    ld ix, post_ram_test
+post_ram_test:
     call uninvert_screen
     call set_background_palette_2
     xor a
-
+    call process_ram_results
 ;This is just a test routine. No real work is being done at this point. This should be replaced later.
 loop:
     call rom_check_main
