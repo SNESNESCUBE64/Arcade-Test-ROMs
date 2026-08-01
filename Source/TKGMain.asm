@@ -4,7 +4,8 @@
 org $0000
 init: 
     ld sp, $6C00
-    jp code_start
+    ld iy, main ;Load the jump address into iy, RAM stuff is all inline
+    jp ram_erase
 
 align $66
 nmi_routine:
@@ -21,38 +22,8 @@ nmi_routine:
 
 
 align $100
-code_start:
-;Clear all of RAM
-    ld hl, $6000
-    ld de, $0C00
-    xor a
-work_ram_erase:
-    ld (hl), a
-    inc hl
-    dec e
-    jr nz, work_ram_erase
-    dec d
-    jr nz, work_ram_erase
-    ld hl, $7000
-    ld de, $0400
-sprite_ram_erase:
-    ld (hl), a
-    inc hl
-    dec e
-    jr nz, sprite_ram_erase
-    dec d
-    jr nz, sprite_ram_erase
-    ld hl, $7400
-    ld de, $0400
-    or $10
-video_ram_erase:
-    ld (hl), a
-    inc hl
-    dec e
-    jr nz, video_ram_erase
-    dec d
-    jr nz, video_ram_erase
-    
+
+main:   
     call uninvert_screen
     call set_background_palette_2
     xor a
@@ -101,6 +72,7 @@ toggle_discrete_feature:
 
 include "TKGSystem.asm"
 include "TKGRomTest.asm"
+include "TKGRamTest.asm"
 include "TKGAudioTest.asm"
 include "TKGPrint.asm"
 include "TKG_Def.asm"
