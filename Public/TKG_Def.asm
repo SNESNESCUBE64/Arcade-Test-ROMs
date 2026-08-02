@@ -27,21 +27,25 @@ music_addr equ $7C00
 ;String Print Addresses
 ram_test_header_address equ $7642
 ram_test_line_address equ $75C3
-rom_test_header_address equ $75CA
-rom_test_line_address equ $75CB
-rom0_print_address equ $760C
-audio_header_address equ $7612
-audio_line_address equ $75D3
-triggered_sound_test_addr equ $7694
-music_sound_test_addr equ $7695
+ram0l_print_address equ $75E4
+rom_test_header_address equ $75CE
+rom_test_line_address equ $75CF
+rom0_print_address equ $7610
+audio_header_address equ $7616
+audio_line_address equ $75D7
+triggered_sound_test_addr equ $7698
+music_sound_test_addr equ $7699
 
 ;Strings
 string_rom:           DB $1D, $1F, $22, $3F
+string_ram:           DB $1D, $11, $22, $3F
 string_sound:         DB $14, $1E, $25, $1F, $23, $3F
 string_music:         DB $13, $19, $23, $25, $1D, $3F
 string_done:          DB $14, $1E, $1F, $14, $3F
 string_rom_checksums: DB $23, $1D, $25, $23, $1B, $13, $15, $18, $13, $10, $1D, $1F, $22, $3F
 string_ram_test:      DB $23, $24, $23, $15, $24, $10, $1D, $11, $22, $3F
+string_good:          DB $14, $1F, $1F, $17, $3F
+string_bad:           DB $10, $14, $11, $12, $3F
 string_audio_test:    DB $23, $24, $23, $15, $24, $10, $1F, $19, $14, $25, $11, $3F
 string_line:          DB $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $3F
 

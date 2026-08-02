@@ -60,11 +60,6 @@ video_ram_erase:
     jp (iy)
 
 ram_bit_check_readback:
-    nop
-    nop
-    nop
-    nop
-    nop
     ld hl, $6000
     ld de, $0400
 ram_bit_check_loop1:
@@ -139,6 +134,7 @@ ram_bit_check_bit_pass4:
 
 
 process_ram_results:
+    ;print the header
     ld de, ram_test_header_address
     ld hl, string_ram_test
     call print
@@ -147,4 +143,49 @@ process_ram_results:
     ld hl, string_line
     call print
 
-    ret
+    ;Copy the results to preserve original test
+    exx
+    ld d, h
+    ld e, l
+    exx
+
+    ld bc, $0000
+print_ram_results_loop:
+    ld de, ram0l_print_address
+    ld ix, $0000
+    add ix, de
+    add ix, bc
+    ld d, $00
+    ld e, $C0
+    ;See if RAM test passed
+    exx
+    ld a, e
+    rra
+    ld e, a
+    exx
+    ld hl, string_good
+    jr nc, print_ram_test_result
+    ld hl, string_bad
+print_ram_test_result:
+    call print_by_address_and_length
+    ld de, $0040
+    add ix, de
+    ld (ix+$00), $1C
+    ld a, c
+    and $01
+    jr z, print_ram_id:
+    ld (ix+$00), $18
+print_ram_id:
+    ld a, c
+    rra 
+    and $03   
+    ld (ix+$20), a
+    ld e, $60
+    add ix, de
+    ld hl, string_ram
+    call print_by_address_and_length
+    inc c
+    ld a, $08
+    cp c
+    ret z
+    jr print_ram_results_loop
