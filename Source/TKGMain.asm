@@ -5,9 +5,8 @@ org $0000
 init: 
     ld sp, $6C00
     ld ix, main ;Load the jump address into iy, RAM stuff is all inline
-    ;Clear the result buffer
+    ;Clear the registers
     xor a
-    exx
     ld b, a
     ld c, a
     ld d, a
@@ -15,6 +14,12 @@ init:
     ld h, a
     ld l, a
     exx
+    ld b, a
+    ld c, a
+    ld d, a
+    ld e, a
+    ld h, a
+    ld l, a
     ;start the tests
     jp ram_test_main
 
