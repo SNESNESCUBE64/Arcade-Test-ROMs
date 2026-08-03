@@ -5,6 +5,11 @@ org $0000
 init: 
     ld sp, $6C00
     ld ix, main ;Load the jump address into iy, RAM stuff is all inline
+    exx
+    ld bc, $0000
+    ld de, $0000
+    ld hl, $0000
+    exx
     jp ram_test_main
 
 align $66
