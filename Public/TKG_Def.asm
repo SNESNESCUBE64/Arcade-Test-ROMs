@@ -51,6 +51,6 @@ string_line:          DB $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, 
 
 
 align $0FD0
-DB "TKG Test ROM    SNESNESCUBE64   01 Aug 2026    ",$20
+DB "TKG Test 5F/5E  SNESNESCUBE64   03 Aug 2026    ",$20
 
 ds $1000 - $
