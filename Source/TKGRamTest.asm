@@ -8,16 +8,63 @@ ram_test_main:
     ld b, $00
     jp ram_fill
 bit_test1_fill_return:
-    ld iy, bit_test2_fill_start
+    ld iy, bit_test1_bank2_check
     ld c, a
+    ld hl, $6000
+    exx
+    ld c, $01
+    exx
     jp ram_bit_check_readback
+bit_test1_bank2_check:
+    ld iy, bit_test1_bank3_check
+    exx
+    ld c, $04
+    exx
+    jp ram_bit_check_readback
+bit_test1_bank3_check:
+    ld iy, bit_test1_bank4_check
+    exx
+    ld c, $10
+    exx
+    jp ram_bit_check_readback
+bit_test1_bank4_check:
+    ld iy, bit_test2_fill_start
+    ld hl, $7400
+    exx
+    ld c, $40
+    exx
+    jp ram_bit_check_readback
+
 bit_test2_fill_start:
     ld iy, bit_test2_fill_return
     ld a, $5a
     jp ram_fill
 bit_test2_fill_return:
-    ld iy, ram_test_erase
+    ld iy, bit_test2_bank2_check
     ld c, a
+    ld hl, $6000
+    exx
+    ld c, $01
+    exx
+    jp ram_bit_check_readback
+bit_test2_bank2_check:
+    ld iy, bit_test2_bank3_check
+    exx
+    ld c, $04
+    exx
+    jp ram_bit_check_readback
+bit_test2_bank3_check:
+    ld iy, bit_test2_bank4_check
+    exx
+    ld c, $10
+    exx
+    jp ram_bit_check_readback
+bit_test2_bank4_check:
+    ld iy, ram_test_erase
+    ld hl, $7400
+    exx
+    ld c, $40
+    exx
     jp ram_bit_check_readback
 ram_test_erase:
     ld iy, ram_test_return
@@ -59,9 +106,8 @@ video_ram_erase:
     jr nz, video_ram_erase
     jp (iy)
 
-;to do, clean this up to make more re-usable. Very long hard coded routines here
+
 ram_bit_check_readback:
-    ld hl, $6000
     ld de, $0400
 ram_bit_check_loop1:
     ld a, (hl)
@@ -74,8 +120,8 @@ loop1_low_bit_test:
     jr nc, loop1_next_bit1
     exx
     ld b, a
-    ld a, l
-    or a, $01
+    ld a, c
+    or a, l
     ld l, a
     ld a, b
     exx
@@ -89,15 +135,15 @@ loop1_high_bit_test:
     jr nc, loop1_next_bit2
     exx
     ld b, a
-    ld a, l
-    or a, $02
+    ld a, c
+    rlca
+    or a, l
     ld l, a
     ld a, b
     exx
 loop1_next_bit2:
     dec b
     jr nz, loop1_high_bit_test
-
 
 ram_bit_check_bit_pass1:
     inc hl
@@ -106,137 +152,7 @@ ram_bit_check_bit_pass1:
     dec d
     jr nz, ram_bit_check_loop1
 
-    ld de, $0400
-ram_bit_check_loop2:
-    ld a, (hl)
-    xor a, c
-    jr z, ram_bit_check_bit_pass2
-;RAM Failure Detected, find out if high or low
-    ld b, $04
-loop2_low_bit_test:
-    rrca
-    jr nc, loop2_next_bit1
-    exx
-    ld b, a
-    ld a, l
-    or a, $04
-    ld l, a
-    ld a, b
-    exx
-loop2_next_bit1:
-    dec b
-    jr nz, loop2_low_bit_test
-
-    ld b, $04
-loop2_high_bit_test:
-    rrca
-    jr nc, loop2_next_bit2
-    exx
-    ld b, a
-    ld a, l
-    or a, $08
-    ld l, a
-    ld a, b
-    exx
-loop2_next_bit2:
-    dec b
-    jr nz, loop2_high_bit_test
-
-ram_bit_check_bit_pass2:
-    inc hl
-    dec e
-    jr nz, ram_bit_check_loop2
-    dec d
-    jr nz, ram_bit_check_loop2
-
-    ld de, $0400
-ram_bit_check_loop3:
-    ld a, (hl)
-    xor a, c
-    jr z, ram_bit_check_bit_pass3
-;RAM Failure Detected, find out if high or low
-    ld b, $04
-loop3_low_bit_test:
-    rrca
-    jr nc, loop3_next_bit1
-    exx
-    ld b, a
-    ld a, l
-    or a, $10
-    ld l, a
-    ld a, b
-    exx
-loop3_next_bit1:
-    dec b
-    jr nz, loop3_low_bit_test
-
-    ld b, $04
-loop3_high_bit_test:
-    rrca
-    jr nc, loop3_next_bit2
-    exx
-    ld b, a
-    ld a, l
-    or a, $20
-    ld l, a
-    ld a, b
-    exx
-loop3_next_bit2:
-    dec b
-    jr nz, loop3_high_bit_test
-
-ram_bit_check_bit_pass3:
-    inc hl
-    dec e
-    jr nz, ram_bit_check_loop3
-    dec d
-    jr nz, ram_bit_check_loop3
-
-    ld hl, $7400
-    ld de, $0400
-ram_bit_check_loop4:
-    ld a, (hl)
-    xor a, c
-    jr z, ram_bit_check_bit_pass4
-;RAM Failure Detected, find out if high or low
-    ld b, $04
-loop4_low_bit_test:
-    rrca
-    jr nc, loop4_next_bit1
-    exx
-    ld b, a
-    ld a, l
-    or a, $40
-    ld l, a
-    ld a, b
-    exx
-loop4_next_bit1:
-    dec b
-    jr nz, loop4_low_bit_test
-
-    ld b, $04
-loop4_high_bit_test:
-    rrca
-    jr nc, loop4_next_bit2
-    exx
-    ld b, a
-    ld a, l
-    or a, $80
-    ld l, a
-    ld a, b
-    exx
-loop4_next_bit2:
-    dec b
-    jr nz, loop4_high_bit_test
-ram_bit_check_bit_pass4:
-    inc hl
-    dec e
-    jr nz, ram_bit_check_loop4
-    dec d
-    jr nz, ram_bit_check_loop4
-    
     jp (iy)
-
 
 process_ram_results:
     ;print the header
