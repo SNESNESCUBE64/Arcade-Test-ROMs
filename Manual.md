@@ -7,21 +7,22 @@ Written by: SNESNESCUBE64
 2. Startup Tests
 3. Test Menu
 4. RAM Tests
-   1. TRS RAM
-   2. TRS2, TKG2, and TKG3 RAM
-   3. TKG4 RAM
+    1. TRS RAM
+    2. TRS2, TKG2, and TKG3 RAM
+    3. TKG4 RAM
 5. ROM Checks
 6. Audio Tests
-   1. TRS Audio
-   2. TKG Audio
+    1. TRS Audio
+    2. TKG Audio
 7. Controls Tests
 8. DIP Switch Print
 9. Monitor Adjustment Patterns
 10. Miscellaneous Tests
-   1. Screen Flip
-   2. NMI Test
-   3. Color Palette Test
-   4. Grid (TRS/TRS2 only)
+    1. Screen Flip
+    2. NMI Test
+    3. Color Palette Test
+    4. Grid (TRS/TRS2 only)
+
 ## Chapter 1: Overview
 The purpose of this manual is to ensure that the user of the test ROM has all of the information required to use and interpret the test ROM data. This test ROM targets the following hardware:
 - TRS / I80
