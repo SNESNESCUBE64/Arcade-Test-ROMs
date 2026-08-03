@@ -5,11 +5,17 @@ org $0000
 init: 
     ld sp, $6C00
     ld ix, main ;Load the jump address into iy, RAM stuff is all inline
+    ;Clear the result buffer
+    xor a
     exx
-    ld bc, $0000
-    ld de, $0000
-    ld hl, $0000
+    ld b, a
+    ld c, a
+    ld d, a
+    ld e, a
+    ld h, a
+    ld l, a
     exx
+    ;start the tests
     jp ram_test_main
 
 align $66
