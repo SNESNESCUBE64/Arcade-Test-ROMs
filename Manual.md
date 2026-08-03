@@ -1,12 +1,6 @@
 # TKG/TRS Test ROM Manual
-
-The purpose of this manual is to ensure that the user of the test ROM has all of the information required to use and interpret the test ROM data. This test ROM targets the following hardware:
-- TRS / I80
-- TRS2
-- TKG
-- TKG2
-- TKG3
-- TKG4
+Last Revised: 03 August 2026
+Written by: SNESNESCUBE64
 
 ## Table of Contents
 1. Overview
@@ -22,10 +16,26 @@ The purpose of this manual is to ensure that the user of the test ROM has all of
    2. TKG Audio
 7. Controls Tests
 8. DIP Switch Print
-9. TRS Specific Tests
-   1. Grid Test
-10. Monitor Adjustment Patterns
+9. Monitor Adjustment Patterns
+10. Miscellaneous Tests
+   1. Screen Flip
+   2. NMI Test
+   3. Color Palette Test
+   4. Grid (TRS/TRS2 only)
+## Chapter 1: Overview
+The purpose of this manual is to ensure that the user of the test ROM has all of the information required to use and interpret the test ROM data. This test ROM targets the following hardware:
+- TRS / I80
+- TRS2
+- TKG
+- TKG2
+- TKG3
+- TKG4
 
+There are several test ROMs available. They can be split into one of two categories:
+- Standalone, Complete Test Suite
+- Test socket, Test Menu Only
+
+The standalone ROM replaces ROM0 and contains all tests for an appropriate game. TRS and TKG test ROMs have some different tests as the hardware is slightly different.
 ## Chapter 4: RAM Tests
 
 ### Section 1: TRS RAM
