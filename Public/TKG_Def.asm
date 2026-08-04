@@ -25,15 +25,17 @@ int_enable_addr equ $7D84
 music_addr equ $7C00
 
 ;String Print Addresses
-tkg_header_address equ $74E2
+tkg_header_address equ $74E1
 
-ram_test_header_address equ $7645
-ram_test_line_address equ $75C6
-ram0l_print_address equ $75E7
-rom_test_header_address equ $75D0
-rom_test_line_address equ $75D1
-rom0_print_address equ $7612
-nmi_test_print_address equ $75B8
+ram_test_header_address equ $7644
+ram_test_line_address equ $75C5
+ram0l_print_address equ $75E6
+rom_test_header_address equ $75CF
+rom_test_line_address equ $75D0
+rom0_print_address equ $7611
+nmi_header_print_address equ $7676
+nmi_line_print_address equ $75D7
+nmi_result_print_address equ $76F8
 audio_header_address equ $761A
 audio_line_address equ $75DB
 triggered_sound_test_addr equ $769C

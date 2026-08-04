@@ -111,7 +111,43 @@ toggle_discrete_feature:
     pop af
     ret
 
+; check_nmi:
+;     ;enable interrupts
+;     ld a, $0f
+;     ld ($7D84), a
+;     call delay_1s
+;     xor a
+;     ld ($7D84), a
+;     exx
+;     ld a, h
+;     exx
+;     ld b, a
+;     ld a, $0f
+;     ld ($7D84), a
+;     ld a, b
+;     and $01
+;     ld de, nmi_test_print_address
+;     ld hl, string_bad
+;     jr z, bad_nmi
+;     ld hl, string_good
+; bad_nmi:
+;     call print
+;     ld de, $0040
+;     add ix, de
+;     ld hl, string_nmi_test
+;     call print_by_address_and_length
+;     ret
+
 check_nmi:
+    ;print the header
+    ld de, nmi_header_print_address
+    ld hl, string_nmi_test
+    call print
+
+    ld de, nmi_line_print_address
+    ld hl, string_line
+    call print
+
     ;enable interrupts
     ld a, $0f
     ld ($7D84), a
@@ -126,16 +162,12 @@ check_nmi:
     ld ($7D84), a
     ld a, b
     and $01
-    ld de, nmi_test_print_address
+    ld de, nmi_result_print_address
     ld hl, string_bad
     jr z, bad_nmi
     ld hl, string_good
 bad_nmi:
     call print
-    ld de, $0040
-    add ix, de
-    ld hl, string_nmi_test
-    call print_by_address_and_length
     ret
 
 dead_loop:

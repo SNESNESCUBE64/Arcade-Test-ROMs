@@ -10,14 +10,14 @@ rom_check_main:
     ld hl, string_line
     call print
 
-    ld a, $05
+    ld a, $04
     ld hl, $0000 ;starting address
 checksum_loop:
     call rom_checksum_calculation
     push bc
     dec a
     jr nz, checksum_loop
-    ld a, $05
+    ld a, $04
 print_loop:
     ld hl, rom0_print_address
     dec a
