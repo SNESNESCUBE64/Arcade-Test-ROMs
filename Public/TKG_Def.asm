@@ -57,6 +57,6 @@ string_tkg_startup:   DB $23, $24, $23, $15, $24, $10, $20, $25, $2C, $24, $22, 
 
 
 align $0FD0
-DB "TKG Test ROM    SNESNESCUBE64   01 Aug 2026    ",$20
+DB "TKG Test 5F/5E  SNESNESCUBE64   03 Aug 2026    ",$20
 
 ds $1000 - $
