@@ -25,16 +25,20 @@ int_enable_addr equ $7D84
 music_addr equ $7C00
 
 ;String Print Addresses
-ram_test_header_address equ $7642
-ram_test_line_address equ $75C3
-ram0l_print_address equ $75E4
-rom_test_header_address equ $75CE
-rom_test_line_address equ $75CF
-rom0_print_address equ $7610
-audio_header_address equ $7616
-audio_line_address equ $75D7
-triggered_sound_test_addr equ $7698
-music_sound_test_addr equ $7699
+tkg_header_address equ $74E2
+
+ram_test_header_address equ $7645
+ram_test_line_address equ $75C6
+ram0l_print_address equ $75E7
+rom_test_header_address equ $75D0
+rom_test_line_address equ $75D1
+rom0_print_address equ $7612
+nmi_test_print_address equ $75B8
+audio_header_address equ $761A
+audio_line_address equ $75DB
+triggered_sound_test_addr equ $769C
+music_sound_test_addr equ $769D
+
 
 ;Strings
 string_rom:           DB $1D, $1F, $22, $3F
@@ -48,6 +52,8 @@ string_good:          DB $14, $1F, $1F, $17, $3F
 string_bad:           DB $10, $14, $11, $12, $3F
 string_audio_test:    DB $23, $24, $23, $15, $24, $10, $1F, $19, $14, $25, $11, $3F
 string_line:          DB $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $3F
+string_nmi_test:      DB $24, $23, $15, $24, $10, $19, $1D, $1E, $3F
+string_tkg_startup:   DB $23, $24, $23, $15, $24, $10, $20, $25, $2C, $24, $22, $11, $24, $23, $10, $17, $1B, $24, $3F
 
 
 align $0FD0

@@ -2,9 +2,13 @@
 ;(C) SNESNESCUBE64
 
 org $0000
-init: 
+init:
+    ;If we are at 0, it should read back 0, if we are at 0x4000, we will read something non-zero
+    nop
+    ld a, ($0000)
+    and a
+    jp nz, test_socket_main
     ld sp, $6C00
-    ld ix, main ;Load the jump address into iy, RAM stuff is all inline
     ;Clear the registers
     xor a
     ld b, a
@@ -20,20 +24,34 @@ init:
     ld e, a
     ld h, a
     ld l, a
+    ld iy, $0000
     ;start the tests
+    ld ix, main ;Load the jump address into iy, RAM stuff is all inline
     jp ram_test_main
 
 align $66
+;NMI shouldn't do anything other than pet the watchdog
 nmi_routine:
+    push af
+    push bc
+    push de
+    push hl
     exx
     ld b, a
+    xor a
+    ld ($7D84), a
     ld a, ($7D00)
-    ld a, $01
+    ld a, h
+    or $01
     ld h, a
-    ;ld a, $0f
-    ;ld (interrupt_enable), a
-    ld a, b
+    ld a, $0f
+    ld ($7D84), a
+    ;ld a, b
     exx
+    pop hl
+    pop de
+    pop bc
+    pop af
     ret
 
 
@@ -45,10 +63,15 @@ post_ram_test:
     call uninvert_screen
     call set_background_palette_2
     xor a
+    ld de, tkg_header_address
+    ld hl, string_tkg_startup
+    call print
+    xor a
     call process_ram_results
+    call rom_check_main
+    call check_nmi
 ;This is just a test routine. No real work is being done at this point. This should be replaced later.
 loop:
-    call rom_check_main
     call audio_test_main
     ;call interrupt_enable ;currently causes a crash during the sound test
     jr loop
@@ -87,6 +110,43 @@ toggle_discrete_feature:
 
     pop af
     ret
+
+check_nmi:
+    ;enable interrupts
+    ld a, $0f
+    ld ($7D84), a
+    call delay_1s
+    xor a
+    ld ($7D84), a
+    exx
+    ld a, h
+    exx
+    ld b, a
+    ld a, $0f
+    ld ($7D84), a
+    ld a, b
+    and $01
+    ld de, nmi_test_print_address
+    ld hl, string_bad
+    jr z, bad_nmi
+    ld hl, string_good
+bad_nmi:
+    call print
+    ld de, $0040
+    add ix, de
+    ld hl, string_nmi_test
+    call print_by_address_and_length
+    ret
+
+dead_loop:
+    xor a
+    ld ($7D84), a
+    ld a, ($7D00)
+    jr dead_loop
+
+;main if the ROM lives in 0x4000
+test_socket_main:
+    jr test_socket_main
 
 include "TKGSystem.asm"
 include "TKGRomTest.asm"
