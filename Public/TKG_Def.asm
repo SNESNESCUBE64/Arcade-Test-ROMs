@@ -58,7 +58,9 @@ string_nmi_test:      DB $24, $23, $15, $24, $10, $19, $1D, $1E, $3F
 string_tkg_startup:   DB $23, $24, $23, $15, $24, $10, $20, $25, $2C, $24, $22, $11, $24, $23, $10, $17, $1B, $24, $3F
 
 
+align $0FC0
+DB "Chksum:", $FF, $FF, " Pad:", $00, $00
 align $0FD0
-DB "TKG Test 5F/5E  SNESNESCUBE64   03Aug2026 V0.01",$20
+DB "TKG Test 5F/5E  SNESNESCUBE64   04Aug2026 V0.02",$20
 
 ds $1000 - $
