@@ -3,7 +3,7 @@
 import os
 import sys
 
-#Function to calculate the 8 bit checksum used by ROM 104
+
 def CalculateChecksum16(file):
     checksum = 0
     with open(file,"rb") as openedFile:
