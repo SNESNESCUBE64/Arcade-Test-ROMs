@@ -24,8 +24,6 @@ This is a work in progress and is nowhere near completion.
 
 ## Miscellaneous To-Do's
 - write manual
-- write text utility
-- write build utility
 
 ## Images
 ![Auto Test Screenshot](Images/TKGAutoTestScreenshot.png)
