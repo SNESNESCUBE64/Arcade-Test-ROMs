@@ -58,7 +58,18 @@ nmi_routine:
 align $A0
 
 main:
+;This delay might not be necessary after all RAM tests are implemented
+    ld hl, $FFFF
+    ld a, $03
+main_delay_loop1:
+    dec l
+    jr nz, main_delay_loop1
+    dec h
+    jr nz, main_delay_loop1
+    dec a
+    jr nz, main_delay_loop1
     ld ix, post_ram_test
+    jp check_ram_results
 post_ram_test:
     call uninvert_screen
     call set_background_palette_2

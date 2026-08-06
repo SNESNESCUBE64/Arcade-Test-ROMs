@@ -210,3 +210,75 @@ print_ram_id:
     cp c
     ret z
     jr print_ram_results_loop
+
+check_ram_results:
+    nop
+    nop
+    nop
+    nop
+    nop
+    exx
+    ld a, l
+    exx
+    and a
+    jr z, check_ram_results_return
+    ld iy, next_ram_validate_bit
+    ld b, $08
+ram_validate_loop:    
+    rra
+    jp c, bad_ram_result
+    jp good_ram_result
+next_ram_validate_bit:
+    dec b
+    jr nz, ram_validate_loop 
+ check_ram_results_return:   
+    jp (ix)
+
+bad_ram_result:
+    ld hl, $FFFF
+    ld c, a
+    ld a, $0f
+    ld ($7D02), a
+bad_delay_loop1:
+    dec l
+    jr nz, bad_delay_loop1
+    dec h
+    jr nz, bad_delay_loop1
+    xor a
+    ld ($7D02), a
+    ld hl, $FFFF
+    ld a, $02
+bad_delay_loop2:
+    dec l
+    jr nz, bad_delay_loop2
+    dec h
+    jr nz, bad_delay_loop2
+    dec a
+    jr nz, bad_delay_loop2
+    ld a, c
+    jp (iy)
+
+good_ram_result:
+    ld hl, $FFFF
+    ld c, a
+    ld a, $0f
+    ld ($7D01), a
+good_delay_loop1:
+    dec l
+    jr nz, good_delay_loop1
+    dec h
+    jr nz, good_delay_loop1
+    xor a
+    ld ($7D01), a
+    ld hl, $FFFF
+    ld a, $02
+good_delay_loop2:
+    dec l
+    jr nz, good_delay_loop2
+    dec h
+    jr nz, good_delay_loop2
+    dec a
+    jr nz, good_delay_loop2
+
+    ld a, c
+    jp (iy)
