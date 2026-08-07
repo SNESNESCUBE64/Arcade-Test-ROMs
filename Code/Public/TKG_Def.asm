@@ -24,6 +24,13 @@ palette_bit_1_addr equ $7D87
 int_enable_addr equ $7D84
 music_addr equ $7C00
 
+;Controls
+in0_addr equ $7C00
+in1_addr equ $7C80
+in2_addr equ $7D00
+dpsw_addr equ $7D80
+
+
 ;String Print Addresses
 tkg_header_address equ $74E1
 
@@ -41,6 +48,10 @@ audio_line_address equ $75DB
 triggered_sound_test_addr equ $769C
 music_sound_test_addr equ $769D
 
+p1_controls_start_address equ $7746
+p1_controls_down_addr equ $7686
+p2_controls_start_address equ $75C6
+p2_controls_down_addr equ $7506
 
 ;Strings
 string_rom:           DB $1D, $1F, $22, $3F
@@ -56,7 +67,19 @@ string_audio_test:    DB $23, $24, $23, $15, $24, $10, $1F, $19, $14, $25, $11, 
 string_line:          DB $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $3F
 string_nmi_test:      DB $24, $23, $15, $24, $10, $19, $1D, $1E, $3F
 string_tkg_startup:   DB $23, $24, $23, $15, $24, $10, $20, $25, $2C, $24, $22, $11, $24, $23, $10, $17, $1B, $24, $3F
-
+string_p1:            DB $01, $20, $3F
+string_p2:            DB $02, $20, $3F
+string_down:          DB $10, $1E, $27, $1F, $14, $3F
+string_up:            DB $10, $10, $10, $20, $25, $3F
+string_left:          DB $10, $24, $16, $15, $1C, $3F
+string_right:         DB $24, $18, $17, $19, $22, $3F
+string_start:         DB $24, $22, $11, $24, $23, $3F
+string_jump:          DB $10, $20, $1D, $25, $1A, $3F
+string_coin:          DB $1E, $19, $1F, $13, $3F
+string_service:       DB $15, $13, $19, $26, $22, $15, $23, $3F
+string_controls_test: DB $24, $23, $15, $24, $10, $23, $1C, $1F, $22, $24, $1E, $1F, $13, $3F
+string_on:            DB $10, $1E, $1F, $3F
+string_off:           DB $16, $16, $1F, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00

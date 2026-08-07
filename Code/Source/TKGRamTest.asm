@@ -85,6 +85,7 @@ work_ram_erase:
     jr nz, work_ram_erase
     dec d
     jr nz, work_ram_erase
+screen_ram_erase_start:
     ld hl, $7000
     ld de, $0400
 sprite_ram_erase:

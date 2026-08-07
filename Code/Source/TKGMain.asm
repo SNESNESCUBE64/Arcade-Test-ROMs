@@ -106,8 +106,10 @@ post_ram_test:
     exx
     ld a, $0f
     ld ($7D84), a
-
-    jp TKGRuntime
+    ld iy, TKGRuntime_Main
+    xor a
+    ld b, $10
+    jp screen_ram_erase_start
 
 
 delay_1s:
