@@ -27,3 +27,4 @@ This is a work in progress and is nowhere near completion.
 
 ## Images
 ![Auto Test Screenshot](Images/TKGAutoTestScreenshot.png)
+![Runtime Test Screenshot](Images/TKGRuntimeTestScreenshot.png)

@@ -25,8 +25,8 @@ int_enable_addr equ $7D84
 music_addr equ $7C00
 
 ;Controls
-in0_addr equ $7C00
-in1_addr equ $7C80
+in0_addr equ $7C00 ;p1 controls
+in1_addr equ $7C80 ;p2 controls
 in2_addr equ $7D00
 dpsw_addr equ $7D80
 
@@ -48,12 +48,20 @@ audio_line_address equ $75DB
 triggered_sound_test_addr equ $769C
 music_sound_test_addr equ $769D
 
-p1_controls_start_address equ $7746
-p1_controls_down_addr equ $7686
-p2_controls_start_address equ $75C6
-p2_controls_down_addr equ $7506
+controls_test_header_address equ $7604
+controls_test_line_address equ $7605
+
+p1_controls_start_address equ $7766
+p1_controls_down_addr equ $76A6
+p1_controls_addr equ $7626
+p2_controls_start_address equ $75A6
+p2_controls_down_addr equ $74E6
+p2_controls_addr equ $7466
+coin_print_addr equ $772C
+coin_state_addr equ $762C
 
 ;Strings
+align $0E00
 string_rom:           DB $1D, $1F, $22, $3F
 string_ram:           DB $1D, $11, $22, $3F
 string_sound:         DB $14, $1E, $25, $1F, $23, $3F
@@ -77,13 +85,12 @@ string_right:         DB $24, $18, $17, $19, $22, $3F
 string_start:         DB $24, $22, $11, $24, $23, $3F
 string_jump:          DB $10, $20, $1D, $25, $1A, $3F
 string_coin:          DB $1E, $19, $1F, $13, $3F
-string_service:       DB $15, $13, $19, $26, $22, $15, $23, $3F
 string_controls_test: DB $24, $23, $15, $24, $10, $23, $1C, $1F, $22, $24, $1E, $1F, $13, $3F
 string_on:            DB $10, $1E, $1F, $3F
 string_off:           DB $16, $16, $1F, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   06Aug2026  V0.02"
+DB "TKG Test 5F/5E  SNESNESCUBE64   07Aug2026  V0.03"
 
 ds $1000 - $
