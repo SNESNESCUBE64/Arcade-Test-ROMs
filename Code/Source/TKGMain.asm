@@ -142,7 +142,8 @@ delay_no_ram_loop:
     dec a
     jr nz, delay_no_ram_loop
 
-    ret
+    jp (iy)
+
 ;this will toggle something like an analog sound or screen flip depending on what is required
 ;assumes hl is the address
 ;works with walk, jump, and boom sounds
@@ -193,9 +194,9 @@ startup_fail:
     exx
     ;print failure
 
+    ;disable interrupts
     xor a
-    ld ($7D84), a
-    
+    ld ($7D84), a   
 dead_loop:
     ;We are dead at this point. Try waiting for the watchdog, otherwise just jump back to start
     ld iy, $0000
