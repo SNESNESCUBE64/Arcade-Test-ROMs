@@ -54,9 +54,6 @@ nmi_routine:
     pop af
     ret
 
-
-align $A0
-
 main:
 ;This delay might not be necessary after all RAM tests are implemented
     ld hl, $FFFF
@@ -68,8 +65,22 @@ main_delay_loop1:
     jr nz, main_delay_loop1
     dec a
     jr nz, main_delay_loop1
-    ld ix, post_ram_test
+
+;See if any RAM errors are present
+;If RAM errors are present, we need to set an alt stack pointer
+;and perform sound codes
+    exx
+    ld a, l
+    exx
+    and a
+    jr z, post_ram_test
+
+    ld ix, check_sp:
     jp check_ram_results
+check_sp:
+    ld ix, post_ram_test:
+    jp find_alt_sp
+
 post_ram_test:
     call uninvert_screen
     call set_background_palette_2
@@ -81,11 +92,22 @@ post_ram_test:
     call process_ram_results
     call rom_check_main
     call check_nmi
-;This is just a test routine. No real work is being done at this point. This should be replaced later.
-loop:
     call audio_test_main
-    ;call interrupt_enable ;currently causes a crash during the sound test
-    jr loop
+    ;Check to see if there were any startup failures. 
+    xor a
+    ld ($7D84), a
+    exx
+    ld a, l
+    and a
+    jp nz, startup_fail
+    ld a, h
+    and a
+    jp z, startup_fail
+    exx
+    ld a, $0f
+    ld ($7D84), a
+
+    jp TKGRuntime
 
 
 delay_1s:
@@ -93,7 +115,6 @@ delay_1s:
 ;assume a is the coundown so long as a is greater than one.
 delay:
     push hl
-
     ld hl, $ffff
 
 delay_loop:
@@ -107,6 +128,21 @@ delay_loop:
     pop hl
     ret
 
+delay_1s_no_ram:
+    ld a, $01
+;assume a is the coundown so long as a is greater than one.
+delay_no_ram:
+    ld hl, $ffff
+
+delay_no_ram_loop:
+    dec l
+    jr nz, delay_no_ram_loop
+    dec h
+    jr nz, delay_no_ram_loop
+    dec a
+    jr nz, delay_no_ram_loop
+
+    ret
 ;this will toggle something like an analog sound or screen flip depending on what is required
 ;assumes hl is the address
 ;works with walk, jump, and boom sounds
@@ -153,11 +189,18 @@ bad_nmi:
     call print
     ret
 
-dead_loop:
+startup_fail:
+    exx
+    ;print failure
+
     xor a
     ld ($7D84), a
-    ld a, ($7D00)
-    jr dead_loop
+    
+dead_loop:
+    ;We are dead at this point. Try waiting for the watchdog, otherwise just jump back to start
+    ld iy, $0000
+    ld a, $05
+    jp delay_no_ram
 
 ;main if the ROM lives in 0x4000
 test_socket_main:
@@ -168,4 +211,5 @@ include "TKGRomTest.asm"
 include "TKGRamTest.asm"
 include "TKGAudioTest.asm"
 include "TKGPrint.asm"
+include "TKGRuntime.asm"
 include "TKG_Def.asm"

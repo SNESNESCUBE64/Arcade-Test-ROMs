@@ -212,16 +212,6 @@ print_ram_id:
     jr print_ram_results_loop
 
 check_ram_results:
-    nop
-    nop
-    nop
-    nop
-    nop
-    exx
-    ld a, l
-    exx
-    and a
-    jr z, check_ram_results_return
     ld iy, next_ram_validate_bit
     ld b, $08
 ram_validate_loop:    
@@ -282,3 +272,35 @@ good_delay_loop2:
 
     ld a, c
     jp (iy)
+
+find_alt_sp:
+    exx
+    ld a, l
+    exx
+    ld b, a
+    and $03
+    jr nz, alt_sp_check2
+    ld sp, $6400
+    jr alt_sp_return
+alt_sp_check2:
+    ld a,b 
+    and $0C
+    jr nz, alt_sp_check3
+    ld sp, $6800
+    jr alt_sp_return
+alt_sp_check3:
+    ld a,b 
+    and $30
+    jr nz, alt_sp_check4
+    ld sp, $6C00
+    jr alt_sp_return
+;This is in video RAM, it should be good enough for printing results...
+alt_sp_check4:
+    ld a,b 
+    and $C0
+    jp nz, dead_loop;No RAM is good, do NOT proceed
+    ld sp, $7800
+    jr alt_sp_return
+alt_sp_return:
+
+    jp (ix)
