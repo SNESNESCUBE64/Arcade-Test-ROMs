@@ -20,7 +20,6 @@ This is a work in progress and is nowhere near completion.
     - check for RAM corruption
     - print failed RAM ID
 
-- coin counter test
 - DIP switch test
 - Screen invert test
 - grid tests (Radar Scope)
