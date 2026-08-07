@@ -6,6 +6,7 @@ This is a work in progress and is nowhere near completion.
 ## Currently Supported Tests
 - ROM Checksum printing
 - Dk specific sound/music test
+- Switch input test
 
 ## Planned Tests
 - RAM check
@@ -13,7 +14,7 @@ This is a work in progress and is nowhere near completion.
     - check for correct RAM chip writting
     - check for RAM corruption
     - print failed RAM ID
-- Switch input test
+
 - coin counter test
 - DIP switch test
 - Screen invert test
