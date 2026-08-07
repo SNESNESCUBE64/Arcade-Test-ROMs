@@ -60,6 +60,6 @@ string_tkg_startup:   DB $23, $24, $23, $15, $24, $10, $20, $25, $2C, $24, $22, 
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   04Aug2026  V0.02"
+DB "TKG Test 5F/5E  SNESNESCUBE64   06Aug2026  V0.02"
 
 ds $1000 - $
