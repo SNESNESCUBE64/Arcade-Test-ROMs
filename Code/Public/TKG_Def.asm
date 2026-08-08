@@ -8,6 +8,10 @@ work_ram_start_addr equ $6000
 video_ram_start_addr equ $7400
 
 menu_max_opt equ $06
+menu_max_palette equ $04
+menu_max_sound equ $08
+menu_max_music equ $10
+
 
 ;Discrete Sounds
 walk_sound_addr equ $7D00

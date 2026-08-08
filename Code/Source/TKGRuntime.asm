@@ -57,9 +57,50 @@ change_menu_item_return:
     ret
 
 change_menu_option:
+
     ret
 
+; menu_change_palette:
+;     rrca
+;     jr nc, move_
+;     ld a, (menu_selected_opt)
+;     inc a
+;     cp menu_max_opt
+;     jr nz, change_menu_item_return
+;     xor a
+;     jr change_menu_item_return
+; move_palette_down:
+;     ld a, (menu_selected_opt)
+;     dec a
+;     cp $ff
+;     jr nz, change_menu_item_return
+;     ld a, menu_max_opt - 1
+; change_menu_item_return:
+;     ld (menu_selected_opt), a
+;     ret
+
+
 menu_select:
+    ld a, (menu_selected_opt)
+    cp $01
+    jp z, menu_invert_screen
+    cp $05
+    jp z, menu_reset_select
     ret
+
+menu_invert_screen:
+    ld a, (menu_invert_opt)
+    xor $01
+    ld (menu_invert_opt), a
+    jp z, uninvert_screen
+    jp invert_screen
+
+
+
+
+;ram_test does not pass for some reason when this happens...
+menu_reset_select:
+    rst $00
+
 
 include "TKGControls.asm"
