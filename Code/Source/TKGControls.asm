@@ -10,8 +10,18 @@ runtime_controls_main:
     ld hl, string_line
     call print
 
+    ld de, dip_sw_header_addr
+    ld hl, string_dip_sw_test
+    call print
+
+    ld de, dip_sw_line_addr
+    ld hl, string_line
+    call print
+
+
     call print_controls_labels
     call print_controls_state
+    call print_dip_switches
     ret
 
 print_controls_labels:
@@ -150,5 +160,28 @@ p2_controls_state_print:
 p2_start_state_print:
     call print
     ld c,a
+
+    ret
+
+print_dip_switches:
+    ld a, (dpsw_addr)
+    ld bc, $1808
+    ld de, $0020
+    ld hl, dip_switch_info_addr
+dip_info_print_loop:
+    ld (hl), b
+    dec l
+    rlca
+    jr nc, dip_print_0:
+    ld (hl), $01
+    jr dip_next_sw
+dip_print_0:
+    ld (hl), $00
+dip_next_sw:
+    inc l
+    dec b
+    dec c
+    add hl, de
+    jr nz, dip_info_print_loop
 
     ret

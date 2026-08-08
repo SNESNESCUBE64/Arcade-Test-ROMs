@@ -7,6 +7,7 @@ video_ram_bank_count equ $01
 work_ram_start_addr equ $6000
 video_ram_start_addr equ $7400
 
+menu_max_opt equ $06
 
 ;Discrete Sounds
 walk_sound_addr equ $7D00
@@ -29,6 +30,15 @@ in0_addr equ $7C00 ;p1 controls
 in1_addr equ $7C80 ;p2 controls
 in2_addr equ $7D00
 dpsw_addr equ $7D80
+
+;Variables
+last_controls equ $6000
+menu_sound_opt equ $6001
+menu_music_opt equ $6002
+menu_palette_opt equ $6003
+menu_invert_opt equ $6004
+menu_monitor_test_opt equ $6005
+menu_selected_opt equ $6006
 
 
 ;String Print Addresses
@@ -60,6 +70,10 @@ p2_controls_addr equ $7466
 coin_print_addr equ $772C
 coin_state_addr equ $762C
 
+dip_switch_info_addr equ  $76B1
+dip_sw_header_addr equ $764E
+dip_sw_line_addr equ $760F
+
 ;Strings
 align $0E00
 string_rom:           DB $1D, $1F, $22, $3F
@@ -86,8 +100,16 @@ string_start:         DB $24, $22, $11, $24, $23, $3F
 string_jump:          DB $10, $20, $1D, $25, $1A, $3F
 string_coin:          DB $1E, $19, $1F, $13, $3F
 string_controls_test: DB $24, $23, $15, $24, $10, $23, $1C, $1F, $22, $24, $1E, $1F, $13, $3F
+string_dip_sw_test:   DB $24, $23, $15, $24, $10, $27, $23, $10, $20, $19, $14, $3F
 string_on:            DB $10, $1E, $1F, $3F
 string_off:           DB $16, $16, $1F, $3F
+
+string_palette_test:  DB $24, $23, $15, $24, $10, $15, $24, $24, $15, $1C, $11, $20, $3F
+string_invert_test:   DB $24, $22, $15, $26, $1E, $19, $10, $1E, $15, $15, $22, $13, $23, $3F
+string_monitor_test:  DB $24, $23, $15, $24, $10, $22, $1F, $24, $19, $1E, $1F, $1D, $3F
+string_sound_set:     DB $14, $1E, $25, $1F, $23, $3F
+string_music_set:     DB $13, $19, $23, $25, $1D, $3F
+string_reset:         DB $24, $15, $23, $15, $22, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
