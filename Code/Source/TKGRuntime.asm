@@ -9,8 +9,62 @@ TKGRuntime_Main:
     call print
 runtime_loop:    
     call runtime_controls_main
+    call print_menu
     call menu_handler
     jr runtime_loop
+
+print_menu:
+    ld de, menu_header_print_addr
+    ld hl, string_test_select
+    call print
+
+    ld de, menu_line_print_addr
+    ld hl, string_line
+    call print
+
+    ld de, string_reset
+    push de
+    ld de, menu_reset_print_addr
+    push de
+    ld de, string_music_set
+    push de
+    ld de, menu_music_print_addr
+    push de
+    ld de, string_sound_set
+    push de
+    ld de, menu_sound_print_addr
+    push de
+    ld de, string_monitor_test
+    push de
+    ld de, menu_monitor_print_addr
+    push de
+    ld de, string_invert_test
+    push de
+    ld de, menu_invert_print_addr
+    push de
+    ld de, string_palette_test
+    push de
+    ld de, menu_palette_print_addr
+    push de
+
+    ld a, (menu_selected_opt)
+    ld b, a
+    ld a, $00
+menu_print_loop:
+    pop de
+    pop hl
+    call print
+    cp b
+    jr nz, clear_selector
+    ld (ix+$0), $FB
+    jr next_menu_item
+clear_selector:
+    ld (ix+$0), $10
+next_menu_item:
+    inc a
+    cp $06
+    jr nz, menu_print_loop
+    ret
 
 menu_handler:
     ld a, (in0_addr)
@@ -39,7 +93,7 @@ change_menu_item:
     rrca
     rrca
     rrca
-    jr nc, move_opt_down
+    jr c, move_opt_down
     ld a, (menu_selected_opt)
     inc a
     cp menu_max_opt

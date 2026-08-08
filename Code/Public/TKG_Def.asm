@@ -78,6 +78,15 @@ dip_switch_info_addr equ  $76B1
 dip_sw_header_addr equ $764E
 dip_sw_line_addr equ $760F
 
+menu_header_print_addr equ $7614
+menu_line_print_addr equ $7615
+menu_palette_print_addr equ $75F6
+menu_invert_print_addr equ $75D7
+menu_monitor_print_addr equ $75F8
+menu_sound_print_addr equ $76D9
+menu_music_print_addr equ $76DA
+menu_reset_print_addr equ $76DB
+
 ;Strings
 align $0E00
 string_rom:           DB $1D, $1F, $22, $3F
@@ -107,16 +116,16 @@ string_controls_test: DB $24, $23, $15, $24, $10, $23, $1C, $1F, $22, $24, $1E, 
 string_dip_sw_test:   DB $24, $23, $15, $24, $10, $27, $23, $10, $20, $19, $14, $3F
 string_on:            DB $10, $1E, $1F, $3F
 string_off:           DB $16, $16, $1F, $3F
-
-string_palette_test:  DB $24, $23, $15, $24, $10, $15, $24, $24, $15, $1C, $11, $20, $3F
-string_invert_test:   DB $24, $22, $15, $26, $1E, $19, $10, $1E, $15, $15, $22, $13, $23, $3F
-string_monitor_test:  DB $24, $23, $15, $24, $10, $22, $1F, $24, $19, $1E, $1F, $1D, $3F
-string_sound_set:     DB $14, $1E, $25, $1F, $23, $3F
-string_music_set:     DB $13, $19, $23, $25, $1D, $3F
-string_reset:         DB $24, $15, $23, $15, $22, $3F
+string_test_select:   DB $24, $23, $15, $24, $10, $11, $10, $24, $13, $15, $1C, $15, $23, $3F
+string_palette_test:  DB $24, $23, $15, $24, $10, $15, $24, $24, $15, $1C, $11, $20, $10, $3F
+string_invert_test:   DB $24, $22, $15, $26, $1E, $19, $10, $1E, $15, $15, $22, $13, $23, $10, $3F
+string_monitor_test:  DB $24, $23, $15, $24, $10, $22, $1F, $24, $19, $1E, $1F, $1D, $10, $3F
+string_sound_set:     DB $14, $1E, $25, $1F, $23, $10, $3F
+string_music_set:     DB $13, $19, $23, $25, $1D, $10, $3F
+string_reset:         DB $24, $15, $23, $15, $22, $10, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   07Aug2026  V0.03"
+DB "TKG Test 5F/5E  SNESNESCUBE64   08Aug2026  V0.04"
 
 ds $1000 - $
