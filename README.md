@@ -7,6 +7,11 @@ This is a work in progress and is nowhere near completion.
 - ROM Checksum printing
 - Dk specific sound/music test
 - Switch input test
+- NMI test
+- RAM check (1/3 tests implemented)
+    - sprite and video ram
+    - check for RAM corruption
+    - print failed RAM ID
 
 ## Planned Tests
 - RAM check
@@ -15,13 +20,13 @@ This is a work in progress and is nowhere near completion.
     - check for RAM corruption
     - print failed RAM ID
 
-- coin counter test
 - DIP switch test
 - Screen invert test
 - grid tests (Radar Scope)
 - radarscope specific sound tests
 - dk jr specific sound tests
 - color pallet tests
+- one or two monitor adjustment tests
 
 ## Miscellaneous To-Do's
 - write manual
