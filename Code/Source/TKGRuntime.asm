@@ -57,35 +57,52 @@ change_menu_item_return:
     ret
 
 change_menu_option:
-
+    ld c, a
+    ld a, (menu_selected_opt)
+    and a
+    jp z, menu_change_palette
     ret
 
-; menu_change_palette:
-;     rrca
-;     jr nc, move_
-;     ld a, (menu_selected_opt)
-;     inc a
-;     cp menu_max_opt
-;     jr nz, change_menu_item_return
-;     xor a
-;     jr change_menu_item_return
-; move_palette_down:
-;     ld a, (menu_selected_opt)
-;     dec a
-;     cp $ff
-;     jr nz, change_menu_item_return
-;     ld a, menu_max_opt - 1
-; change_menu_item_return:
-;     ld (menu_selected_opt), a
-;     ret
+menu_change_palette:
+    ld a, c
+    rrca
+    jr nc, move_palette_down
+    ld a, (menu_palette_opt)
+    inc a
+    cp menu_max_palette
+    jr nz, change_palette_return
+    xor a
+    jr change_palette_return
+move_palette_down:
+    ld a, (menu_palette_opt)
+    dec a
+    cp $ff
+    jr nz, change_palette_return
+    ld a, menu_max_palette - 1
+change_palette_return:
+    ld (menu_palette_opt), a
+    ret
 
 
 menu_select:
     ld a, (menu_selected_opt)
+    and a
+    jp z, menu_select_palette
     cp $01
     jp z, menu_invert_screen
     cp $05
     jp z, menu_reset_select
+    ret
+
+menu_select_palette:
+    ld a, (menu_palette_opt)
+    ld b, a
+    and $01
+    ld (palette_bit_0_addr), a
+    ld a, b
+    and $02
+    rra
+    ld (palette_bit_1_addr), a
     ret
 
 menu_invert_screen:
