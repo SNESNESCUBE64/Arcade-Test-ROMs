@@ -10,9 +10,17 @@ TKGRuntime_Main:
 
     call runtime_controls_labels
     call print_menu
-runtime_loop:
+    
+    ;Disable NMI, we don't want it running anymore
     xor a
-    ld (dead_sound_addr), a    
+    ld ($7D84), a
+runtime_loop:
+    ;refresh the watchdog
+    ld a, ($7D00)
+    ;attempt to clear the dead sound if applicatble
+    xor a
+    ld (dead_sound_addr), a
+    ;main runtime functions 
     call runtime_controls_main
     call print_menu_selection
     call print_menu_values
@@ -152,6 +160,8 @@ change_menu_option:
     jp z, menu_change_palette
     cp $03
     jp z, menu_change_sound
+    cp $04
+    jp z, menu_change_music
     ret
 
 menu_change_palette:
@@ -194,16 +204,40 @@ change_sound_return:
     ld (menu_sound_opt), a
     ret
 
+menu_change_music:
+    ld a, c
+    rrca
+    jr nc, move_music_down
+    ld a, (menu_music_opt)
+    inc a
+    cp menu_max_music
+    jr nz, change_music_return
+    xor a
+    jr change_music_return
+move_music_down:
+    ld a, (menu_music_opt)
+    dec a
+    cp $ff
+    jr nz, change_music_return
+    ld a, menu_max_music - 1
+change_music_return:
+    ld (menu_music_opt), a
+    ret
+
 
 menu_select:
     ld a, (menu_selected_opt)
     and a
     jp z, menu_select_palette
-    cp $01
+    dec a
     jp z, menu_invert_screen
-    cp $03
+    dec a
+    ;jp z, menu_monitor_test
+    dec a
     jp z, menu_select_sound
-    cp $05
+    dec a
+    jp z, menu_select_music
+    dec a
     jp z, menu_reset_select
     ret
 
@@ -248,6 +282,11 @@ menu_play_dead_sound:
     ld a, $01
     ld (dead_sound_addr), a
     ret
+
+menu_select_music:
+    ld a, (menu_music_opt)
+    ld (music_addr), a
+    ret    
 
 
 menu_reset_select:
