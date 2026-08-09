@@ -22,7 +22,7 @@ triggered_sound_test:
     call print_by_address_and_length
     ld ix, triggered_sound_test_addr
     ld hl, walk_sound_addr
-    ld a, $1
+    ld a, $0
 triggered_sound_loop:
     ld (ix+0), a
     ld b, a
@@ -32,8 +32,10 @@ triggered_sound_loop:
     ld a, b
     inc l
     inc a
-    cp $7
+    cp $6
     jr nz, triggered_sound_loop
+    ld (ix+0), a
+    call toggle_dead_sound
     ret
 
 music_sound_test:
@@ -65,4 +67,21 @@ music_not_letter:
     jr nz, music_sound_loop
     xor a
     ld (hl), a
+    ret
+
+toggle_dead_sound:
+    ld a, $01
+    ld (dead_sound_addr), a
+    ld hl, $ffff
+    ld b, $05
+    xor a
+dead_sound_loop:
+    dec l
+    ld (dead_sound_addr), a
+    jr nz, dead_sound_loop
+    dec h
+    jr nz, dead_sound_loop
+    dec b
+    jr nz, dead_sound_loop
+
     ret
