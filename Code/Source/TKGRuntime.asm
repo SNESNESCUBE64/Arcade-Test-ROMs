@@ -10,9 +10,12 @@ TKGRuntime_Main:
 
     call runtime_controls_labels
     call print_menu
-runtime_loop:    
+runtime_loop:
+    xor a
+    ld (dead_sound_addr), a    
     call runtime_controls_main
     call print_menu_selection
+    call print_menu_values
     call menu_handler
     jr runtime_loop
 
@@ -57,13 +60,6 @@ menu_print_loop:
     pop de
     pop hl
     call print
-    ;cp b
-    ;jr nz, clear_selector
-    ;ld (ix+$0), $FB
-    ;jr next_menu_item
-;clear_selector:
-    ;ld (ix+$0), $10
-;next_menu_item:
     inc a
     cp $06
     jr nz, menu_print_loop
@@ -86,6 +82,23 @@ next_menu_item2:
     inc l
     cp $06
     jr nz, menu_print_loop2
+    ret
+
+print_menu_values:
+    ld b, $05
+    ld hl, $74F6
+    ld de, $6001
+menu_print_value_loop:
+    ld a, (de)
+    cp a, $0A
+    jr c, print_menu_value
+    add a, $07
+print_menu_value:
+    ld (hl), a
+    inc e
+    inc l
+    dec b
+    jr nz, menu_print_value_loop
     ret
 
 menu_handler:
@@ -137,6 +150,8 @@ change_menu_option:
     ld a, (menu_selected_opt)
     and a
     jp z, menu_change_palette
+    cp $03
+    jp z, menu_change_sound
     ret
 
 menu_change_palette:
@@ -159,6 +174,26 @@ change_palette_return:
     ld (menu_palette_opt), a
     ret
 
+menu_change_sound:
+    ld a, c
+    rrca
+    jr nc, move_sound_down
+    ld a, (menu_sound_opt)
+    inc a
+    cp menu_max_sound
+    jr nz, change_sound_return
+    xor a
+    jr change_sound_return
+move_sound_down:
+    ld a, (menu_sound_opt)
+    dec a
+    cp $ff
+    jr nz, change_sound_return
+    ld a, menu_max_sound - 1
+change_sound_return:
+    ld (menu_sound_opt), a
+    ret
+
 
 menu_select:
     ld a, (menu_selected_opt)
@@ -166,6 +201,8 @@ menu_select:
     jp z, menu_select_palette
     cp $01
     jp z, menu_invert_screen
+    cp $03
+    jp z, menu_select_sound
     cp $05
     jp z, menu_reset_select
     ret
@@ -187,6 +224,30 @@ menu_invert_screen:
     ld (menu_invert_opt), a
     jp z, uninvert_screen
     jp invert_screen
+
+menu_select_sound:
+    ld a, (menu_sound_opt)
+    cp $06
+    jr z, menu_play_dead_sound
+    ld hl, walk_sound_addr
+    add a, l
+    ld l, a
+    ld a, $0F
+    ld (hl), a
+    ld b, $FF
+    ld c, $20
+menu_sound_play_delay:
+    dec b
+    jr nz, menu_sound_play_delay
+    dec c
+    jr nz, menu_sound_play_delay
+    ld a, $F0
+    ld (hl), a
+    ret
+menu_play_dead_sound:    
+    ld a, $01
+    ld (dead_sound_addr), a
+    ret
 
 
 menu_reset_select:
