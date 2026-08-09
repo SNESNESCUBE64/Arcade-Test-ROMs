@@ -119,12 +119,13 @@ menu_handler:
     ld (last_controls), a
     and a
     ret z;return if nothing is pressed
+    ld a, (last_controls)
     and $0C
     call nz, change_menu_item
-    ld a, b
+    ld a, (last_controls)
     and $03
     call nz, change_menu_option
-    ld a, b
+    ld a, (last_controls)
     and $10
     call nz, menu_select
 
