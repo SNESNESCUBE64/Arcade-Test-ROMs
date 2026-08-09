@@ -7,9 +7,12 @@ TKGRuntime_Main:
     ld de, tkg_header_address
     ld hl, string_tkg_runtime
     call print
+
+    call runtime_controls_labels
+    call print_menu
 runtime_loop:    
     call runtime_controls_main
-    call print_menu
+    call print_menu_selection
     call menu_handler
     jr runtime_loop
 
@@ -54,16 +57,35 @@ menu_print_loop:
     pop de
     pop hl
     call print
-    cp b
-    jr nz, clear_selector
-    ld (ix+$0), $FB
-    jr next_menu_item
-clear_selector:
-    ld (ix+$0), $10
-next_menu_item:
+    ;cp b
+    ;jr nz, clear_selector
+    ;ld (ix+$0), $FB
+    ;jr next_menu_item
+;clear_selector:
+    ;ld (ix+$0), $10
+;next_menu_item:
     inc a
     cp $06
     jr nz, menu_print_loop
+    ret
+
+print_menu_selection:
+    ld a, (menu_selected_opt)
+    ld b, a
+    ld a, $00
+    ld hl, $7796
+    menu_print_loop2:
+    cp b
+    jr nz, clear_selector2
+    ld (hl), $FB
+    jr next_menu_item2
+clear_selector2:
+    ld (hl), $10
+next_menu_item2:
+    inc a
+    inc l
+    cp $06
+    jr nz, menu_print_loop2
     ret
 
 menu_handler:
@@ -167,11 +189,8 @@ menu_invert_screen:
     jp invert_screen
 
 
-
-
-;ram_test does not pass for some reason when this happens...
 menu_reset_select:
-    rst $00
+    jp dead_loop
 
 
 include "TKGControls.asm"

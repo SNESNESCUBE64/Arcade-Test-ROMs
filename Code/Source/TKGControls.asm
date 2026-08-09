@@ -1,7 +1,7 @@
 ;TKG Hardware Test ROM
 ;(C) SNESNESCUBE64
 
-runtime_controls_main:
+runtime_controls_labels:
     ld de, controls_test_header_address
     ld hl, string_controls_test
     call print
@@ -17,9 +17,10 @@ runtime_controls_main:
     ld de, dip_sw_line_addr
     ld hl, string_line
     call print
-
-
+    
     call print_controls_labels
+
+runtime_controls_main:
     call print_controls_state
     call print_dip_switches
     ret
