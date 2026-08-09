@@ -55,10 +55,3 @@ set_background_palette_3:
     ld (palette_bit_1_addr), a
     pop af
     ret
-
-swap_bc_de:
-    push de
-    push bc
-    pop de
-    pop bc
-    ret
