@@ -11,6 +11,7 @@ init:
     ld sp, $6C00
     ;Clear the registers
     xor a
+    ld ($7D84), a  
     ld b, a
     ld c, a
     ld d, a
@@ -197,12 +198,13 @@ startup_fail:
     ;print failure
 
     ;disable interrupts
-    xor a
-    ld ($7D84), a   
+    
 dead_loop:
     ;We are dead at this point. Try waiting for the watchdog, otherwise just jump back to start
+    xor a
+    ld ($7D84), a   
     ld iy, $0000
-    ld a, $05
+    ld a, $03
     jp delay_no_ram
 
 ;main if the ROM lives in 0x4000
