@@ -156,74 +156,44 @@ change_menu_item_return:
 change_menu_option:
     ld c, a
     ld a, (menu_selected_opt)
+    ld de, menu_palette_opt
+    ld hl, menu_constants
     and a
-    jp z, menu_change_palette
+    jp z, menu_change_option_value
+    inc e
+    inc e
+    inc e
+    inc hl
     cp $03
-    jp z, menu_change_sound
+    jp z, menu_change_option_value
+    inc e
+    inc hl
     cp $04
-    jp z, menu_change_music
+    jp z, menu_change_option_value
     ret
 
-menu_change_palette:
+menu_change_option_value:
+    ld a, (hl)
+    ld b, a
     ld a, c
     rrca
-    jr nc, move_palette_down
-    ld a, (menu_palette_opt)
+    jr nc, move_option_value_down
+    ld a, (de)
     inc a
-    cp menu_max_palette
-    jr nz, change_palette_return
+    cp b
+    jr nz, change_option_value_return
     xor a
-    jr change_palette_return
-move_palette_down:
-    ld a, (menu_palette_opt)
+    jr change_option_value_return
+move_option_value_down:
+    ld a, (de)
     dec a
     cp $ff
-    jr nz, change_palette_return
-    ld a, menu_max_palette - 1
-change_palette_return:
-    ld (menu_palette_opt), a
+    jr nz, change_option_value_return
+    dec b
+    ld a, b
+change_option_value_return:
+    ld (de), a
     ret
-
-menu_change_sound:
-    ld a, c
-    rrca
-    jr nc, move_sound_down
-    ld a, (menu_sound_opt)
-    inc a
-    cp menu_max_sound
-    jr nz, change_sound_return
-    xor a
-    jr change_sound_return
-move_sound_down:
-    ld a, (menu_sound_opt)
-    dec a
-    cp $ff
-    jr nz, change_sound_return
-    ld a, menu_max_sound - 1
-change_sound_return:
-    ld (menu_sound_opt), a
-    ret
-
-menu_change_music:
-    ld a, c
-    rrca
-    jr nc, move_music_down
-    ld a, (menu_music_opt)
-    inc a
-    cp menu_max_music
-    jr nz, change_music_return
-    xor a
-    jr change_music_return
-move_music_down:
-    ld a, (menu_music_opt)
-    dec a
-    cp $ff
-    jr nz, change_music_return
-    ld a, menu_max_music - 1
-change_music_return:
-    ld (menu_music_opt), a
-    ret
-
 
 menu_select:
     ld a, (menu_selected_opt)
