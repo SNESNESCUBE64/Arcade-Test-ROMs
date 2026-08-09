@@ -12,6 +12,10 @@ This is a work in progress and is nowhere near completion.
     - sprite and video ram
     - check for RAM corruption
     - print failed RAM ID
+- DIP switch test
+- Screen invert test
+- color pallet tests
+- Audio Tests (manual music test needs to be implemented)(auto needs to be improved)
 
 ## Planned Tests
 - RAM check
@@ -19,13 +23,9 @@ This is a work in progress and is nowhere near completion.
     - check for correct RAM chip writting
     - check for RAM corruption
     - print failed RAM ID
-
-- DIP switch test
-- Screen invert test
 - grid tests (Radar Scope)
 - radarscope specific sound tests
 - dk jr specific sound tests
-- color pallet tests
 - one or two monitor adjustment tests
 
 ## Miscellaneous To-Do's
