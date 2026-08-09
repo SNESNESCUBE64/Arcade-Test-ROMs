@@ -9,7 +9,7 @@ video_ram_start_addr equ $7400
 
 menu_max_opt equ $06
 menu_max_palette equ $04
-menu_max_sound equ $08
+menu_max_sound equ $07
 menu_max_music equ $10
 
 
@@ -21,6 +21,7 @@ boom_sound_addr equ $7D02
 spring_sound_addr equ $7D03
 fall_sound_addr equ $7D04
 prize_sound_addr equ $7D05
+dead_sound_addr equ $7D80
 
 ;DK System Addresses
 screen_invert_addr equ $7d82
@@ -37,11 +38,11 @@ dpsw_addr equ $7D80
 
 ;Variables
 last_controls equ $6000
-menu_sound_opt equ $6001
-menu_music_opt equ $6002
-menu_palette_opt equ $6003
-menu_invert_opt equ $6004
-menu_monitor_test_opt equ $6005
+menu_palette_opt equ $6001
+menu_invert_opt equ $6002
+menu_monitor_test_opt equ $6003
+menu_sound_opt equ $6004
+menu_music_opt equ $6005
 menu_selected_opt equ $6006
 
 
