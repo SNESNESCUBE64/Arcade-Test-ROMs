@@ -118,12 +118,12 @@ string_dip_sw_test:   DB $24, $23, $15, $24, $10, $27, $23, $10, $20, $19, $14, 
 string_on:            DB $10, $1E, $1F, $3F
 string_off:           DB $16, $16, $1F, $3F
 string_test_select:   DB $24, $23, $15, $24, $10, $11, $10, $24, $13, $15, $1C, $15, $23, $3F
-string_palette_test:  DB $24, $23, $15, $24, $10, $15, $24, $24, $15, $1C, $11, $20, $10, $3F
-string_invert_test:   DB $24, $22, $15, $26, $1E, $19, $10, $1E, $15, $15, $22, $13, $23, $10, $3F
-string_monitor_test:  DB $24, $23, $15, $24, $10, $22, $1F, $24, $19, $1E, $1F, $1D, $10, $3F
-string_sound_set:     DB $14, $1E, $25, $1F, $23, $10, $3F
-string_music_set:     DB $13, $19, $23, $25, $1D, $10, $3F
-string_reset:         DB $24, $15, $23, $15, $22, $10, $3F
+string_palette_test:  DB $24, $23, $15, $24, $10, $15, $24, $24, $15, $1C, $11, $20, $3F
+string_invert_test:   DB $24, $22, $15, $26, $1E, $19, $10, $1E, $15, $15, $22, $13, $23, $3F
+string_monitor_test:  DB $24, $23, $15, $24, $10, $22, $1F, $24, $19, $1E, $1F, $1D, $3F
+string_sound_set:     DB $14, $1E, $25, $1F, $23, $3F
+string_music_set:     DB $13, $19, $23, $25, $1D, $3F
+string_reset:         DB $24, $15, $23, $15, $22, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
