@@ -130,6 +130,6 @@ string_reset:         DB $24, $15, $23, $15, $22, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   09Aug2026  V0.04"
+DB "TKG Test 5F/5E  SNESNESCUBE64   09Aug2026  V0.05"
 
 ds $1000 - $
