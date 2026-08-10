@@ -4,6 +4,11 @@
 TKGRuntime_Main:
 ;temporary until the menu can be written out.
     ;call audio_test_main
+    ld iy, runtime_init
+    xor a
+    ld b, $10
+    jp screen_ram_erase_start
+runtime_init:
     ld de, tkg_header_address
     ld hl, string_tkg_runtime
     call print
@@ -163,6 +168,9 @@ change_menu_option:
     jp z, menu_change_option_value
     inc e
     inc e
+    inc hl
+    cp $02
+    jp z, menu_change_option_value
     inc e
     inc hl
     cp $03
@@ -203,7 +211,7 @@ menu_select:
     dec a
     jp z, menu_invert_screen
     dec a
-    ;jp z, menu_monitor_test
+    jp z, monitor_test_main
     dec a
     jp z, menu_select_sound
     dec a
@@ -257,11 +265,11 @@ menu_play_dead_sound:
 menu_select_music:
     ld a, (menu_music_opt)
     ld (music_addr), a
-    ret    
-
+    ret
 
 menu_reset_select:
     jp dead_loop
 
 
 include "TKGControls.asm"
+include "TKGMonitorTest.asm"

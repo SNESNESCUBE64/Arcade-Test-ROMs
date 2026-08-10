@@ -9,10 +9,11 @@ video_ram_start_addr equ $7400
 
 menu_max_opt equ $06
 menu_max_palette equ $04
+menu_max_monitor equ $02
 menu_max_sound equ $07
 menu_max_music equ $10
 
-menu_constants: DB menu_max_palette, menu_max_sound, menu_max_music
+menu_constants: DB menu_max_palette, menu_max_monitor, menu_max_sound, menu_max_music
 
 
 ;Discrete Sounds

@@ -109,10 +109,7 @@ post_ram_test:
     ld ($7D84), a
     ld a, $01
     ld (menu_palette_opt), a
-    ld iy, TKGRuntime_Main
-    xor a
-    ld b, $10
-    jp screen_ram_erase_start
+    jp TKGRuntime_Main
 
 
 delay_1s:
