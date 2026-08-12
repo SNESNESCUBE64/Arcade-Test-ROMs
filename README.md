@@ -16,7 +16,8 @@ This is a work in progress and is nowhere near completion.
 - Screen invert test
 - color pallet tests
 - Audio Tests (manual music test needs to be implemented)(auto needs to be improved)
-
+- Monitor test patterns (2/4)
+- 
 ## Planned Tests
 - RAM check
     - sprite and video ram
@@ -26,7 +27,6 @@ This is a work in progress and is nowhere near completion.
 - grid tests (Radar Scope)
 - radarscope specific sound tests
 - dk jr specific sound tests
-- one or two monitor adjustment tests
 
 ## Miscellaneous To-Do's
 - write manual
