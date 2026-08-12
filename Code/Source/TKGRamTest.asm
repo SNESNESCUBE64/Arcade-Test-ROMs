@@ -29,7 +29,7 @@ bit_test1_bank3_check:
     jp ram_bit_check_readback
 bit_test1_bank4_check:
     ld iy, bit_test2_fill_start
-    ld hl, $7400
+    ld hl, $7000
     exx
     ld c, $40
     exx
@@ -61,7 +61,7 @@ bit_test2_bank3_check:
     jp ram_bit_check_readback
 bit_test2_bank4_check:
     ld iy, ram_test_erase
-    ld hl, $7400
+    ld hl, $7000
     exx
     ld c, $40
     exx

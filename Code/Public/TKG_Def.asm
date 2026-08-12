@@ -7,7 +7,7 @@ video_ram_bank_count equ $01
 work_ram_start_addr equ $6000
 video_ram_start_addr equ $7400
 
-menu_max_opt equ $06
+menu_max_opt equ $07
 menu_max_palette equ $04
 menu_max_monitor equ $02
 menu_max_sound equ $07
@@ -89,7 +89,8 @@ menu_invert_print_addr equ $75D7
 menu_monitor_print_addr equ $75F8
 menu_sound_print_addr equ $76D9
 menu_music_print_addr equ $76DA
-menu_reset_print_addr equ $76DB
+menu_sprite_print_addr equ $761B
+menu_reset_print_addr equ $76DC
 
 ;Strings
 align $0E00
@@ -126,10 +127,11 @@ string_invert_test:   DB $24, $22, $15, $26, $1E, $19, $10, $1E, $15, $15, $22, 
 string_monitor_test:  DB $24, $23, $15, $24, $10, $22, $1F, $24, $19, $1E, $1F, $1D, $3F
 string_sound_set:     DB $14, $1E, $25, $1F, $23, $3F
 string_music_set:     DB $13, $19, $23, $25, $1D, $3F
+string_sprite_test:   DB $24, $23, $15, $24, $10, $15, $24, $19, $22, $20, $23, $3F
 string_reset:         DB $24, $15, $23, $15, $22, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   09Aug2026  V0.05"
+DB "TKG Test 5F/5E  SNESNESCUBE64   11Aug2026  V0.06"
 
 ds $1000 - $

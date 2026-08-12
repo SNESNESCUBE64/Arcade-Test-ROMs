@@ -9,6 +9,10 @@ TKGRuntime_Main:
     ld b, $10
     jp screen_ram_erase_start
 runtime_init:
+    ;Disable NMI, we don't want it running anymore
+    xor a
+    ld ($7D84), a
+
     ld de, tkg_header_address
     ld hl, string_tkg_runtime
     call print
@@ -16,9 +20,6 @@ runtime_init:
     call runtime_controls_labels
     call print_menu
     
-    ;Disable NMI, we don't want it running anymore
-    xor a
-    ld ($7D84), a
 runtime_loop:
     ;refresh the watchdog
     ld a, ($7D00)
@@ -44,6 +45,10 @@ print_menu:
     ld de, string_reset
     push de
     ld de, menu_reset_print_addr
+    push de
+    ld de, string_sprite_test
+    push de
+    ld de, menu_sprite_print_addr
     push de
     ld de, string_music_set
     push de
@@ -74,7 +79,7 @@ menu_print_loop:
     pop hl
     call print
     inc a
-    cp $06
+    cp menu_max_opt
     jr nz, menu_print_loop
     ret
 
@@ -93,7 +98,7 @@ clear_selector2:
 next_menu_item2:
     inc a
     inc l
-    cp $06
+    cp menu_max_opt
     jr nz, menu_print_loop2
     ret
 
@@ -217,6 +222,8 @@ menu_select:
     dec a
     jp z, menu_select_music
     dec a
+    jp z, sprite_test_main
+    dec a
     jp z, menu_reset_select
     ret
 
@@ -273,3 +280,4 @@ menu_reset_select:
 
 include "TKGControls.asm"
 include "TKGMonitorTest.asm"
+include "TKGSprite.asm"

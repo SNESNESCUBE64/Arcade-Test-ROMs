@@ -37,18 +37,18 @@ nmi_routine:
     push bc
     push de
     push hl
-    exx
-    ld b, a
     xor a
     ld ($7D84), a
     ld a, ($7D00)
+    exx
     ld a, h
     or $01
     ld h, a
+    exx
+    and $80
+    call nz, sprite_handler
     ld a, $0f
     ld ($7D84), a
-    ;ld a, b
-    exx
     pop hl
     pop de
     pop bc
