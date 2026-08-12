@@ -17,7 +17,7 @@ This is a work in progress and is nowhere near completion.
 - color pallet tests
 - Audio Tests (manual music test needs to be implemented)(auto needs to be improved)
 - Monitor test patterns (2/4)
-- 
+- Sprite Test
 ## Planned Tests
 - RAM check
     - sprite and video ram
