@@ -56,17 +56,6 @@ nmi_routine:
     ret
 
 main:
-;This delay might not be necessary after all RAM tests are implemented
-    ld hl, $FFFF
-    ld a, $03
-main_delay_loop1:
-    dec l
-    jr nz, main_delay_loop1
-    dec h
-    jr nz, main_delay_loop1
-    dec a
-    jr nz, main_delay_loop1
-
 ;See if any RAM errors are present
 ;If RAM errors are present, we need to set an alt stack pointer
 ;and perform sound codes
