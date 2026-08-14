@@ -3,8 +3,12 @@
 
 ram_test_main:
     ;bit test
+    ld a, $00;Start pattern
+    exx
+    ld d, $10;number of increments
+    exx
+bit_test_start:
     ld iy, bit_test1_fill_return
-    ld a, $a5
     ld b, $00
     jp ram_fill
 bit_test1_fill_return:
@@ -28,44 +32,36 @@ bit_test1_bank3_check:
     exx
     jp ram_bit_check_readback
 bit_test1_bank4_check:
-    ld iy, bit_test2_fill_start
+    ld iy, bit_test1_bank5_check
     ld hl, $7000
     exx
     ld c, $40
     exx
     jp ram_bit_check_readback
-
-bit_test2_fill_start:
-    ld iy, bit_test2_fill_return
-    ld a, $5a
-    jp ram_fill
-bit_test2_fill_return:
-    ld iy, bit_test2_bank2_check
-    ld c, a
-    ld hl, $6000
+bit_test1_bank5_check:
+    ld iy, bit_test_count_check
+    ld hl, $7400
     exx
+    ld c, h
+    ld h, l
+    ld l, c
     ld c, $01
     exx
     jp ram_bit_check_readback
-bit_test2_bank2_check:
-    ld iy, bit_test2_bank3_check
+
+bit_test_count_check:
     exx
-    ld c, $04
+    ld c, h
+    ld h, l
+    ld l, c
+    ld a, e
+    add $11
+    ld e, a
+    dec d
     exx
-    jp ram_bit_check_readback
-bit_test2_bank3_check:
-    ld iy, bit_test2_bank4_check
-    exx
-    ld c, $10
-    exx
-    jp ram_bit_check_readback
-bit_test2_bank4_check:
-    ld iy, ram_test_erase
-    ld hl, $7000
-    exx
-    ld c, $40
-    exx
-    jp ram_bit_check_readback
+    jp nz, bit_test_start
+    jp ram_test_erase
+
 ram_test_erase:
     ld iy, ram_test_return
     jp ram_erase
