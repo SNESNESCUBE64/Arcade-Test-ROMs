@@ -52,19 +52,20 @@ menu_selected_opt equ $6006
 ;String Print Addresses
 tkg_header_address equ $74E1
 
-ram_test_header_address equ $7644
-ram_test_line_address equ $75C5
-ram0l_print_address equ $75E6
-rom_test_header_address equ $75CF
-rom_test_line_address equ $75D0
-rom0_print_address equ $7611
-nmi_header_print_address equ $7676
-nmi_line_print_address equ $75D7
-nmi_result_print_address equ $76F8
-audio_header_address equ $761A
-audio_line_address equ $75DB
-triggered_sound_test_addr equ $769C
-music_sound_test_addr equ $769D
+ram_test_header_address equ $7684
+ram_test_line_address equ $7605
+ram0l_print_address equ $7626
+ram3l_print_address equ $7466
+rom_test_header_address equ $760F
+rom_test_line_address equ $7610
+rom0_print_address equ $7651
+nmi_header_print_address equ $76B6
+nmi_line_print_address equ $7617
+nmi_result_print_address equ $7738
+audio_header_address equ $765A
+audio_line_address equ $761B
+triggered_sound_test_addr equ $76DC
+music_sound_test_addr equ $76DD
 
 controls_test_header_address equ $7604
 controls_test_line_address equ $7605
@@ -132,6 +133,6 @@ string_reset:         DB $24, $15, $23, $15, $22, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   11Aug2026  V0.06"
+DB "TKG Test 5F/5E  SNESNESCUBE64   14Aug2026  V0.07"
 
 ds $1000 - $

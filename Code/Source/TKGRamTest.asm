@@ -163,7 +163,6 @@ process_ram_results:
 
     ;Copy the results to preserve original test
     exx
-    ld d, h
     ld e, l
     exx
 
@@ -203,10 +202,64 @@ print_ram_id:
     ld hl, string_ram
     call print_by_address_and_length
     inc c
-    ld a, $08;The number of RAM results
+    ld a, $06;The number of RAM results
+    cp c
+    jr z, print_ram_results_2_main
+    jr print_ram_results_loop
+
+print_ram_results_2_main:
+    ;Copy the results to preserve original test
+    exx
+    ld a, l
+    and $C0
+    or h
+    rlca
+    rlca
+    ld e, a
+    exx
+
+    ld bc, $0000
+print_ram_results_loop2:
+    ld de, ram3l_print_address
+    ld ix, $0000
+    add ix, de
+    add ix, bc
+    ld d, $00
+    ld e, $C0
+    ;See if RAM test passed
+    exx
+    ld a, e
+    rra
+    ld e, a
+    exx
+    ld hl, string_good
+    jr nc, print_ram_test_result2
+    ld hl, string_bad
+print_ram_test_result2:
+    call print_by_address_and_length
+    ld de, $0040
+    add ix, de
+    ld (ix+$00), $1C
+    ld a, c
+    and $01
+    jr z, print_ram_id2:
+    ld (ix+$00), $18
+print_ram_id2:
+    ld a, c
+    rra 
+    and $03 
+    add $03  
+    ld (ix+$20), a
+    sub $03
+    ld e, $60
+    add ix, de
+    ld hl, string_ram
+    call print_by_address_and_length
+    inc c
+    ld a, $04;The number of RAM results
     cp c
     ret z
-    jr print_ram_results_loop
+    jr print_ram_results_loop2
 
 check_ram_results:
     exx 
