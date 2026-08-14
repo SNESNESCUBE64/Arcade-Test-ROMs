@@ -59,11 +59,13 @@ main:
 ;See if any RAM errors are present
 ;If RAM errors are present, we need to set an alt stack pointer
 ;and perform sound codes
+    
     exx
-    ld a, l
+    ld a, l;Load the lower results
+    or h ;load the upper results, we don't care which RAM failed yet
     exx
     and a
-    jr z, post_ram_test
+    jr z, post_ram_test;if ANY test failed, we will have to figure out which one, otherwise all is good
 
     ld ix, check_sp:
     jp check_ram_results

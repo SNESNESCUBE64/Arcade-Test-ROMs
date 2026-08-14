@@ -203,21 +203,38 @@ print_ram_id:
     ld hl, string_ram
     call print_by_address_and_length
     inc c
-    ld a, $08
+    ld a, $08;The number of RAM results
     cp c
     ret z
     jr print_ram_results_loop
 
 check_ram_results:
-    ld iy, next_ram_validate_bit
+    exx 
+    ld a, l
+    exx
+    ld iy, next_lower_ram_validate_bit
     ld b, $08
-ram_validate_loop:    
+lower_ram_validate_loop:    
     rra
     jp c, bad_ram_result
     jp good_ram_result
-next_ram_validate_bit:
+next_lower_ram_validate_bit:
     dec b
-    jr nz, ram_validate_loop 
+    jr nz, lower_ram_validate_loop
+
+    exx 
+    ld a, h
+    exx
+    ld iy, next_upper_ram_validate_bit
+    ld b, $02
+upper_ram_validate_loop:    
+    rra
+    jp c, bad_ram_result
+    jp good_ram_result
+next_upper_ram_validate_bit:
+    dec b
+    jr nz, upper_ram_validate_loop
+
  check_ram_results_return:   
     jp (ix)
 
