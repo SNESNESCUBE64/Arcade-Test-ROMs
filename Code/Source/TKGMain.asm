@@ -42,7 +42,7 @@ nmi_routine:
     ld a, ($7D00)
     exx
     ld a, h
-    or $01
+    or $04
     ld h, a
     exx
     and $80
@@ -183,7 +183,7 @@ check_nmi:
     ld a, $0f
     ld ($7D84), a
     ld a, b
-    and $01
+    and $04
     ld de, nmi_result_print_address
     ld hl, string_bad
     jr z, bad_nmi
