@@ -308,10 +308,19 @@ alt_sp_check3:
     jr nz, alt_sp_check4
     ld sp, $6C00
     jr alt_sp_return
-;This is in video RAM, it should be good enough for printing results...
+;This is in sprite RAM, it should be good enough for printing results...
 alt_sp_check4:
     ld a,b 
     and $C0
+    jp nz, alt_sp_check5;
+    ld sp, $7400
+    jr alt_sp_return
+;This is in video RAM, it should be good enough for printing results...
+alt_sp_check5:
+    exx
+    ld a, h
+    exx
+    and $03
     jp nz, dead_loop;No RAM is good, do NOT proceed
     ld sp, $7800
     jr alt_sp_return
