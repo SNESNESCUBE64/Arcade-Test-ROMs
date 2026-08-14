@@ -212,7 +212,11 @@ print_ram_results_2_main:
     exx
     ld a, l
     and $C0
-    or h
+    ld b, a
+    ld a, h
+    or $80
+    xor $80
+    or b
     rlca
     rlca
     ld e, a

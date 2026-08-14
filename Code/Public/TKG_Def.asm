@@ -56,16 +56,17 @@ ram_test_header_address equ $7684
 ram_test_line_address equ $7605
 ram0l_print_address equ $7626
 ram3l_print_address equ $7466
-rom_test_header_address equ $760F
-rom_test_line_address equ $7610
-rom0_print_address equ $7651
-nmi_header_print_address equ $76B6
-nmi_line_print_address equ $7617
-nmi_result_print_address equ $7738
-audio_header_address equ $765A
-audio_line_address equ $761B
-triggered_sound_test_addr equ $76DC
-music_sound_test_addr equ $76DD
+rom_test_header_address equ $760D
+rom_test_line_address equ $760E
+rom0_print_address equ $764F
+system_header_print_address equ $7634
+system_line_print_address equ $7615
+dma_result_print_address equ $7696
+nmi_result_print_address equ $7697
+audio_header_address equ $7659
+audio_line_address equ $761A
+triggered_sound_test_addr equ $76DB
+music_sound_test_addr equ $76DC
 
 controls_test_header_address equ $7604
 controls_test_line_address equ $7605
@@ -105,8 +106,10 @@ string_ram_test:      DB $23, $24, $23, $15, $24, $10, $1D, $11, $22, $3F
 string_good:          DB $14, $1F, $1F, $17, $3F
 string_bad:           DB $10, $14, $11, $12, $3F
 string_audio_test:    DB $23, $24, $23, $15, $24, $10, $1F, $19, $14, $25, $11, $3F
-string_line:          DB $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $2C, $3F
-string_nmi_test:      DB $24, $23, $15, $24, $10, $19, $1D, $1E, $3F
+string_line:          DB $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $3F
+string_system_test:   DB $23, $24, $23, $15, $24, $10, $1D, $15, $24, $23, $29, $23, $3F
+string_nmi:           DB $19, $1D, $1E, $3F
+string_dma:           DB $11, $1D, $14, $3F
 string_tkg_startup:   DB $23, $24, $23, $15, $24, $10, $20, $25, $2C, $24, $22, $11, $24, $23, $10, $17, $1B, $24, $3F
 string_tkg_runtime:   DB $23, $24, $23, $15, $24, $10, $15, $1D, $19, $24, $2C, $1E, $25, $22, $10, $17, $1B, $24, $3F
 string_p1:            DB $01, $20, $3F
@@ -133,6 +136,6 @@ string_reset:         DB $24, $15, $23, $15, $22, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   14Aug2026  V0.07"
+DB "TKG Test 5F/5E  SNESNESCUBE64   14Aug2026  V0.08"
 
 ds $1000 - $

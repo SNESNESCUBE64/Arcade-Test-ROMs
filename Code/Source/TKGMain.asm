@@ -3,11 +3,6 @@
 
 org $0000
 init:
-    ;If we are at 0, it should read back 0, if we are at 0x4000, we will read something non-zero
-    nop
-    ld a, ($0000)
-    and a
-    jp nz, test_socket_main
     ld sp, $6C00
     ;Clear the registers
     xor a
@@ -74,6 +69,7 @@ check_sp:
     jp find_alt_sp
 
 post_ram_test:
+    call dma_test_main
     call uninvert_screen
     call set_background_palette_2
     xor a
@@ -83,6 +79,17 @@ post_ram_test:
     xor a
     call process_ram_results
     call rom_check_main
+
+    ;print the header
+    ld de, system_header_print_address
+    ld hl, string_system_test
+    call print
+
+    ld de, system_line_print_address
+    ld hl, string_line
+    call print
+
+    call check_dma
     call check_nmi
     call audio_test_main
     ;Check to see if there were any startup failures. 
@@ -153,14 +160,6 @@ toggle_discrete_feature:
     ret
 
 check_nmi:
-    ;print the header
-    ld de, nmi_header_print_address
-    ld hl, string_nmi_test
-    call print
-
-    ld de, nmi_line_print_address
-    ld hl, string_line
-    call print
     ;enable interrupts
     ld a, $0f
     ld ($7D84), a
@@ -181,6 +180,32 @@ check_nmi:
     ld hl, string_good
 bad_nmi:
     call print
+    ld hl, string_nmi
+    ld de, $0040
+    add ix, de
+    call print_by_address_and_length
+    ret
+
+check_dma:
+    exx
+    ld a, h
+    ld b, a
+    or $80
+    xor $80 ;This bit needs to be cleared because sprite test uses this bit
+    ld h, a
+    ld a, b
+    exx
+    ld de, dma_result_print_address
+    and $80
+    ld hl, string_bad
+    jr nz, bad_dma
+    ld hl, string_good
+bad_dma:
+    call print
+    ld hl, string_dma
+    ld de, $0040
+    add ix, de
+    call print_by_address_and_length
     ret
 
 startup_fail:
@@ -207,4 +232,5 @@ include "TKGRamTest.asm"
 include "TKGAudioTest.asm"
 include "TKGPrint.asm"
 include "TKGRuntime.asm"
+include "TKGDma.asm"
 include "TKG_Def.asm"
