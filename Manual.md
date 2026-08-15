@@ -19,9 +19,9 @@ Written by: SNESNESCUBE64
 9. Monitor Adjustment Patterns
 10. Miscellaneous Tests
     1. Screen Flip
-    2. NMI Test
+    2. Color Palette Test
     3. DMA Test
-    4. Color Palette Test
+    4. NMI Test
     5. Grid (TRS/TRS2 only)
 
 ## Chapter 1: Overview
@@ -90,3 +90,27 @@ TKG4 was the final major revision of the TKG hardware. With this revision, the P
 | ROM1            | 2532     | 0x1000            |    4k    |                5G               |         5C        |
 | ROM2            | 2532     | 0x2000            |    4k    |                5H               |         5B        |
 | ROM3            | 2532     | 0x3000            |    4k    |                5K               |         5A        |
+
+## Chapter 10: Miscellaneous
+### Section 1: Screen Flip
+The flipping of the screen is handled through hardware. By default, the screen is flipped upside down and has to be flipped. You accomplish this by writing to address 0x7D82. To invert the screen, you can accomplish such by writing 0xF0. To uninvert the screen you can write 0x0F.
+
+The test program by default un-inverts the screen after the RAM test. An option to invert/uninvert the screen is provided in the runtime test menu. You can flip the screen by just tapping the "jump" button.
+
+### Section 2: Color Palette Test
+
+### Section 3: DMA Test
+TRS/TKG hardware relies heavily on DMA to transfer sprite information so that the CPU can be free to do other activites. On TKG software, it transfers sprites from 0x6900-0x6A80 to 0x7000-0x7180. As part of the startup tests, this functionality is peformed by doing 3 transfers:
+- Transfer all 0xAA
+- Transfer all 0x55
+- Transfer all 0x00
+
+It initiates the transfer and then waits one second. After it compares the results to verify that it was written properly. If any bytes did not transfer properly, then it will report a failure. *If the sprite RAM (reported as RAM3) is not functional, the DMA test will not pass.* Results are reported under "System Tests" during the startup tests. The actual test performs immediately after the RAM test.
+
+### Section 4: NMI Test
+TRS/TKG also relies heavily on NMI to trigger various routines including screen actions. The reason it does such is that NMI, when enabled, triggers during VBlank. In original TKG software, this is where the watchdog is refreshed and DMA is kicked off. By default, NMI is not enabled on TKG hardware and must be enabled every single time it needs to be used. It can be both manually enabled and disabled. To enable it in software, you can write 0x0F to 0x7D84. To disable it, you can write 0xF0 to 0x7D84. The enable is a physical enable 74LS74 that lives between the NMI pin and VBlank.
+
+The NMI test occurs after the DMA test gets reported. The way it works is NMI is enabled, from there when VBlank triggers it goes to the NMI routine at 0x0066. During this routine, the test ROM writes to the $40 of the H result register. When NMI is enabled, it enters a one second delay. This is ample time for NMI to trigger. If the delay finishes and no NMI is read from the result register, the test ROM assumes that NMI is not functional and will report a failure.
+
+### Section 5: Grid Test
+This test is unavailble in the TKG version of the test ROM. The grid is a TRS exclusive feature. This test would provide means of enabling and disabling the grid and changing the color of it.
