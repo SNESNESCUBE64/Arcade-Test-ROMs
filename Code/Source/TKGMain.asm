@@ -22,8 +22,9 @@ init:
     ld l, a
     ld iy, $0000
     ;start the tests
-    ld ix, main ;Load the jump address into iy, RAM stuff is all inline
     jp ram_test_main
+
+include "TKGPrint.asm"
 
 align $66
 ;NMI shouldn't do anything other than pet the watchdog
@@ -75,7 +76,7 @@ post_ram_test:
     xor a
     ld de, tkg_header_address
     ld hl, string_tkg_startup
-    call print
+    rst $20
     xor a
     call process_ram_results
     call rom_check_main
@@ -83,25 +84,28 @@ post_ram_test:
     ;print the header
     ld de, system_header_print_address
     ld hl, string_system_test
-    call print
+    rst $20
 
     ld de, system_line_print_address
     ld hl, string_line
-    call print
+    rst $20
 
     call check_dma
     call check_nmi
     call audio_test_main
-    ;Check to see if there were any startup failures. 
+check_startup_results:
     xor a
     ld ($7D84), a
     exx
+    ld a, h
+    and $04
+    jp z, startup_fail
+    ld a, h
+    and $03
+    jp nz, startup_fail
     ld a, l
     and a
     jp nz, startup_fail
-    ld a, h
-    and a
-    jp z, startup_fail
     exx
     ld a, $0f
     ld ($7D84), a
@@ -179,11 +183,11 @@ check_nmi:
     jr z, bad_nmi
     ld hl, string_good
 bad_nmi:
-    call print
+    rst $20
     ld hl, string_nmi
     ld de, $0040
     add ix, de
-    call print_by_address_and_length
+    rst $28
     ret
 
 check_dma:
@@ -201,11 +205,11 @@ check_dma:
     jr nz, bad_dma
     ld hl, string_good
 bad_dma:
-    call print
+    rst $20
     ld hl, string_dma
     ld de, $0040
     add ix, de
-    call print_by_address_and_length
+    rst $28
     ret
 
 startup_fail:
@@ -230,7 +234,6 @@ include "TKGSystem.asm"
 include "TKGRomTest.asm"
 include "TKGRamTest.asm"
 include "TKGAudioTest.asm"
-include "TKGPrint.asm"
 include "TKGRuntime.asm"
 include "TKGDma.asm"
 include "TKG_Def.asm"

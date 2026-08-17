@@ -4,11 +4,11 @@
 audio_test_main:
     ld de, audio_header_address
     ld hl, string_audio_test
-    call print
+    rst $20
 
     ld de, audio_line_address
     ld hl, string_line
-    call print
+    rst $20
 
     call triggered_sound_test
     call music_sound_test
@@ -19,7 +19,7 @@ triggered_sound_test:
     ld ix, triggered_sound_test_addr
     add ix, bc
     ld hl, string_sound
-    call print_by_address_and_length
+    rst $28
     ld ix, triggered_sound_test_addr
     ld hl, walk_sound_addr
     ld a, $0
@@ -43,7 +43,7 @@ music_sound_test:
     ld ix, music_sound_test_addr
     add ix, bc
     ld hl, string_music
-    call print_by_address_and_length
+    rst $28
     ld ix, music_sound_test_addr
     ld hl, music_addr
     ld a, $1

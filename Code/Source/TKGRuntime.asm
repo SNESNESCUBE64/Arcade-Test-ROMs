@@ -15,7 +15,7 @@ runtime_init:
 
     ld de, tkg_header_address
     ld hl, string_tkg_runtime
-    call print
+    rst $20
 
     call runtime_controls_labels
     call print_menu
@@ -36,11 +36,11 @@ runtime_loop:
 print_menu:
     ld de, menu_header_print_addr
     ld hl, string_test_select
-    call print
+    rst $20
 
     ld de, menu_line_print_addr
     ld hl, string_line
-    call print
+    rst $20
 
     ld de, string_reset
     push de
@@ -77,7 +77,7 @@ print_menu:
 menu_print_loop:
     pop de
     pop hl
-    call print
+    rst $20
     inc a
     cp menu_max_opt
     jr nz, menu_print_loop

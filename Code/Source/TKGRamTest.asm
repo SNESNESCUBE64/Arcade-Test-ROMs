@@ -48,7 +48,6 @@ bit_test1_bank5_check:
     ld c, $01
     exx
     jp ram_bit_check_readback
-
 bit_test_count_check:
     exx
     ld c, h
@@ -60,13 +59,48 @@ bit_test_count_check:
     dec d
     exx
     jp nz, bit_test_start
-    jp ram_test_erase
-
+    ;jp ram_test_erase
+pattern_test_1:
+    ld iy, pattern_test_2
+    exx
+    ld bc, $6000
+    ld de, $0001
+    exx
+    jp pattern_test
+pattern_test_2:
+    ld iy, pattern_test_3
+    exx
+    ld bc, $6400
+    ld de, $0004
+    exx
+    jp pattern_test
+pattern_test_3:
+    ld iy, pattern_test_4
+    exx
+    ld bc, $6800
+    ld de, $0010
+    exx
+    jp pattern_test
+pattern_test_4:
+    ld iy, pattern_test_5
+    exx
+    ld bc, $7000
+    ld de, $0040
+    exx
+    jp pattern_test
+pattern_test_5:
+    ld iy, ram_test_erase
+    exx
+    ld bc, $7400
+    ld de, $0100
+    exx
+    jp pattern_test
 ram_test_erase:
     ld iy, ram_test_return
     jp ram_erase
 ram_test_return:
-    jp (ix)
+    jp main
+
 
 ram_erase:
     xor a
@@ -101,6 +135,84 @@ video_ram_erase:
     jr nz, video_ram_erase
     dec d
     jr nz, video_ram_erase
+    jp (iy)
+
+;Assume IX is the start address
+;Assume DE' is the Fail Mask
+;Assume HL' is the results
+pattern_test:
+    ld a, $11;Byte Start
+    ld l, $10;How many times we are gonna run this
+pattern_specified_start_fill:
+    ld de, $0400
+    ld ix, $0000
+    exx
+    add ix, bc
+    exx
+pattern_byte_loop:
+    ld (ix+0), a
+    nop;Wait for a proper write
+    nop
+    nop
+    nop
+    ld h, (ix+0)
+    cp h
+    jr z, next_pattern_byte
+    ;Byte Failure
+    ld c, a;This will not work. We need to figure out which RAM failed
+    and $0f
+    ld b, a
+    ld a, h
+    and $0f
+    cp b
+    jr z, pattern_high_nibble
+    exx
+    ld a, h
+    or d
+    ld h, a
+    ld a, l
+    or e
+    ld l, a
+    exx
+pattern_high_nibble:
+    exx
+    ld a, d
+    rlca
+    ld d, a
+    ld a, e
+    rlca
+    ld e, a
+    exx
+    ld a,c
+    and $f0
+    ld b, a
+    ld a, h
+    and $f0
+    cp b
+    jr z, next_pattern_byte_error
+    exx
+    ld a, h
+    or d
+    ld h, a
+    ld a, l
+    or e
+    ld l, a
+    exx
+next_pattern_byte_error:
+    ld a, c
+next_pattern_byte:
+    add $11
+    jr nc, pattern_fill_prep_next
+    ld a, $11
+pattern_fill_prep_next:
+    inc ix
+    dec e
+    jr nz, pattern_byte_loop
+    dec d
+    jr nz, pattern_byte_loop
+    dec l
+    jr nz, pattern_specified_start_fill
+
     jp (iy)
 
 
@@ -155,11 +267,11 @@ process_ram_results:
     ;print the header
     ld de, ram_test_header_address
     ld hl, string_ram_test
-    call print
+    rst $20
 
     ld de, ram_test_line_address
     ld hl, string_line
-    call print
+    rst $20
 
     ;Copy the results to preserve original test
     exx
@@ -184,7 +296,7 @@ print_ram_results_loop:
     jr nc, print_ram_test_result
     ld hl, string_bad
 print_ram_test_result:
-    call print_by_address_and_length
+    rst $28
     ld de, $0040
     add ix, de
     ld (ix+$00), $1C
@@ -200,7 +312,7 @@ print_ram_id:
     ld e, $60
     add ix, de
     ld hl, string_ram
-    call print_by_address_and_length
+    rst $28
     inc c
     ld a, $06;The number of RAM results
     cp c
@@ -240,7 +352,7 @@ print_ram_results_loop2:
     jr nc, print_ram_test_result2
     ld hl, string_bad
 print_ram_test_result2:
-    call print_by_address_and_length
+    rst $28
     ld de, $0040
     add ix, de
     ld (ix+$00), $1C
@@ -258,7 +370,7 @@ print_ram_id2:
     ld e, $60
     add ix, de
     ld hl, string_ram
-    call print_by_address_and_length
+    rst $28
     inc c
     ld a, $04;The number of RAM results
     cp c

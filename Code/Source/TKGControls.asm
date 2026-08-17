@@ -4,19 +4,19 @@
 runtime_controls_labels:
     ld de, controls_test_header_address
     ld hl, string_controls_test
-    call print
+    rst $20
 
     ld de, controls_test_line_address
     ld hl, string_line
-    call print
+    rst $20
 
     ld de, dip_sw_header_addr
     ld hl, string_dip_sw_test
-    call print
+    rst $20
 
     ld de, dip_sw_line_addr
     ld hl, string_line
-    call print
+    rst $20
     
     call print_controls_labels
 
@@ -34,7 +34,7 @@ after_controls_stack_routine:
     ld a, $06   
 p1_print_loop:
     ld hl, string_p1
-    call print
+    rst $20
     inc e
     dec a
     jr nz, p1_print_loop
@@ -43,7 +43,7 @@ p1_print_loop:
     ld de, p1_controls_down_addr 
 p1_labels_print:
     pop hl
-    call print
+    rst $20
     inc e
     dec a
     jr nz, p1_labels_print
@@ -52,7 +52,7 @@ p1_labels_print:
     ld b, $06   
 p2_print_loop:
     ld hl, string_p2
-    call print
+    rst $20
     inc e
     dec b
     jr nz, p2_print_loop
@@ -61,14 +61,14 @@ p2_print_loop:
     ld de, p2_controls_down_addr
 p2_labels_print:
     pop hl
-    call print
+    rst $20
     inc e
     dec b
     jr nz, p2_labels_print
 
     ld de, coin_print_addr
     ld hl, string_coin
-    call print
+    rst $20
 
     ret
     
@@ -110,7 +110,7 @@ print_controls_state:
     jr nc, coin_state_print:
     ld hl, string_on
 coin_state_print:
-    call print
+    rst $20
     rrca
     ld c, a
 
@@ -123,7 +123,7 @@ p1_controls_loop:
     jr nc, p1_controls_state_print:
     ld hl, string_on
 p1_controls_state_print:
-    call print
+    rst $20
     inc e
     dec b
     jr nz, p1_controls_loop
@@ -136,7 +136,7 @@ p1_controls_state_print:
     jr nc, p1_start_state_print:
     ld hl, string_on
 p1_start_state_print:
-    call print
+    rst $20
     ld c,a
 
     ld de, p2_controls_addr
@@ -148,7 +148,7 @@ p2_controls_loop:
     jr nc, p2_controls_state_print:
     ld hl, string_on
 p2_controls_state_print:
-    call print
+    rst $20
     inc e
     dec b
     jr nz, p2_controls_loop
@@ -159,7 +159,7 @@ p2_controls_state_print:
     jr nc, p2_start_state_print:
     ld hl, string_on
 p2_start_state_print:
-    call print
+    rst $20
     ld c,a
 
     ret

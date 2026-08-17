@@ -4,11 +4,11 @@
 rom_check_main:
     ld de, rom_test_header_address
     ld hl, string_rom_checksums
-    call print
+    rst $20
 
     ld de, rom_test_line_address
     ld hl, string_line
-    call print
+    rst $20
 
     ld a, $04
     ld hl, $0000 ;starting address
