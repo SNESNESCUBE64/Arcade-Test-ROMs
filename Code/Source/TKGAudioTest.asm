@@ -1,6 +1,9 @@
 ;TKG Hardware Test ROM
 ;(C) SNESNESCUBE64
 
+;                       1         2         3         4         5         6         7         8         9         A         B         C         D         E         F
+music_delay_timings: DB $05, $0B, $05, $05, $05, $01, $05, $01, $05, $0D, $03, $01, $05, $07, $07, $01, $07, $01, $01, $01, $07, $01, $05, $0F, $04, $01, $05, $05, $05, $05
+
 audio_test_main:
     ld de, audio_header_address
     ld hl, string_audio_test
@@ -39,6 +42,7 @@ triggered_sound_loop:
     ret
 
 music_sound_test:
+    ld iy, music_delay_timings
     ld bc, $0040
     ld ix, music_sound_test_addr
     add ix, bc
@@ -55,11 +59,13 @@ music_sound_loop:
 music_not_letter:
     ld (ix+0), a
     ld (hl), b
-    ld a, $05
+    ld a, (iy+0)
+    inc iy
     call delay
     xor a
     ld (hl), a
-    ld a, $0A
+    ld a, (iy+0)
+    inc iy
     call delay
     ld a, b
     inc a
