@@ -5,28 +5,26 @@ This is a work in progress and is nowhere near completion.
 
 ## Currently Supported Tests
 - ROM Checksum printing
-- Dk specific sound/music test
-- Switch input test
 - NMI test
-- RAM check (1/3 tests implemented)
+- DMA test
+- RAM check (2/3 tests implemented)
     - sprite and video ram
     - check for RAM corruption
     - print failed RAM ID
 - DIP switch test
+- Switch input test
 - Screen invert test
-- color pallet tests
-- Audio Tests (manual music test needs to be implemented)(auto needs to be improved)
+- color palette tests
+- Audio Tests
 - Monitor test patterns (2/4)
 - Sprite Test
 ## Planned Tests
 - RAM check
-    - sprite and video ram
-    - check for correct RAM chip writting
-    - check for RAM corruption
-    - print failed RAM ID
+    - bank tests
 - grid tests (Radar Scope)
 - radarscope specific sound tests
 - dk jr specific sound tests
+- additional monitor tests
 
 ## Miscellaneous To-Do's
 - write manual
