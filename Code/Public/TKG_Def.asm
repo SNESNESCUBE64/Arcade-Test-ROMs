@@ -9,7 +9,7 @@ video_ram_start_addr equ $7400
 
 menu_max_opt equ $07
 menu_max_palette equ $04
-menu_max_monitor equ $02
+menu_max_monitor equ $04
 menu_max_sound equ $07
 menu_max_music equ $10
 
@@ -136,6 +136,6 @@ string_reset:         DB $24, $15, $23, $15, $22, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   16Aug2026  V0.09"
+DB "TKG Test 5F/5E  SNESNESCUBE64   17Aug2026  V0.10"
 
 ds $1000 - $
