@@ -1,5 +1,6 @@
 # TKG/TRS Test ROM Manual
-Last Revised: 03 August 2026
+Last Revised: 17 August 2026
+
 Written by: SNESNESCUBE64
 
 ## Table of Contents
@@ -60,7 +61,7 @@ TRS2 was the final revision
 | RAM3     | Sprite           | 2148     | 0x7000            | 1k x 4   | V-5J                  | V-5K                 |
 | RAM4     | Video/Background | 2114     | 0x7400            | 1k x 4   | V-3K                  | V-3J                 |
 
-### Section 2:TKG3 RAM
+### Section 3:TKG3 RAM
 TKG3 was the first significant revision of the hardware. Many features specific to the TRS game were removed in this revision
 #### RAM Info Table
 | **Name** |  **Designation** | **Type** | **Start Address** | **Size** | **High Bit Location** | **Low Bit Location** |
@@ -71,7 +72,7 @@ TKG3 was the first significant revision of the hardware. Many features specific 
 | RAM3     | Sprite           | 2148     | 0x7000            | 1k x 4   | V-2L                  | V-2M                 |
 | RAM4     | Video/Background | 2114     | 0x7400            | 1k x 4   | V-5L                  | V-5M                 |
 
-### Section 3: TKG4 RAM
+### Section 4: TKG4 RAM
 TKG4 was the final major revision of the TKG hardware. With this revision, the PCB count was reduced from four to two boardsets. As such, locations for the RAM have changed.
 #### RAM Info Table
 | **Name** |  **Designation** | **Type** | **Start Address** | **Size** | **High Bit Location** | **Low Bit Location** |
@@ -81,6 +82,25 @@ TKG4 was the final major revision of the TKG hardware. With this revision, the P
 | RAM2     | Work RAM         | 2114     | 0x6800            | 1k x 4   | C-4A                  | C-3A                 |
 | RAM3     | Sprite           | 2148     | 0x7000            | 1k x 4   | V-6R                  | V-6P                 |
 | RAM4     | Video/Background | 2114     | 0x7400            | 1k x 4   | V-2R                  | V-2P                 |
+### Section 5: RAM Test Failure
+In the event of a RAM railure, there are two means of reporting the failure:
+- print to screen
+- tone reporting
+
+The tested RAM are in banks of two RAMs each comprising of two chips per 8 bit bank. The failure reports both upper and lower nibble failures. The obvious report is the test printing to the screen. This assumes that RAM bank 4 is functional as that is the video RAM. The second reporting method is tone-based. Two tones are used: Jump for test pass, crash for test fail. If there are any failures. The tones will play. There are 10 tones total, refer to the tone list below to ID a RAM failure.
+#### RAM Test Tone List
+| **Tone #** | **RAM IC**     |
+|:----------:|----------------|
+|      1     | RAM0L          |
+|      2     | RAM0H          |
+|      3     | RAM1L          |
+|      4     | RAM1H          |
+|      5     | RAM2L          |
+|      6     | RAM2H          |
+|      7     | RAM3L (Sprite) |
+|      8     | RAM3H (Sprite) |
+|      9     | RAM4L (Video)  |
+|     10     | RAM4H (Video)  |
 
 ## Chapter 5: ROM Checks
 #### ROM Info Table
