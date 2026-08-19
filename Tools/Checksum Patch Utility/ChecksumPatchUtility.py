@@ -40,18 +40,12 @@ def PatchChecksum(file, checksum):
     buffer[0xFC8] = checksum & 0x00FF
 
 #Add the padding
-    padding = checksum - CalculateChecksum16FromBuffer(buffer)
-    if padding > 255:
-        buffer[0xFCE] = 255
-        padding -= 255
-        buffer[0xFCF] = padding
-    else:
-        buffer[0xFCE] = 0
-        buffer[0xFCF] = padding
+    buffer[0xFCE] = 0xFF - buffer[0xFC7]
+    buffer[0xFCF] = 0xFF - buffer[0xFC8]
 
     with open(file,"wb") as openedFile:
         for byte in buffer:
-            openedFile.write(byte .to_bytes(1, 'little', signed=False))
+            openedFile.write(byte.to_bytes(1, 'little', signed=False))
 
 print("Patching Checksum")
 
