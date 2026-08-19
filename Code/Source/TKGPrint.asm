@@ -38,11 +38,7 @@ print_two_digit:
 
     ld b, a
     and a, $0F
-    cp a, $0A
-    jr c, skip_first_letter
-    add a, $07
-skip_first_letter:
-    ld (hl), a
+    call print_hex
     add hl, de
     ld a, b
     and a, $F0
@@ -50,12 +46,16 @@ skip_first_letter:
     rra
     rra
     rra
-    cp a, $0A
-    jr c, skip_second_letter
-    add a, $07
-skip_second_letter:
-    ld (hl), a
+    call print_hex
     add hl, de
     pop de
     pop bc
+    ret
+
+print_hex:
+    cp a, $0A
+    jr c, skip_letter
+    add a, $07
+skip_letter:
+    ld (hl), a
     ret
