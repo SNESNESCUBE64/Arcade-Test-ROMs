@@ -108,11 +108,7 @@ print_menu_values:
     ld de, $6001
 menu_print_value_loop:
     ld a, (de)
-    cp a, $0A
-    jr c, print_menu_value
-    add a, $07
-print_menu_value:
-    ld (hl), a
+    call print_hex
     inc e
     inc l
     dec b
