@@ -3,7 +3,6 @@
 
 TKGRuntime_Main:
 ;temporary until the menu can be written out.
-    ;call audio_test_main
     ld iy, runtime_init
     xor a
     ld b, $10
@@ -49,6 +48,10 @@ print_menu:
     ld de, string_sprite_test
     push de
     ld de, menu_sprite_print_addr
+    push de
+    ld de, string_bg_test
+    push de
+    ld de, menu_bg_print_addr
     push de
     ld de, string_music_set
     push de
@@ -218,6 +221,8 @@ menu_select:
     dec a
     jp z, menu_select_music
     dec a
+    jp z, video_all_character
+    dec a
     jp z, sprite_test_main
     dec a
     jp z, menu_reset_select
@@ -276,4 +281,5 @@ menu_reset_select:
 
 include "TKGControls.asm"
 include "TKGMonitorTest.asm"
+include "TKGVideo.asm"
 include "TKGSprite.asm"
