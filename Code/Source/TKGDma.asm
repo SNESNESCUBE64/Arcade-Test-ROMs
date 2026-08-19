@@ -43,23 +43,14 @@ execute_dma:
 dma_test_main:
     ;fill sprite RAM:
     ld a, $AA
-    call dma_fill
-    call execute_dma
-    call delay_1s
-    call dma_compare
+    call dma_test
     ld a, $55
-    call dma_fill
-    call execute_dma
-    call delay_1s
-    call dma_compare
+    call dma_test
     ld a, $00
-    call dma_fill
-    call execute_dma
-    call delay_1s
-    call dma_compare
+    call dma_test
     ret
 
-dma_fill:
+dma_test:
     ld hl, $6900
     ld de, $0280
 dma_fill_loop:
@@ -69,7 +60,9 @@ dma_fill_loop:
     jr nz, dma_fill_loop
     dec d
     jr nz, dma_fill_loop
-    ret
+
+    call execute_dma
+    call delay_1s
 
 dma_compare:
     ld hl, $6900
