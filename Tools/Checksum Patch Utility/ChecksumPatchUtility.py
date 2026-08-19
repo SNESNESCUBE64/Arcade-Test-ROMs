@@ -16,16 +16,6 @@ def CalculateChecksum16(file):
 
     return checksum
 
-def CalculateChecksum16FromBuffer(buffer):
-    checksum = 0
-    for byte in buffer:
-        checksum += byte
-        #We only care about the last byte
-        if checksum > 65535:
-            checksum = checksum - 65536
-
-    return checksum
-
 def PatchChecksum(file, checksum):
     buffer = [0xFF] * 4096
     counter = 0
