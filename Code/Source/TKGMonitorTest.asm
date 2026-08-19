@@ -117,19 +117,73 @@ monitor_grid_test_loop2:
     jp monitor_test_return
 
 monitor_all_character:
-    ld a, $00
+    ld a, $02
     call menu_select_palette+3
-    ld hl, $7440
-    ld de, $0480
+
+;clear the screen
+    ld a, ($7D00)
+    ld iy, character_print_start
     xor a
-monitor_character_test:
+    ld b, $10
+    jp screen_ram_erase_start
+character_print_start:
+    ld a, ($7D00)
+    ld hl, $7508
+    ld de, $0010
+    ld bc, $1010
+    ld a, $0F
+character_print_loop:
     ld (hl), a
     inc hl
-    inc a
-    dec e
-    jr nz, monitor_character_test
-    dec d
-    jr nz, monitor_character_test
+    add $10
+    dec c
+    jr nz, character_print_loop
+    ld c, $10
+    add hl, de
+    dec a
+    dec b
+    jr nz, character_print_loop
+
+    ld hl, $74E7
+    ld de, $0020
+    ld bc, $13F0
+character_grid_top:
+    ld (hl), c
+    add hl, de
+    dec b
+    jr nz, character_grid_top
+
+    ld hl, $7706
+    ld a, $F0
+    ld b, $13
+character_grid_side:
+    ld (hl), a
+    inc l
+    dec b
+    jr nz, character_grid_side
+
+    ld a, $0F
+    ld hl, $7506
+    ld de, $0020
+    ld bc, $100F
+character_grid_top_id:
+    call print_hex
+    dec c
+    ld a, c
+    add hl, de
+    dec b
+    jr nz, character_grid_top_id
+
+    ld hl, $7728
+    ld a, $00
+    ld bc, $1000
+character_grid_side_id:
+    call print_hex
+    inc c
+    ld a, c
+    inc l
+    dec b
+    jr nz, character_grid_side_id
 
 monitor_test_return:
     ld a, ($7D00)
