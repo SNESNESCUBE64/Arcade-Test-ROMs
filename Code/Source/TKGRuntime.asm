@@ -2,15 +2,11 @@
 ;(C) SNESNESCUBE64
 
 TKGRuntime_Main:
-;temporary until the menu can be written out.
-    ld iy, runtime_init
-    xor a
-    ld b, $10
-    jp screen_ram_erase_start
-runtime_init:
     ;Disable NMI, we don't want it running anymore
     xor a
     ld ($7D84), a
+
+    call clear_screen
 
     ld de, tkg_header_address
     ld hl, string_tkg_runtime

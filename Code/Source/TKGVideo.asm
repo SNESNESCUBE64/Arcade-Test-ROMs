@@ -5,13 +5,8 @@ video_all_character:
     ld a, $02
     call menu_select_palette+3
 
-;clear the screen
-    ld a, ($7D00)
-    ld iy, character_print_start
-    xor a
-    ld b, $10
-    jp screen_ram_erase_start
-character_print_start:
+    call clear_screen
+    
     ld a, ($7D00)
     ld hl, $7508
     ld de, $0010

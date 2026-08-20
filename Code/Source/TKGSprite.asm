@@ -2,12 +2,7 @@
 ;(C) SNESNESCUBE64
 
 sprite_test_main:
-    ld a, ($7D00)
-    ld iy, sprite_init
-    xor a
-    ld b, $10
-    jp screen_ram_erase_start
-sprite_init:
+    call clear_screen
     exx
     ld a, h
     or $80
