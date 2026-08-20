@@ -41,6 +41,7 @@ print_loop:
     ld hl, string_rom
     call print
     jr nz, print_loop
+    call rom_0_integrity_check
     ret
 
 
@@ -66,4 +67,22 @@ rom_no_carry:
     jr rom_add
 checksum_finish:
     pop af
+    ret
+
+rom_0_integrity_check:
+    ld hl, rom0_checksum_addr
+    
+    ld a, b
+    cp (hl)
+    jr nz, rom_0_integrity_fail
+    inc hl
+    ld a, c
+    cp (hl)
+    jr nz, rom_0_integrity_fail
+
+    ret
+rom_0_integrity_fail:
+    ld de, rom0_if_print_address
+    ld hl, string_rom0_if
+    rst $20
     ret

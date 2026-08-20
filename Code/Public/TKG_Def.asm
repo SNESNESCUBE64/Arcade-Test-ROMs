@@ -6,6 +6,7 @@ video_ram_bank_count equ $01
 
 work_ram_start_addr equ $6000
 video_ram_start_addr equ $7400
+rom0_checksum_addr equ $0FC7
 
 menu_max_opt equ $08
 menu_max_palette equ $04
@@ -59,6 +60,7 @@ ram3l_print_address equ $7466
 rom_test_header_address equ $760D
 rom_test_line_address equ $760E
 rom0_print_address equ $764F
+rom0_if_print_address equ $746F
 system_header_print_address equ $7634
 system_line_print_address equ $7615
 dma_result_print_address equ $7696
@@ -101,6 +103,7 @@ menu_reset_pw_print_addr equ $7571
 ;Strings
 align $0E00
 string_rom:           DB $1D, $1F, $22, $3F
+string_rom0_if:       DB $1C, $19, $11, $16, $10, $29, $24, $19, $22, $17, $15, $24, $1E, $19, $3F
 string_ram:           DB $1D, $11, $22, $3F
 string_sound:         DB $14, $1E, $25, $1F, $23, $3F
 string_music:         DB $13, $19, $23, $25, $1D, $3F
