@@ -107,7 +107,7 @@ next_menu_item2:
 
 print_menu_values:
     ld b, $05
-    ld hl, $74F6
+    ld hl, menu_value_print_addr
     ld de, $6001
 menu_print_value_loop:
     ld a, (de)
@@ -276,6 +276,16 @@ menu_select_music:
     ret
 
 menu_reset_select:
+    call clear_screen
+
+    ld de, menu_reset_pw_print_addr
+    ld hl, string_reset_pw
+    rst $20   
+
+    ld de, menu_reset_ip_print_addr
+    ld hl, string_reset_ip
+    rst $20
+
     jp dead_loop
 
 
