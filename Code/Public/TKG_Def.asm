@@ -48,6 +48,7 @@ menu_monitor_test_opt equ $6003
 menu_sound_opt equ $6004
 menu_music_opt equ $6005
 menu_selected_opt equ $6006
+sprite_last_controls equ $6007
 
 
 ;String Print Addresses
@@ -146,6 +147,6 @@ string_reset_pw:      DB $24, $19, $11, $27, $10, $15, $23, $11, $15, $1C, $20, 
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   18Aug2026  V0.11"
+DB "TKG Test 5F/5E  SNESNESCUBE64   18Aug2026  V0.12"
 
 ds $1000 - $

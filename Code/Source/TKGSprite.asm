@@ -15,7 +15,7 @@ sprite_test_main:
     xor a
     ld (hl), a
     inc l
-    ld a, $02
+    ;ld a, $02
     ld (hl), a
     inc l
     ld a, $80
@@ -34,12 +34,31 @@ sprite_loop:
     jr sprite_loop
 
 sprite_handler:
-    ld hl, $7741
+    ld bc, $0020
+    ld hl, $7721
     ld a, ($7000)
     call print_two_digit
-    ld hl, $7742
+    ld (hl), $2E
+    add hl, bc
+    ld (hl), $28
+    ld hl, $7722
     ld a, ($7003)
     call print_two_digit
+    ld (hl), $2E
+    add hl, bc
+    ld (hl), $29
+    ld hl, $7723
+    ld a, ($7001)
+    call print_two_digit
+    ld (hl), $2E
+    add hl, bc
+    ld (hl), $23
+    ld hl, $7724
+    ld a, ($7002)
+    call print_two_digit
+    ld (hl), $2E
+    add hl, bc
+    ld (hl), $20
 
     ld a, (in0_addr)
     rrca
@@ -52,6 +71,19 @@ sprite_handler:
     jr c, sprite_down
     rrca
     jr c, sprite_runtime_return
+
+    ld a, (in2_addr)
+    ld hl, sprite_last_controls
+    cp (hl)
+    ret z
+    ld (hl), a
+    rrca
+    rrca
+    rrca
+    jr c, sprite_sprite_inc
+    rrca
+    jr c, sprite_palette_inc
+
     ret
 
 sprite_up:
@@ -83,3 +115,18 @@ sprite_runtime_return:
     ld ($7D84), a
     ld sp, $6C00
     jp TKGRuntime_Main
+
+sprite_palette_inc:
+    ld hl, $7002
+    inc (hl)
+    ld a, (hl)
+    cp $10
+    ret nz
+    xor a
+    ld (hl), a
+    ret
+
+sprite_sprite_inc:
+    ld hl, $7001
+    inc (hl)
+    ret
