@@ -107,8 +107,8 @@ string_music:         DB $13, $19, $23, $25, $1D, $3F
 string_done:          DB $14, $1E, $1F, $14, $3F
 string_rom_checksums: DB $23, $1D, $25, $23, $1B, $13, $15, $18, $13, $10, $1D, $1F, $22, $3F
 string_ram_test:      DB $23, $24, $23, $15, $24, $10, $1D, $11, $22, $3F
-string_good:          DB $14, $1F, $1F, $17, $3F
-string_bad:           DB $10, $14, $11, $12, $3F
+string_good:          DB $23, $23, $11, $20, $3F
+string_bad:           DB $1C, $19, $11, $16, $3F
 string_audio_test:    DB $23, $24, $23, $15, $24, $10, $1F, $19, $14, $25, $11, $3F
 string_line:          DB $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $3F
 string_system_test:   DB $23, $24, $23, $15, $24, $10, $1D, $15, $24, $23, $29, $23, $3F
