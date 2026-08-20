@@ -55,3 +55,11 @@ set_background_palette_3:
     ld (palette_bit_1_addr), a
     pop af
     ret
+
+clear_screen:
+    ld iy, clear_screen_return
+    xor a
+    ld b, $10
+    jp screen_ram_erase_start
+clear_screen_return:
+    ret
