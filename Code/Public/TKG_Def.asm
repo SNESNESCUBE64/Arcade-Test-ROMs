@@ -105,7 +105,6 @@ menu_reset_pw_print_addr equ $7571
 test_menu_print_addr equ $74DC
 
 ;Strings
-align $0E00
 string_rom:           DB $1D, $1F, $22, $3F
 string_rom0_if:       DB $1C, $19, $11, $16, $10, $29, $24, $19, $22, $17, $15, $24, $1E, $19, $3F
 string_ram:           DB $1D, $11, $22, $3F
