@@ -4,8 +4,16 @@
 sprite_test_main:
     call clear_screen
 
-    ld de, test_menu_print_addr
+    ld de, test_menu_print_addr-$02
     ld hl, string_return
+    rst $20
+   
+    ld de, test_menu_print_addr-$61
+    ld hl, string_p1_mes
+    rst $20
+   
+    ld de, test_menu_print_addr-$40
+    ld hl, string_p2_mes
     rst $20
 
     exx
