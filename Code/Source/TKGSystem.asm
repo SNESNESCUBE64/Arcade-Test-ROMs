@@ -18,42 +18,18 @@ uninvert_screen:
 interrupt_enable:
     push af
     ld a, $0f
-    ld ($7D84), a
+    ld (int_enable_addr), a
     pop af
     ret
 
-set_background_palette_0:
-    push af
-    xor a
+system_select_palette:
+    ld b, a
+    and $01
     ld (palette_bit_0_addr), a
+    ld a, b
+    and $02
+    rra
     ld (palette_bit_1_addr), a
-    pop af
-    ret
-
-set_background_palette_1:
-    push af
-    xor a
-    ld (palette_bit_0_addr), a
-    inc a
-    ld (palette_bit_1_addr), a
-    pop af
-    ret
-
-set_background_palette_2:
-    push af
-    xor a
-    ld (palette_bit_1_addr), a
-    inc a
-    ld (palette_bit_0_addr), a
-    pop af
-    ret
-
-set_background_palette_3:
-    push af
-    ld a, $01
-    ld (palette_bit_0_addr), a
-    ld (palette_bit_1_addr), a
-    pop af
     ret
 
 clear_screen:

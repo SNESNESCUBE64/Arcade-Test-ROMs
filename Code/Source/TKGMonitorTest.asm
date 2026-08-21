@@ -20,7 +20,7 @@ monitor_block_test:
     ld d, $4D
     ld bc, $0400
 monitor_block_test_print:    
-    ld a, ($7D00)
+    ld a, (watchdog_addr)
     ld (hl), d
     inc hl
     dec c
@@ -109,7 +109,7 @@ monitor_grid_test:
     ld de, $3F3E
     ld bc, $4140
 monitor_grid_test_print1:
-    ld a, ($7D00)
+    ld a, (watchdog_addr)
     ld a, $20 
 monitor_grid_test_loop1:
     ld (hl), d
@@ -136,14 +136,14 @@ monitor_grid_test_loop2:
     rst $20
 
 monitor_test_return:
-    ld a, ($7D00)
+    ld a, (watchdog_addr)
     nop
     ld a, (in0_addr)
     and $10
     jr nz, monitor_test_return
 
 monitor_test_cont_read:
-    ld a, ($7D00)
+    ld a, (watchdog_addr)
     ld a, (in0_addr)
     and $10
     jr z, monitor_test_cont_read

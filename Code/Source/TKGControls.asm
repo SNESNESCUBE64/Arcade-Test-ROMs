@@ -91,17 +91,6 @@ load_controls_strings_loop:
     jr nz, load_controls_strings_loop
     jp (iy)
 
-; load_controls_strings:
-;     ld a, $0C
-;     ld de, $0006
-;     ld hl, string_down
-; load_controls_strings_loop:
-;     add hl, de
-;     push hl
-;     dec a
-;     jr nz, load_controls_strings_loop
-;     jp (iy)
-
 print_controls_state:
     ld a, (in2_addr)
     rlca

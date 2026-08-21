@@ -33,6 +33,7 @@ palette_bit_0_addr equ $7D86
 palette_bit_1_addr equ $7D87
 int_enable_addr equ $7D84
 music_addr equ $7C00
+watchdog_addr equ $7D00
 
 ;Controls
 in0_addr equ $7C00 ;p1 controls
@@ -148,10 +149,10 @@ string_reset_ip:      DB $23, $23, $15, $22, $17, $1F, $22, $20, $10, $1E, $19, 
 string_reset_pw:      DB $24, $19, $11, $27, $10, $15, $23, $11, $15, $1C, $20, $3F
 string_return:        DB $1E, $22, $25, $24, $15, $22, $10, $1F, $24, $10, $20, $1D, $25, $1A, $10, $23, $23, $15, $22, $20, $3F
 string_p1_mes:        DB $15, $24, $24, $15, $1C, $11, $20, $10, $15, $17, $1E, $11, $18, $13, $10, $1F, $24, $10, $01, $20, $10, $23, $23, $15, $22, $20, $3F
-string_p2_mes:        DB $15, $24, $19, $22, $20, $23, $10, $15, $17, $1E, $11, $18, $13, $10, $1F, $24, $10, $01, $20, $10, $23, $23, $15, $22, $20, $3F
+string_p2_mes:        DB $15, $24, $19, $22, $20, $23, $10, $15, $17, $1E, $11, $18, $13, $10, $1F, $24, $10, $02, $20, $10, $23, $23, $15, $22, $20, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   20Aug2026  V0.13"
+DB "TKG Test 5F/5E  SNESNESCUBE64   21Aug2026  V0.13"
 
 ds $1000 - $

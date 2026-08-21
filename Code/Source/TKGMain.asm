@@ -6,7 +6,7 @@ init:
     ld sp, $6C00
     ;Clear the registers
     xor a
-    ld ($7D84), a  
+    ld (int_enable_addr), a  
     ld b, a
     ld c, a
     ld d, a
@@ -34,8 +34,8 @@ nmi_routine:
     push de
     push hl
     xor a
-    ld ($7D84), a
-    ld a, ($7D00)
+    ld (int_enable_addr), a
+    ld a, (watchdog_addr)
     exx
     ld a, h
     or $04
@@ -44,7 +44,7 @@ nmi_routine:
     and $80
     call nz, sprite_handler
     ld a, $0f
-    ld ($7D84), a
+    ld (int_enable_addr), a
     pop hl
     pop de
     pop bc
@@ -72,8 +72,9 @@ check_sp:
 post_ram_test:
     call dma_test_main
     call uninvert_screen
-    call set_background_palette_2
-    xor a
+    ld a, $01
+    call system_select_palette
+
     ld de, tkg_header_address
     ld hl, string_tkg_startup
     rst $20
@@ -95,7 +96,7 @@ post_ram_test:
     call audio_test_main
 check_startup_results:
     xor a
-    ld ($7D84), a
+    ld (int_enable_addr), a
     exx
     ld a, h
     and $04
@@ -108,7 +109,7 @@ check_startup_results:
     jp nz, startup_fail
     exx
     ld a, $0f
-    ld ($7D84), a
+    ld (int_enable_addr), a
     ld a, $01
     ld (menu_palette_opt), a
     jp TKGRuntime_Main
@@ -166,16 +167,16 @@ toggle_discrete_feature:
 check_nmi:
     ;enable interrupts
     ld a, $0f
-    ld ($7D84), a
+    ld (int_enable_addr), a
     call delay_1s
     xor a
-    ld ($7D84), a
+    ld (int_enable_addr), a
     exx
     ld a, h
     exx
     ld b, a
     ld a, $0f
-    ld ($7D84), a
+    ld (int_enable_addr), a
     ld a, b
     and $04
     ld de, nmi_result_print_address
@@ -221,7 +222,7 @@ startup_fail:
 dead_loop:
     ;We are dead at this point. Try waiting for the watchdog, otherwise just jump back to start
     xor a
-    ld ($7D84), a   
+    ld (int_enable_addr), a   
     ld iy, $0000
     ld a, $03
     jp delay_no_ram

@@ -7,7 +7,7 @@ video_all_character:
 
     call clear_screen
     
-    ld a, ($7D00)
+    ld a, (watchdog_addr)
     ld hl, $74E8
     ld de, $0010
     ld bc, $1010

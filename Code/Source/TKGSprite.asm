@@ -35,15 +35,15 @@ sprite_test_main:
     ld (hl), $80
 
 sprite_wait_for_button_release:
-    ld a, ($7D00)
+    ld a, (watchdog_addr)
     nop
     ld a, (in0_addr)
     and $10
     jr nz, sprite_wait_for_button_release
     ld a, $0F
-    ld ($7D84), a
+    ld (int_enable_addr), a
 sprite_loop:
-    ld a, ($7D00)
+    ld a, (watchdog_addr)
     jr sprite_loop
 
 sprite_handler:
@@ -118,14 +118,14 @@ sprite_right:
 
 sprite_runtime_return:
     xor a
-    ld ($7D84), a
+    ld (int_enable_addr), a
     exx
     ld a, h
     xor $80
     ld h, a
     exx
     ld a, $0F
-    ld ($7D84), a
+    ld (int_enable_addr), a
     ld sp, $6C00
     jp TKGRuntime_Main
 

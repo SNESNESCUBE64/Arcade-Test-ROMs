@@ -4,7 +4,7 @@
 TKGRuntime_Main:
     ;Disable NMI, we don't want it running anymore
     xor a
-    ld ($7D84), a
+    ld (int_enable_addr), a
 
     call clear_screen
 
@@ -17,7 +17,7 @@ TKGRuntime_Main:
     
 runtime_loop:
     ;refresh the watchdog
-    ld a, ($7D00)
+    ld a, (watchdog_addr)
     ;attempt to clear the dead sound if applicatble
     xor a
     ld (dead_sound_addr), a
@@ -226,13 +226,7 @@ menu_select:
 
 menu_select_palette:
     ld a, (menu_palette_opt)
-    ld b, a
-    and $01
-    ld (palette_bit_0_addr), a
-    ld a, b
-    and $02
-    rra
-    ld (palette_bit_1_addr), a
+    call system_select_palette
     ret
 
 menu_invert_screen:
