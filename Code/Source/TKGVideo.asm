@@ -8,7 +8,7 @@ video_all_character:
     call clear_screen
     
     ld a, ($7D00)
-    ld hl, $7508
+    ld hl, $74E8
     ld de, $0010
     ld bc, $1010
     ld a, $0F
@@ -24,7 +24,7 @@ character_print_loop:
     dec b
     jr nz, character_print_loop
 
-    ld hl, $74E7
+    ld hl, $74C7
     ld de, $0020
     ld bc, $13F0
 character_grid_top:
@@ -33,7 +33,7 @@ character_grid_top:
     dec b
     jr nz, character_grid_top
 
-    ld hl, $7706
+    ld hl, $76E6
     ld a, $F0
     ld b, $13
 character_grid_side:
@@ -43,7 +43,7 @@ character_grid_side:
     jr nz, character_grid_side
 
     ld a, $0F
-    ld hl, $7506
+    ld hl, $74E6
     ld de, $0020
     ld bc, $100F
 character_grid_top_id:
@@ -54,7 +54,7 @@ character_grid_top_id:
     dec b
     jr nz, character_grid_top_id
 
-    ld hl, $7728
+    ld hl, $7708
     ld a, $00
     ld bc, $1000
 character_grid_side_id:
@@ -64,6 +64,10 @@ character_grid_side_id:
     inc l
     dec b
     jr nz, character_grid_side_id
+
+    ld de, test_menu_print_addr
+    ld hl, string_return
+    rst $20
 
 ;Wrote this for the monitor test, might as well reuse
     jp monitor_test_return

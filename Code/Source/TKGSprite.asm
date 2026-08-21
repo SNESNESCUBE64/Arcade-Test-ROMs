@@ -3,6 +3,11 @@
 
 sprite_test_main:
     call clear_screen
+
+    ld de, test_menu_print_addr
+    ld hl, string_return
+    rst $20
+
     exx
     ld a, h
     or $80

@@ -101,6 +101,8 @@ menu_value_print_addr equ $74F6
 menu_reset_ip_print_addr equ $750F
 menu_reset_pw_print_addr equ $7571
 
+test_menu_print_addr equ $74DC
+
 ;Strings
 align $0E00
 string_rom:           DB $1D, $1F, $22, $3F
@@ -144,6 +146,7 @@ string_sprite_test:   DB $24, $23, $15, $24, $10, $15, $24, $19, $22, $20, $23, 
 string_reset:         DB $24, $15, $23, $15, $22, $3F
 string_reset_ip:      DB $23, $23, $15, $22, $17, $1F, $22, $20, $10, $1E, $19, $10, $24, $15, $23, $15, $22, $3F
 string_reset_pw:      DB $24, $19, $11, $27, $10, $15, $23, $11, $15, $1C, $20, $3F
+string_return:        DB $1E, $22, $25, $24, $15, $22, $10, $1F, $24, $10, $20, $1D, $25, $1A, $10, $23, $23, $15, $22, $20, $3F
 
 align $0FC0
 DB "Chksum:", $FF, $FF, " Pad:", $00, $00

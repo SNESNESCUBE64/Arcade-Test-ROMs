@@ -1,6 +1,10 @@
 ;TKG Hardware Test ROM
 ;(C) SNESNESCUBE64
 
+checkerboard_fix: DB $37, $BA, $01, $08, $47, $BA, $01, $08, $77, $BA, $01, $08, $87, $BA, $01, $08
+                  DB $37, $BA, $01, $18, $47, $BA, $01, $18, $77, $BA, $01, $18, $87, $BA, $01, $18
+                  DB $B7, $BA, $01, $08, $C7, $BA, $01, $08, $B7, $BA, $01, $18, $C7, $BA, $01, $18
+
 monitor_test_main:
     ld a, (menu_monitor_test_opt)
     and a
@@ -23,6 +27,11 @@ monitor_block_test_print:
     jr nz, monitor_block_test_print
     dec b
     jr nz, monitor_block_test_print
+
+    ld de, test_menu_print_addr
+    ld hl, string_return
+    rst $20
+
     jp monitor_test_return
 
 monitor_checkerboard_test:
@@ -81,6 +90,16 @@ checkerboard_blanking2:
     dec e
     jr nz, checkerboard_blanking2
 
+;The background characters on the top of the checkerboard are colored, we can use sprites to cover them
+    ld hl, checkerboard_fix
+    ld de, $7000
+    ld bc, $30
+    ldir
+
+    ld de, test_menu_print_addr+2
+    ld hl, string_return
+    rst $20
+
     jp monitor_test_return
 
 monitor_grid_test:
@@ -111,6 +130,10 @@ monitor_grid_test_loop2:
     ld a, $78
     cp h
     jr nz, monitor_grid_test_print1  
+
+    ld de, test_menu_print_addr
+    ld hl, string_return
+    rst $20
 
 monitor_test_return:
     ld a, ($7D00)
