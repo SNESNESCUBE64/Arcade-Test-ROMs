@@ -72,10 +72,10 @@ dma_comp_loop:
     ld a, (ix)
     ld b, (hl)
     cp b
-    jr z, dma_pass:
+    jr z, dma_pass
     exx
     ld a, h
-    or $80
+    or dma_fail_mask
     ld h, a
     exx
 dma_pass:

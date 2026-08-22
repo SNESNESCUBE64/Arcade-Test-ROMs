@@ -38,10 +38,10 @@ nmi_routine:
     ld a, (watchdog_addr)
     exx
     ld a, h
-    or $04
+    or nmi_pass_mask
     ld h, a
     exx
-    and $80
+    and sprite_test_mask
     call nz, sprite_handler
     ld a, $0f
     ld (int_enable_addr), a
@@ -181,7 +181,7 @@ check_nmi:
     ld a, $0f
     ld (int_enable_addr), a
     ld a, b
-    and $04
+    and nmi_pass_mask
     ld de, nmi_result_print_address
     ld hl, string_bad
     jr z, bad_nmi
@@ -198,13 +198,13 @@ check_dma:
     exx
     ld a, h
     ld b, a
-    or $80
-    xor $80 ;This bit needs to be cleared because sprite test uses this bit
+    or sprite_test_mask
+    xor sprite_test_mask ;This bit needs to be cleared because sprite test uses this bit
     ld h, a
     ld a, b
     exx
     ld de, dma_result_print_address
-    and $80
+    and dma_fail_mask
     ld hl, string_bad
     jr nz, bad_dma
     ld hl, string_good
