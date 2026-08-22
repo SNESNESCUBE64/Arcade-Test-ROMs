@@ -8,6 +8,28 @@ work_ram_start_addr equ $6000
 video_ram_start_addr equ $7400
 rom0_checksum_addr equ $0FC7
 
+;Failure Masks
+ram_0l_fail_mask equ $01
+ram_0h_fail_mask equ $02
+ram_0_fail_mask equ $0001
+ram_1l_fail_mask equ $04
+ram_1h_fail_mask equ $08
+ram_1_fail_mask equ $0004
+ram_2l_fail_mask equ $10
+ram_2h_fail_mask equ $20
+ram_2_fail_mask equ $0010
+ram_3l_fail_mask equ $40
+ram_3h_fail_mask equ $80
+ram_3_fail_mask equ $0040
+ram_4l_fail_mask equ $01
+ram_4h_fail_mask equ $02
+ram_4_fail_mask equ $0100
+ram_bank_fail_mask equ $04
+nmi_pass_mask equ $08
+dma_fail_mask equ $10
+
+sprite_test_mask equ $80
+
 menu_max_opt equ $08
 menu_max_palette equ $04
 menu_max_monitor equ $03
