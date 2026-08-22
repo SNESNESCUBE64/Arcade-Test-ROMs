@@ -16,9 +16,11 @@ sprite_test_main:
     ld hl, string_p2_mes
     rst $20
 
+    call sprite_color_palette
+
     exx
     ld a, h
-    or $80
+    or sprite_test_mask
     ld h, a
     exx
     ld hl, $7000
@@ -142,4 +144,24 @@ sprite_palette_inc:
 sprite_sprite_inc:
     ld hl, $7001
     inc (hl)
+    ret
+
+sprite_color_palette:
+    xor a
+    ld de, $1000
+    ld hl, $10F0
+    ld ix, $7004
+sprite_color_palette_loop:
+    ld (ix+0), h
+    add hl, de
+    inc ix
+    ld (ix+0), $BA
+    inc ix
+    ld (ix+0), a
+    inc ix
+    ld (ix+0), l
+    inc ix
+    inc a
+    cp $10
+    jr nz, sprite_color_palette_loop
     ret
