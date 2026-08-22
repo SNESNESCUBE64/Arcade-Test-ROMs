@@ -278,6 +278,11 @@ menu_reset_select:
     ld hl, string_reset_ip
     rst $20
 
+    ld hl, $0FEC
+    ld de, build_date_addr+$60
+    ld c, $0D
+    call print_utf8
+
     jp dead_loop
 
 
