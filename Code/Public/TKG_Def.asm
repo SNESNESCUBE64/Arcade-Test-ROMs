@@ -54,6 +54,7 @@ sprite_last_controls equ $6007
 
 ;String Print Addresses
 tkg_header_address equ $74E1
+build_date_addr equ $74E2
 
 ram_test_header_address equ $7684
 ram_test_line_address equ $7605
@@ -149,9 +150,12 @@ string_reset_pw:      DB $24, $19, $11, $27, $10, $15, $23, $11, $15, $1C, $20, 
 string_return:        DB $1E, $22, $25, $24, $15, $22, $10, $1F, $24, $10, $20, $1D, $25, $1A, $10, $23, $23, $15, $22, $20, $3F
 string_p1_mes:        DB $15, $24, $24, $15, $1C, $11, $20, $10, $15, $17, $1E, $11, $18, $13, $10, $1F, $24, $10, $01, $20, $10, $23, $23, $15, $22, $20, $3F
 string_p2_mes:        DB $15, $24, $19, $22, $20, $23, $10, $15, $17, $1E, $11, $18, $13, $10, $1F, $24, $10, $02, $20, $10, $23, $23, $15, $22, $20, $3F
+string_version:       DB $2E, $1E, $1F, $19, $23, $22, $15, $26, $3F
+string_bdate:         DB $2E, $15, $24, $11, $14, $10, $14, $1C, $19, $25, $12, $3F
+
 
 align $0FC0
-DB "Chksum:", $FF, $FF, " Pad:", $00, $00
-DB "TKG Test 5F/5E  SNESNESCUBE64   21Aug2026  V0.13"
+DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
+DB "TKG TEST 5F/5E  SNESNESCUBE64   21AUG2026  V0.14"
 
 ds $1000 - $

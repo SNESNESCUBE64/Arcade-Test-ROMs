@@ -39,3 +39,41 @@ clear_screen:
     jp screen_ram_erase_start
 clear_screen_return:
     ret
+
+;c - length
+;de - destination addr
+;hl - source addr
+
+print_utf8:
+    ld ix, de
+    ld de, $0020
+print_utf8_loop:
+    ld a, (hl)  
+    sub $30
+    cp a, $FE
+    jr c, skip_letter_8
+    ld a, $2B
+skip_letter_8:
+    ld (ix), a
+    add ix, de
+    dec hl
+    dec c
+    jr nz, print_utf8_loop
+    ret
+
+print_version_info:
+    ld hl, $0FF8
+    ld de, build_date_addr
+    ld c, $04
+    call print_utf8
+    add ix, de
+    ld c, $03
+    call print_utf8_loop
+    add ix, de
+    ld c, $02
+    call print_utf8_loop
+    add ix, de
+    add ix, de
+    ld hl, $0FFF
+    ld c, $05
+    call print_utf8_loop

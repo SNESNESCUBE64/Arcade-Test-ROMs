@@ -12,6 +12,8 @@ TKGRuntime_Main:
     ld hl, string_tkg_runtime
     rst $20
 
+    call print_version_info
+
     call runtime_controls_labels
     call print_menu
     

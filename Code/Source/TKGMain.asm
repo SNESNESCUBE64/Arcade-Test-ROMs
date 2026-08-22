@@ -78,6 +78,9 @@ post_ram_test:
     ld de, tkg_header_address
     ld hl, string_tkg_startup
     rst $20
+
+    call print_version_info
+
     xor a
     call process_ram_results
     call rom_check_main
