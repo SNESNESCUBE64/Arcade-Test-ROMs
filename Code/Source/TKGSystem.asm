@@ -77,3 +77,4 @@ print_version_info:
     ld hl, $0FFF
     ld c, $05
     call print_utf8_loop
+    ret
