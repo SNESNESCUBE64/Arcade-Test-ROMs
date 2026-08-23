@@ -5,6 +5,7 @@ Written by: SNESNESCUBE64
 
 ## Table of Contents
 1. Overview
+    1. How to use Test ROM
 2. Startup Tests
 3. Runtime Test Menu
 4. RAM Tests
@@ -34,9 +35,6 @@ The purpose of this manual is to ensure that the user of the test ROM has all of
 - TKG3
 - TKG4
 
-There are several test ROMs available. They can be split into one of two categories:
-- Standalone, Complete Test Suite
-- Test socket, Test Menu Only
 
 The standalone ROM replaces ROM0 and contains all tests for an appropriate game. TRS and TKG test ROMs have some different tests as the hardware is slightly different.
 ## Chapter 4: RAM Tests
