@@ -102,10 +102,10 @@ check_startup_results:
     ld (int_enable_addr), a
     exx
     ld a, h
-    and $04
+    and nmi_pass_mask
     jp z, startup_fail
     ld a, h
-    and $03
+    and ram_bank_fail_mask | ram_4l_fail_mask | ram_4h_fail_mask
     jp nz, startup_fail
     ld a, l
     and a
@@ -197,18 +197,21 @@ bad_nmi:
 check_dma:
     exx
     ld a, h
-    ld b, a
-    or sprite_test_mask
-    xor sprite_test_mask ;This bit needs to be cleared because sprite test uses this bit
-    ld h, a
-    ld a, b
     exx
     ld de, dma_result_print_address
     and dma_fail_mask
     ld hl, string_bad
     jr nz, bad_dma
     ld hl, string_good
+    jr print_dma_results
 bad_dma:
+    exx
+    ld a, l
+    exx
+    and ram_3l_fail_mask | ram_3h_fail_mask | ram_2l_fail_mask | ram_2h_fail_mask
+    jr z, print_dma_results
+    ld hl, string_na
+print_dma_results:
     rst $20
     ld hl, string_dma
     ld de, $0040

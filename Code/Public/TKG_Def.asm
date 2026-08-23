@@ -26,7 +26,7 @@ ram_4h_fail_mask equ $02
 ram_4_fail_mask equ $0100
 ram_bank_fail_mask equ $04
 nmi_pass_mask equ $08
-dma_fail_mask equ $10
+dma_fail_mask equ $20
 
 sprite_test_mask equ $80
 
@@ -82,6 +82,7 @@ ram_test_header_address equ $7684
 ram_test_line_address equ $7605
 ram0l_print_address equ $7626
 ram3l_print_address equ $7466
+ram_bank_test_address equ $746B
 rom_test_header_address equ $760D
 rom_test_line_address equ $760E
 rom0_print_address equ $764F
@@ -136,8 +137,10 @@ string_music:         DB $13, $19, $23, $25, $1D, $3F
 string_done:          DB $14, $1E, $1F, $14, $3F
 string_rom_checksums: DB $23, $1D, $25, $23, $1B, $13, $15, $18, $13, $10, $1D, $1F, $22, $3F
 string_ram_test:      DB $23, $24, $23, $15, $24, $10, $1D, $11, $22, $3F
+string_ram_bank:      DB $24, $23, $15, $24, $2B, $12, $3F
 string_good:          DB $23, $23, $11, $20, $3F
 string_bad:           DB $1C, $19, $11, $16, $3F
+string_na:            DB $2B, $11, $2B, $1E, $3F
 string_audio_test:    DB $23, $24, $23, $15, $24, $10, $1F, $19, $14, $25, $11, $3F
 string_line:          DB $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F, $3F
 string_system_test:   DB $23, $24, $23, $15, $24, $10, $1D, $15, $24, $23, $29, $23, $3F
@@ -178,6 +181,6 @@ string_bdate:         DB $2E, $15, $24, $11, $14, $10, $14, $1C, $19, $25, $12, 
 
 align $0FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "TKG TEST 5F/5E  SNESNESCUBE64   21AUG2026  V0.14"
+DB "TKG TEST 5F/5E  SNESNESCUBE64   22AUG2026  V0.15"
 
 ds $1000 - $

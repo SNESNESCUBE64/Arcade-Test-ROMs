@@ -16,26 +16,26 @@ bit_test1_fill_return:
     ld c, a
     ld hl, $6000
     exx
-    ld c, $01
+    ld c, ram_0l_fail_mask
     exx
     jp ram_bit_check_readback
 bit_test1_bank2_check:
     ld iy, bit_test1_bank3_check
     exx
-    ld c, $04
+    ld c, ram_1l_fail_mask
     exx
     jp ram_bit_check_readback
 bit_test1_bank3_check:
     ld iy, bit_test1_bank4_check
     exx
-    ld c, $10
+    ld c, ram_2l_fail_mask
     exx
     jp ram_bit_check_readback
 bit_test1_bank4_check:
     ld iy, bit_test1_bank5_check
     ld hl, $7000
     exx
-    ld c, $40
+    ld c, ram_3l_fail_mask
     exx
     jp ram_bit_check_readback
 bit_test1_bank5_check:
@@ -45,7 +45,7 @@ bit_test1_bank5_check:
     ld c, h
     ld h, l
     ld l, c
-    ld c, $01
+    ld c, ram_4l_fail_mask
     exx
     jp ram_bit_check_readback
 bit_test_count_check:
@@ -64,37 +64,43 @@ pattern_test_1:
     ld iy, pattern_test_2
     exx
     ld bc, $6000
-    ld de, $0001
+    ld de, ram_0_fail_mask
     exx
     jp pattern_test
 pattern_test_2:
     ld iy, pattern_test_3
     exx
     ld bc, $6400
-    ld de, $0004
+    ld de, ram_1_fail_mask
     exx
     jp pattern_test
 pattern_test_3:
     ld iy, pattern_test_4
     exx
     ld bc, $6800
-    ld de, $0010
+    ld de, ram_2_fail_mask
     exx
     jp pattern_test
 pattern_test_4:
     ld iy, pattern_test_5
     exx
     ld bc, $7000
-    ld de, $0040
+    ld de, ram_3_fail_mask
     exx
     jp pattern_test
 pattern_test_5:
-    ld iy, ram_test_erase
+    ld iy, bank_test_fill
     exx
     ld bc, $7400
-    ld de, $0100
+    ld de, ram_4_fail_mask
     exx
     jp pattern_test
+bank_test_fill:
+    ld iy, bank_test_compare
+    jp ram_bank_fill_all
+bank_test_compare:
+    ld iy, ram_test_erase
+    jp ram_bank_compare_all
 ram_test_erase:
     ld iy, ram_test_return
     jp ram_erase
@@ -136,6 +142,84 @@ video_ram_erase:
     dec d
     jr nz, video_ram_erase
     jp (iy)
+
+ram_bank_fill_all:
+    ld a, $11
+    ld bc, $1103
+    ld hl, $6000
+ram_bank_fill_all_loop1:
+    ld ix, ram_fill_return1
+    jp ram_bank_fill
+ram_fill_return1:
+    add b
+    dec c
+    jr nz, ram_bank_fill_all_loop1
+    ld hl, $7000;Should be able to make this ld h, $70 in theory
+    ld c, $02 
+ram_bank_fill_all_loop2:
+    ld ix, ram_fill_return2
+    jp ram_bank_fill
+ram_fill_return2:
+    add b
+    dec c
+    jr nz, ram_bank_fill_all_loop2
+    jp (iy)
+
+; hl is the start address
+; a is the fill value
+ram_bank_fill:
+    ld de, $0400
+ram_bank_fill_loop:
+    ld (hl), a
+    inc hl
+    dec e
+    jr nz, ram_bank_fill_loop
+    dec d
+    jr nz, ram_bank_fill_loop
+    jp (ix)
+
+ram_bank_compare_all:
+    ld a, $11
+    ld bc, $1103
+    ld hl, $6000
+ram_bank_compare_all_loop1:
+    ld ix, ram_compare_return1
+    jp ram_bank_compare
+ram_compare_return1:
+    add b
+    dec c
+    jr nz, ram_bank_compare_all_loop1
+    ld hl, $7000;Should be able to make this ld h, $70 in theory
+    ld c, $02 
+ram_bank_compare_all_loop2:
+    ld ix, ram_compare_return2
+    jp ram_bank_compare
+ram_compare_return2:
+    add b
+    dec c
+    jr nz, ram_bank_compare_all_loop2
+    jp (iy)
+
+; hl is the start address
+; a is the fill value
+ram_bank_compare:
+    ld de, $0400
+ram_bank_compare_loop:
+    cp (hl)
+    jr nz, ram_bank_fail
+    inc hl
+    dec e
+    jr nz, ram_bank_compare_loop
+    dec d
+    jr nz, ram_bank_compare_loop
+    jp (ix)
+ram_bank_fail:
+    exx
+    ld a, h
+    or ram_bank_fail_mask
+    ld h, a
+    exx
+    jp (iy);why bother doing the rest, if one is bad there are A LOT of problems
 
 ;Assume IX is the start address
 ;Assume DE' is the Fail Mask
@@ -374,8 +458,39 @@ print_ram_id2:
     inc c
     ld a, $04;The number of RAM results
     cp c
-    ret z
+    jr z, bank_test_results
     jr print_ram_results_loop2
+bank_test_results:
+    exx
+    ld a, h
+    exx
+    ld hl, string_good
+    and ram_bank_fail_mask
+    jr z, print_ram_bank_result1
+    ld hl, string_bad
+print_ram_bank_result1:
+    exx
+    ld a, l
+    exx
+    and a
+    jr z, print_ram_bank_result2
+    ld hl, string_na
+print_ram_bank_result2:
+    exx
+    ld a, h
+    exx
+    and ram_4l_fail_mask | ram_4h_fail_mask
+    jr z, print_ram_bank_result
+    ld hl, string_na
+print_ram_bank_result:
+    ld de, ram_bank_test_address
+    rst $20
+
+    ld hl, string_ram_bank
+    ld de, ram_bank_test_address+$C0
+    rst $20
+
+    ret
 
 check_ram_results:
     exx 
@@ -395,7 +510,7 @@ next_lower_ram_validate_bit:
     ld a, h
     exx
     ld iy, next_upper_ram_validate_bit
-    ld b, $02
+    ld b, $03
 upper_ram_validate_loop:    
     rra
     jp c, bad_ram_result
