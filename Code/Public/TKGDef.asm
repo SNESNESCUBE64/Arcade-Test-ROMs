@@ -5,8 +5,12 @@ video_ram_size equ $0400
 video_ram_bank_count equ $01
 
 work_ram_start_addr equ $6000
+sprite_ram_start_addr equ $7000
 video_ram_start_addr equ $7400
+default_stack_pointer equ $6400
 rom0_checksum_addr equ $0FC7
+version_end_addr equ $0FFF
+build_date_end_addr equ $0FF8
 
 ;Failure Masks
 ram_0l_fail_mask equ $01
@@ -50,7 +54,7 @@ prize_sound_addr equ $7D05
 dead_sound_addr equ $7D80
 
 ;DK System Addresses
-screen_invert_addr equ $7d82
+screen_invert_addr equ $7D82
 palette_bit_0_addr equ $7D86
 palette_bit_1_addr equ $7D87
 int_enable_addr equ $7D84
@@ -95,6 +99,9 @@ audio_header_address equ $7659
 audio_line_address equ $761A
 triggered_sound_test_addr equ $76DB
 music_sound_test_addr equ $76DC
+startup_fail_print_addr equ $74CD
+
+error_code_print_addr equ $75D2
 
 controls_test_header_address equ $7604
 controls_test_line_address equ $7605
@@ -177,10 +184,11 @@ string_p1_mes:        DB $15, $24, $24, $15, $1C, $11, $20, $10, $15, $17, $1E, 
 string_p2_mes:        DB $15, $24, $19, $22, $20, $23, $10, $15, $17, $1E, $11, $18, $13, $10, $1F, $24, $10, $02, $20, $10, $23, $23, $15, $22, $20, $3F
 string_version:       DB $2E, $1E, $1F, $19, $23, $22, $15, $26, $3F
 string_bdate:         DB $2E, $15, $24, $11, $14, $10, $14, $1C, $19, $25, $12, $3F
+string_startup_fail:  DB $15, $22, $25, $1C, $19, $11, $16, $10, $24, $23, $15, $24, $10, $20, $25, $2C, $24, $22, $11, $24, $23, $3F
 
 
 align $0FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "TKG TEST 5F/5E  SNESNESCUBE64   22AUG2026  V0.15"
+DB "TKG TEST 5F/5E  SNESNESCUBE64   29AUG2026  V1.00"
 
 ds $1000 - $
