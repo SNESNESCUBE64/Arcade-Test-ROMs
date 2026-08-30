@@ -30,7 +30,7 @@ ram_4h_fail_mask equ $02
 ram_4_fail_mask equ $0100
 ram_bank_fail_mask equ $04
 nmi_pass_mask equ $08
-dma_fail_mask equ $20
+dma_fail_mask equ $10
 
 sprite_test_mask equ $80
 
@@ -189,6 +189,6 @@ string_startup_fail:  DB $15, $22, $25, $1C, $19, $11, $16, $10, $24, $23, $15, 
 
 align $0FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "TKG TEST 5F/5E  SNESNESCUBE64   29AUG2026  V1.00"
+DB "TKG TEST 5F/5E  SNESNESCUBE64   30AUG2026  V1.00"
 
 ds $1000 - $
