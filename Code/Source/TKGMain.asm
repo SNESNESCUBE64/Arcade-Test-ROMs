@@ -3,7 +3,7 @@
 
 org $0000
 init:
-    ld sp, $6C00
+    ld sp, default_stack_pointer
     ;Clear the registers
     xor a
     ld (int_enable_addr), a  
@@ -212,10 +212,29 @@ print_dma_results:
 
 startup_fail:
     exx
-    ;print failure
+;gracefully reset
+    call clear_screen
 
-    ;disable interrupts
-    
+    ld de, menu_reset_ip_print_addr
+    ld hl, string_reset_ip
+    rst $20
+
+    ld de, startup_fail_print_addr
+    ld hl, string_startup_fail
+    rst $20
+
+;Attempt to print an error code
+    call interrupt_disable
+    exx
+    ld a, l
+    exx
+    ld hl, error_code_print_addr
+    call print_two_digit
+    exx
+    ld a, h
+    exx
+    call print_two_digit
+
 dead_loop:
     ;We are dead at this point. Try waiting for the watchdog, otherwise just jump back to start
     xor a
