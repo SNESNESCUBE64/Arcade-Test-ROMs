@@ -33,8 +33,7 @@ nmi_routine:
     push bc
     push de
     push hl
-    xor a
-    ld (int_enable_addr), a
+    call interrupt_disable
     ld a, (watchdog_addr)
     exx
     ld a, h
@@ -43,8 +42,7 @@ nmi_routine:
     exx
     and sprite_test_mask
     call nz, sprite_handler
-    ld a, $0f
-    ld (int_enable_addr), a
+    call interrupt_enable
     pop hl
     pop de
     pop bc
@@ -98,8 +96,7 @@ post_ram_test:
     call check_nmi
     call audio_test_main
 check_startup_results:
-    xor a
-    ld (int_enable_addr), a
+    call interrupt_disable
     exx
     ld a, h
     and nmi_pass_mask
@@ -111,8 +108,7 @@ check_startup_results:
     and a
     jp nz, startup_fail
     exx
-    ld a, $0f
-    ld (int_enable_addr), a
+    call interrupt_enable
     ld a, $01
     ld (menu_palette_opt), a
     jp TKGRuntime_Main
@@ -169,18 +165,13 @@ toggle_discrete_feature:
 
 check_nmi:
     ;enable interrupts
-    ld a, $0f
-    ld (int_enable_addr), a
+    call interrupt_enable
     call delay_1s
-    xor a
-    ld (int_enable_addr), a
+    call interrupt_disable
     exx
     ld a, h
     exx
-    ld b, a
-    ld a, $0f
-    ld (int_enable_addr), a
-    ld a, b
+    call interrupt_enable
     and nmi_pass_mask
     ld de, nmi_result_print_address
     ld hl, string_bad

@@ -3,8 +3,7 @@
 
 TKGRuntime_Main:
     ;Disable NMI, we don't want it running anymore
-    xor a
-    ld (int_enable_addr), a
+    call interrupt_disable
 
     call clear_screen
 

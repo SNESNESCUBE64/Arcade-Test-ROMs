@@ -42,8 +42,7 @@ sprite_wait_for_button_release:
     ld a, (in0_addr)
     and $10
     jr nz, sprite_wait_for_button_release
-    ld a, $0F
-    ld (int_enable_addr), a
+    call interrupt_enable
 sprite_loop:
     ld a, (watchdog_addr)
     jr sprite_loop
@@ -119,15 +118,13 @@ sprite_right:
     ret
 
 sprite_runtime_return:
-    xor a
-    ld (int_enable_addr), a
+    call interrupt_disable
     exx
     ld a, h
     xor $80
     ld h, a
     exx
-    ld a, $0F
-    ld (int_enable_addr), a
+    call interrupt_enable
     ld sp, $6C00
     jp TKGRuntime_Main
 
