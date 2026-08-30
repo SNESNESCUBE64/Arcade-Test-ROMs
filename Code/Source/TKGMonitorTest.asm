@@ -148,5 +148,5 @@ monitor_test_cont_read:
     and $10
     jr z, monitor_test_cont_read
     call menu_select_palette
-    ld sp, $6C00
+    ld sp, default_stack_pointer
     jp TKGRuntime_Main

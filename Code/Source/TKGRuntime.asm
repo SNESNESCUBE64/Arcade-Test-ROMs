@@ -4,7 +4,6 @@
 TKGRuntime_Main:
     ;Disable NMI, we don't want it running anymore
     call interrupt_disable
-
     call clear_screen
 
     ld de, tkg_header_address
@@ -105,7 +104,7 @@ next_menu_item2:
 print_menu_values:
     ld b, $05
     ld hl, menu_value_print_addr
-    ld de, $6001
+    ld de, menu_palette_opt
 menu_print_value_loop:
     ld a, (de)
     call print_hex

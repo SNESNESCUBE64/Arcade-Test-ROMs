@@ -65,7 +65,7 @@ skip_letter_8:
     ret
 
 print_version_info:
-    ld hl, $0FF8
+    ld hl, build_date_end_addr
     ld de, build_date_addr
     ld c, $04
     call print_utf8
@@ -77,7 +77,7 @@ print_version_info:
     call print_utf8_loop
     add ix, de
     add ix, de
-    ld hl, $0FFF
+    ld hl, version_end_addr
     ld c, $05
     call print_utf8_loop
     ret

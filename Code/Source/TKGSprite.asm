@@ -23,14 +23,13 @@ sprite_test_main:
     or sprite_test_mask
     ld h, a
     exx
-    ld hl, $7000
+    ld hl, sprite_ram_start_addr
     ld a, $80
     ld (hl), a
     inc l
     xor a
     ld (hl), a
     inc l
-    ;ld a, $02
     ld (hl), a
     inc l
     ld a, $80
@@ -50,25 +49,25 @@ sprite_loop:
 sprite_handler:
     ld bc, $0020
     ld hl, $7721
-    ld a, ($7000)
+    ld a, (sprite_ram_start_addr)
     call print_two_digit
     ld (hl), $2E
     add hl, bc
     ld (hl), $28
     ld hl, $7722
-    ld a, ($7003)
+    ld a, (sprite_ram_start_addr+3)
     call print_two_digit
     ld (hl), $2E
     add hl, bc
     ld (hl), $29
     ld hl, $7723
-    ld a, ($7001)
+    ld a, (sprite_ram_start_addr+1)
     call print_two_digit
     ld (hl), $2E
     add hl, bc
     ld (hl), $23
     ld hl, $7724
-    ld a, ($7002)
+    ld a, (sprite_ram_start_addr+2)
     call print_two_digit
     ld (hl), $2E
     add hl, bc
@@ -101,19 +100,19 @@ sprite_handler:
     ret
 
 sprite_up:
-    ld hl, $7003
+    ld hl, sprite_ram_start_addr+3
     dec (hl)
     ret
 sprite_down:
-    ld hl, $7003
+    ld hl, sprite_ram_start_addr+3
     inc (hl)
     ret
 sprite_left:
-    ld hl, $7000
+    ld hl, sprite_ram_start_addr
     dec (hl)
     ret
 sprite_right:
-    ld hl, $7000
+    ld hl, sprite_ram_start_addr
     inc (hl)
     ret
 
@@ -125,11 +124,11 @@ sprite_runtime_return:
     ld h, a
     exx
     call interrupt_enable
-    ld sp, $6C00
+    ld sp, default_stack_pointer
     jp TKGRuntime_Main
 
 sprite_palette_inc:
-    ld hl, $7002
+    ld hl, sprite_ram_start_addr+2
     inc (hl)
     ld a, (hl)
     cp $10
@@ -139,7 +138,7 @@ sprite_palette_inc:
     ret
 
 sprite_sprite_inc:
-    ld hl, $7001
+    ld hl, sprite_ram_start_addr+1
     inc (hl)
     ret
 
@@ -147,7 +146,7 @@ sprite_color_palette:
     xor a
     ld de, $1000
     ld hl, $10F0
-    ld ix, $7004
+    ld ix, sprite_ram_start_addr+4
 sprite_color_palette_loop:
     ld (ix+0), h
     add hl, de
