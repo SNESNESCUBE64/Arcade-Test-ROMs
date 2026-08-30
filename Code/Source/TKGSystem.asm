@@ -2,18 +2,18 @@
 ;(C) SNESNESCUBE64
 
 invert_screen:
-    ld a, $f0
+    xor a
     ld (screen_invert_addr), a
     ret
 
 uninvert_screen:
-    ld a, $0f
+    ld a, $01
     ld (screen_invert_addr), a
     ret
 
 interrupt_enable:
     push af
-    ld a, $0f
+    ld a, $01
     ld (int_enable_addr), a
     pop af
     ret
