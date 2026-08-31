@@ -243,9 +243,6 @@ dead_loop:
     ld a, $03
     jp delay_no_ram
 
-;main if the ROM lives in 0x4000
-test_socket_main:
-    jr test_socket_main
 
 include "TKGSystem.asm"
 include "TKGRomTest.asm"
