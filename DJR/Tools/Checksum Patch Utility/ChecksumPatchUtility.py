@@ -1,0 +1,52 @@
+#Checksum Patch Utility - SNESNESCUBE64
+
+import os
+import sys
+
+
+def CalculateChecksum16(file):
+    checksum = 0
+    with open(file,"rb") as openedFile:
+        while (byte := openedFile.read(1)):
+            checksum += int.from_bytes(byte)
+            #We only care about the last byte
+            if checksum > 65535:
+                checksum = checksum - 65536
+        openedFile.close()
+
+    return checksum
+
+def PatchChecksum(file, checksum):
+    buffer = [0xFF] * 4096 * 2
+    counter = 0
+    with open(file,"rb") as openedFile:
+        while (byte := openedFile.read(1)):
+            buffer[counter] = int.from_bytes(byte)
+            counter += 1
+        openedFile.close()
+
+#patch the checksum
+    buffer[0x1FC7] = (checksum & 0xFF00) >> 8
+    buffer[0x1FC8] = checksum & 0x00FF
+
+#Add the padding
+    buffer[0x1FCE] = 0xFF - buffer[0x1FC7]
+    buffer[0x1FCF] = 0xFF - buffer[0x1FC8]
+
+    with open(file,"wb") as openedFile:
+        for byte in buffer:
+            openedFile.write(byte.to_bytes(1, 'little', signed=False))
+
+print("Patching Checksum")
+
+checksum = 65535
+
+if len(sys.argv) > 1:
+    if os.path.isfile(sys.argv[1]):
+        checksum = CalculateChecksum16(sys.argv[1])
+        PatchChecksum(sys.argv[1], checksum)
+        print("Done")
+    else:
+        print("Error: Not a path")
+else:
+    print("Error: Invalid Arguement")
