@@ -3,6 +3,7 @@
 import os
 import sys
 
+ROM_SIZE = 0X2000
 
 def CalculateChecksum16(file):
     checksum = 0
@@ -17,7 +18,7 @@ def CalculateChecksum16(file):
     return checksum
 
 def PatchChecksum(file, checksum):
-    buffer = [0xFF] * 4096 * 2
+    buffer = [0xFF] * ROM_SIZE
     counter = 0
     with open(file,"rb") as openedFile:
         while (byte := openedFile.read(1)):
