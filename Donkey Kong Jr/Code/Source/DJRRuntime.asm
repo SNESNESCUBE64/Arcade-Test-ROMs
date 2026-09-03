@@ -6,6 +6,10 @@ TKGRuntime_Main:
     call interrupt_disable
     call clear_screen
 
+    xor a
+    ld (background_current_bank), a
+    ld (background_bank_addr), a
+
     ld de, tkg_header_address
     ld hl, string_tkg_runtime
     rst $20
@@ -286,5 +290,5 @@ menu_reset_select:
 
 include "TKGControls.asm"
 include "DJRMonitorTest.asm"
-include "TKGVideo.asm"
+include "DJRVideo.asm"
 include "TKGSprite.asm"

@@ -60,6 +60,7 @@ palette_bit_1_addr equ $7D87
 int_enable_addr equ $7D84
 music_addr equ $7C00
 watchdog_addr equ $7D00
+background_bank_addr equ $7C80
 
 ;Controls
 in0_addr equ $7C00 ;p1 controls
@@ -76,6 +77,7 @@ menu_sound_opt equ $6004
 menu_music_opt equ $6005
 menu_selected_opt equ $6006
 sprite_last_controls equ $6007
+background_current_bank equ $6008
 
 
 ;String Print Addresses
@@ -185,10 +187,11 @@ string_p2_mes:        DB $15, $24, $19, $22, $20, $23, $10, $15, $17, $1E, $11, 
 string_version:       DB $2E, $1E, $1F, $19, $23, $22, $15, $26, $3F
 string_bdate:         DB $2E, $15, $24, $11, $14, $10, $14, $1C, $19, $25, $12, $3F
 string_startup_fail:  DB $15, $22, $25, $1C, $19, $11, $16, $10, $24, $23, $15, $24, $10, $20, $25, $2C, $24, $22, $11, $24, $23, $3F
+string_background_p1: DB $23, $1B, $1E, $11, $12, $10, $15, $17, $1E, $11, $18, $13, $10, $1F, $24, $10, $01, $20, $10, $23, $23, $15, $22, $20, $3F
 
 
 align $1FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "DJR TEST 5E     SNESNESCUBE64   03SEP2026  V0.02"
+DB "DJR TEST 5E     SNESNESCUBE64   03SEP2026  V0.03"
 
 ds $2000 - $

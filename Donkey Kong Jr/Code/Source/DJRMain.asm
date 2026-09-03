@@ -6,7 +6,8 @@ init:
     ld sp, default_stack_pointer
     ;Clear the registers
     xor a
-    ld (int_enable_addr), a  
+    ld (int_enable_addr), a
+    ld (background_bank_addr), a 
     ld b, a
     ld c, a
     ld d, a

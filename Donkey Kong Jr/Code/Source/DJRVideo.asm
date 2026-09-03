@@ -69,5 +69,35 @@ character_grid_side_id:
     ld hl, string_return
     rst $20
 
-;Wrote this for the monitor test, might as well reuse
-    jp monitor_test_return
+    ld de, test_menu_print_addr-$3F
+    ld hl, string_background_p1
+    rst $20
+
+background_test_return:
+    ld a, (watchdog_addr)
+    nop
+    ld a, (in0_addr)
+    and $10
+    jr nz, background_test_return
+
+background_test_cont_read:
+    ld a, (watchdog_addr)
+    and $04
+    call nz, background_bank_select
+    ld a, (in0_addr)
+    and $10
+    jr z, background_test_cont_read
+    call menu_select_palette
+    ld sp, default_stack_pointer
+    jp TKGRuntime_Main
+
+background_bank_select:
+    ld a, (background_current_bank)
+    xor $01
+    ld (background_current_bank), a
+    ld (background_bank_addr), a
+background_bank_select_return:
+    ld a, (watchdog_addr)
+    and $04
+    jr nz, background_bank_select_return
+    ret
