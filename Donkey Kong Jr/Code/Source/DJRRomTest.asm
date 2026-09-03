@@ -12,13 +12,6 @@ rom_check_main:
     ld hl, string_line
     rst $20
 
-nop
-nop
-nop
-nop
-nop
-nop
-
     ld a, $04
     ld hl, djr_rom_addrs
     exx

@@ -285,6 +285,6 @@ menu_reset_select:
 
 
 include "TKGControls.asm"
-include "TKGMonitorTest.asm"
+include "DJRMonitorTest.asm"
 include "TKGVideo.asm"
 include "TKGSprite.asm"
