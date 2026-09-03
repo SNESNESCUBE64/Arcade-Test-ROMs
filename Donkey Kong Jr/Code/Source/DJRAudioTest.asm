@@ -1,8 +1,8 @@
 ;TKG Hardware Test ROM
 ;(C) SNESNESCUBE64
 
-;                       1         2         3         4         5         6         7         8         9         A         B         C         D         E         F
-music_delay_timings: DB $05, $0B, $05, $05, $05, $01, $05, $01, $05, $0D, $03, $01, $05, $07, $07, $01, $07, $01, $01, $01, $07, $01, $05, $0F, $04, $01, $05, $05, $05, $05
+;                        1         2         3         4         5         6         7         8         9         A         B         C         D         E ;There is no F sound
+music_delay_timings: DB $0C, $01, $06, $01, $0C, $01, $0F, $01, $0D, $01, $17, $05, $05, $06, $1A, $02, $0C, $02, $0F, $02, $0F, $02, $0F, $0F, $0F, $0F, $01, $05
 
 audio_test_main:
     ld de, audio_header_address
@@ -69,7 +69,7 @@ music_not_letter:
     call delay
     ld a, b
     inc a
-    cp $10
+    cp $0F
     jr nz, music_sound_loop
     xor a
     ld (hl), a

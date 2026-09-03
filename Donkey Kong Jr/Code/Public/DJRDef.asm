@@ -189,6 +189,6 @@ string_startup_fail:  DB $15, $22, $25, $1C, $19, $11, $16, $10, $24, $23, $15, 
 
 align $1FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "DJR TEST 5E     SNESNESCUBE64   02SEP2026  V0.02"
+DB "DJR TEST 5E     SNESNESCUBE64   03SEP2026  V0.02"
 
 ds $2000 - $
