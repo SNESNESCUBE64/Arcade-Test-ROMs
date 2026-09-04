@@ -192,6 +192,6 @@ string_background_p1: DB $23, $1B, $1E, $11, $12, $10, $15, $17, $1E, $11, $18, 
 
 align $1FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "DJR TEST 5E     SNESNESCUBE64   03SEP2026  V0.03"
+DB "DJR TEST 5E     SNESNESCUBE64   03SEP2026  V1.00"
 
 ds $2000 - $
