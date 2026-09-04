@@ -2,6 +2,7 @@
 ;(C) SNESNESCUBE64
 
 djr_rom_addrs: DB $00, $08, $30, $38, $20, $48, $10, $58, $40, $28, $50, $18, $80, $88, $FF
+djr_rom_chip_locations: DB $5A, $5E, $5C, $5B
 
 rom_check_main:
     ld de, rom_test_header_address
@@ -11,13 +12,15 @@ rom_check_main:
     ld de, rom_test_line_address
     ld hl, string_line
     rst $20
-
+    
     ld a, $04
     ld hl, djr_rom_addrs
     exx
     ld bc, $0000 ;result
     ld d, $04 ;banks remaining
     exx
+
+    ld iy, djr_rom_chip_locations
 
 checksum_loop:
     call rom_checksum_calculation
@@ -46,7 +49,12 @@ print_loop:
     dec a
     ld de, $0040
     add hl, de
-    ld (hl), a
+    push af
+    ld a, (iy+0)
+    call print_two_digit
+    pop af
+    inc iy
+    ld de, $0020
     add hl, de 
     ld de, hl
     ld hl, string_rom

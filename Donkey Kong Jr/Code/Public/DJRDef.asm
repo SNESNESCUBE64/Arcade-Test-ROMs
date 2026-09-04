@@ -91,7 +91,7 @@ ram3l_print_address equ $7466
 ram_bank_test_address equ $746B
 rom_test_header_address equ $760D
 rom_test_line_address equ $760E
-rom0_print_address equ $764F
+rom0_print_address equ $762F
 rom0_if_print_address equ $746F
 system_header_print_address equ $7634
 system_line_print_address equ $7615
