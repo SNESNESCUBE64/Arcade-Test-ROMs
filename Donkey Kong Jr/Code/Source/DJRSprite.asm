@@ -125,7 +125,7 @@ sprite_runtime_return:
     exx
     call interrupt_enable
     ld sp, default_stack_pointer
-    jp TKGRuntime_Main
+    jp djr_runtime_main
 
 sprite_palette_inc:
     ld hl, sprite_ram_start_addr+2

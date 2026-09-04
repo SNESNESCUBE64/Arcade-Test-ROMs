@@ -112,7 +112,7 @@ check_startup_results:
     call interrupt_enable
     ld a, $01
     ld (menu_palette_opt), a
-    jp TKGRuntime_Main
+    jp djr_runtime_main
 
 
 delay_1s:
@@ -247,7 +247,7 @@ dead_loop:
 
 include "TKGSystem.asm"
 include "DJRRomTest.asm"
-include "TKGRamTest.asm"
+include "DJRRamTest.asm"
 include "DJRAudioTest.asm"
 include "DJRRuntime.asm"
 include "TKGDma.asm"

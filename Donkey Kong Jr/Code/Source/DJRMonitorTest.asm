@@ -139,4 +139,4 @@ monitor_test_cont_read:
     jr z, monitor_test_cont_read
     call menu_select_palette
     ld sp, default_stack_pointer
-    jp TKGRuntime_Main
+    jp djr_runtime_main

@@ -1,7 +1,7 @@
 ;TKG Hardware Test ROM
 ;(C) SNESNESCUBE64
 
-TKGRuntime_Main:
+djr_runtime_main:
     ;Disable NMI, we don't want it running anymore
     call interrupt_disable
     call clear_screen
@@ -291,4 +291,4 @@ menu_reset_select:
 include "TKGControls.asm"
 include "DJRMonitorTest.asm"
 include "DJRVideo.asm"
-include "TKGSprite.asm"
+include "DJRSprite.asm"
