@@ -1,6 +1,9 @@
 ;TKG Hardware Test ROM
 ;(C) SNESNESCUBE64
 
+workram_locations:  DB $13, $13, $12, $12, $11, $11
+videoram_locations: DB $06, $06, $02, $02
+
 ram_test_main:
     ;bit test
     ld a, $00;Start pattern
@@ -361,7 +364,8 @@ process_ram_results:
     exx
     ld e, l
     exx
-
+    
+    ld iy, workram_locations
     ld bc, $0000
 print_ram_results_loop:
     ld de, ram0l_print_address
@@ -383,16 +387,15 @@ print_ram_test_result:
     rst $28
     ld de, $0040
     add ix, de
-    ld (ix+$00), $1C
+    ld (ix+$20), $03
     ld a, c
     and $01
     jr z, print_ram_id:
-    ld (ix+$00), $18
+    ld (ix+$20), $04
 print_ram_id:
-    ld a, c
-    rra 
-    and $03   
-    ld (ix+$20), a
+    ld a, (iy+00)
+    inc iy
+    ld (ix+$00), a
     ld e, $60
     add ix, de
     ld hl, string_ram
@@ -418,6 +421,7 @@ print_ram_results_2_main:
     ld e, a
     exx
 
+    ld iy, videoram_locations
     ld bc, $0000
 print_ram_results_loop2:
     ld de, ram3l_print_address
@@ -439,16 +443,14 @@ print_ram_test_result2:
     rst $28
     ld de, $0040
     add ix, de
-    ld (ix+$00), $1C
+    ld (ix+$00), $20
     ld a, c
     and $01
     jr z, print_ram_id2:
-    ld (ix+$00), $18
+    ld (ix+$00), $22
 print_ram_id2:
-    ld a, c
-    rra 
-    and $03 
-    add $03  
+    ld a, (iy+0)
+    inc iy
     ld (ix+$20), a
     sub $03
     ld e, $60
@@ -489,7 +491,6 @@ print_ram_bank_result:
     ld hl, string_ram_bank
     ld de, ram_bank_test_address+$C0
     rst $20
-
     ret
 
 check_ram_results:
