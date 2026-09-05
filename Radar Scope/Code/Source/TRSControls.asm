@@ -98,16 +98,6 @@ coin_state_print:
     rst $20
     rrca
     ld c, a
-
-
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
     ld de, p1_controls_addr
     ld b, $03  
     ld a, (in0_addr)
