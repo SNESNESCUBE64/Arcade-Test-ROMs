@@ -34,13 +34,14 @@ dma_fail_mask equ $10
 
 sprite_test_mask equ $80
 
-menu_max_opt equ $08
+menu_max_opt equ $09
 menu_max_palette equ $02
+menu_max_grid equ $09
 menu_max_monitor equ $03
 menu_max_sound equ $06
 menu_max_music equ $10
 
-menu_constants: DB menu_max_palette, menu_max_monitor, menu_max_sound, menu_max_music
+menu_constants: DB menu_max_palette, menu_max_grid, menu_max_monitor, menu_max_sound, menu_max_music
 
 
 ;Discrete Sounds
@@ -53,7 +54,9 @@ fall_sound_addr equ $7D04
 prize_sound_addr equ $7D05
 dead_sound_addr equ $7D80
 
-;DK System Addresses
+;TRS System Addresses
+grid_color_addr equ $7C80
+grid_enable_addr equ $7D81
 screen_invert_addr equ $7D82
 palette_bit_0_addr equ $7D86
 palette_bit_1_addr equ $7D87
@@ -71,11 +74,12 @@ dpsw_addr equ $7D80
 last_controls equ $6000
 menu_palette_opt equ $6001
 menu_invert_opt equ $6002
-menu_monitor_test_opt equ $6003
-menu_sound_opt equ $6004
-menu_music_opt equ $6005
-menu_selected_opt equ $6006
-sprite_last_controls equ $6007
+menu_grid_option equ $6003
+menu_monitor_test_opt equ $6004
+menu_sound_opt equ $6005
+menu_music_opt equ $6006
+menu_selected_opt equ $6007
+sprite_last_controls equ $6008
 
 
 ;String Print Addresses
@@ -115,21 +119,22 @@ p2_controls_addr equ $7466
 coin_print_addr equ $772A
 coin_state_addr equ $762A
 
-dip_switch_info_addr equ  $76B1
-dip_sw_header_addr equ $764E
-dip_sw_line_addr equ $760F
+dip_switch_info_addr equ  $76AF
+dip_sw_header_addr equ $764C
+dip_sw_line_addr equ $760D
 
-menu_header_print_addr equ $7614
-menu_line_print_addr equ $7615
-menu_palette_print_addr equ $75F6
-menu_invert_print_addr equ $7617
-menu_monitor_print_addr equ $75F8
-menu_sound_print_addr equ $76D9
-menu_music_print_addr equ $76DA
-menu_bg_print_addr equ $759B
-menu_sprite_print_addr equ $761C
-menu_reset_print_addr equ $76DD
-menu_value_print_addr equ $74F6
+menu_header_print_addr equ $7612
+menu_line_print_addr equ $7613
+menu_palette_print_addr equ $75F4
+menu_invert_print_addr equ $7615
+menu_grid_print_addr equ $7656
+menu_monitor_print_addr equ $75F7
+menu_sound_print_addr equ $76D8
+menu_music_print_addr equ $76D9
+menu_bg_print_addr equ $759A
+menu_sprite_print_addr equ $761B
+menu_reset_print_addr equ $76DC
+menu_value_print_addr equ $74F4
 menu_reset_ip_print_addr equ $750F
 menu_reset_pw_print_addr equ $7571
 
@@ -185,10 +190,11 @@ string_p2_mes:        DB $15, $24, $19, $22, $20, $23, $10, $15, $17, $1E, $11, 
 string_version:       DB $2E, $1E, $1F, $19, $23, $22, $15, $26, $3F
 string_bdate:         DB $2E, $15, $24, $11, $14, $10, $14, $1C, $19, $25, $12, $3F
 string_startup_fail:  DB $15, $22, $25, $1C, $19, $11, $16, $10, $24, $23, $15, $24, $10, $20, $25, $2C, $24, $22, $11, $24, $23, $3F
+string_grid_test:     DB $24, $23, $15, $24, $10, $14, $19, $22, $17, $3F
 
 
 align $0FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "TRS TEST 5F     SNESNESCUBE64   04SEP2026  V0.01"
+DB "TRS TEST 5F     SNESNESCUBE64   05SEP2026  V1.00"
 
 ds $1000 - $

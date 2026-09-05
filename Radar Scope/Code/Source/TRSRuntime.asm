@@ -61,6 +61,10 @@ print_menu:
     push de
     ld de, menu_monitor_print_addr
     push de
+    ld de, string_grid_test
+    push de
+    ld de, menu_grid_print_addr
+    push de
     ld de, string_invert_test
     push de
     ld de, menu_invert_print_addr
@@ -86,7 +90,7 @@ print_menu_selection:
     ld a, (menu_selected_opt)
     ld b, a
     ld a, $00
-    ld hl, $7796
+    ld hl, $7794
     menu_print_loop2:
     cp b
     jr nz, clear_selector2
@@ -102,7 +106,7 @@ next_menu_item2:
     ret
 
 print_menu_values:
-    ld b, $05
+    ld b, $06
     ld hl, menu_value_print_addr
     ld de, menu_palette_opt
 menu_print_value_loop:
@@ -128,10 +132,10 @@ menu_handler:
     and a
     ret z;return if nothing is pressed
     ld a, (last_controls)
-    and $0C
+    and $03
     call nz, change_menu_item
     ld a, (last_controls)
-    and $03
+    and $0C
     call nz, change_menu_option
     ld a, (last_controls)
     and $10
@@ -143,9 +147,7 @@ menu_handler:
 
 change_menu_item:
     rrca
-    rrca
-    rrca
-    jr c, move_opt_down
+    jr nc, move_opt_down
     ld a, (menu_selected_opt)
     inc a
     cp menu_max_opt
@@ -163,6 +165,9 @@ change_menu_item_return:
     ret
 
 change_menu_option:
+    rrca
+    rrca
+    and $03
     ld c, a
     ld a, (menu_selected_opt)
     ld de, menu_palette_opt
@@ -182,6 +187,10 @@ change_menu_option:
     inc hl
     cp $04
     jp z, menu_change_option_value
+    inc e
+    inc hl
+    cp $05
+    jp z, menu_change_option_value
     ret
 
 menu_change_option_value:
@@ -189,7 +198,7 @@ menu_change_option_value:
     ld b, a
     ld a, c
     rrca
-    jr nc, move_option_value_down
+    jr c, move_option_value_down
     ld a, (de)
     inc a
     cp b
@@ -213,6 +222,8 @@ menu_select:
     jp z, menu_select_palette
     dec a
     jp z, menu_invert_screen
+    dec a
+    jp z, menu_select_grid:
     dec a
     jp z, monitor_test_main
     dec a
@@ -264,6 +275,17 @@ menu_sound_play_delay:
 menu_select_music:
     ld a, (menu_music_opt)
     ld (music_addr), a
+    ret
+
+menu_select_grid:
+    ld a, (menu_grid_option)
+    and a
+    jr z, grid_select ;We are just gonna turn it off if the option is 0
+    dec a
+    ld (grid_color_addr), a
+    ld a, $01
+grid_select:
+    ld (grid_enable_addr), a
     ret
 
 menu_reset_select:
