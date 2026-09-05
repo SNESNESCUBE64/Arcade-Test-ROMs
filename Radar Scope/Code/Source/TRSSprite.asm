@@ -76,15 +76,14 @@ sprite_handler:
     add hl, bc
     ld (hl), $20
 
+    call sprite_down
     ld a, (in0_addr)
     rrca
     jr c, sprite_right
     rrca
     jr c, sprite_left
     rrca
-    jr c, sprite_up
     rrca
-    jr c, sprite_down
     rrca
     jr c, sprite_runtime_return
 
@@ -102,10 +101,6 @@ sprite_handler:
 
     ret
 
-sprite_up:
-    ld hl, sprite_ram_start_addr+3
-    dec (hl)
-    ret
 sprite_down:
     ld hl, sprite_ram_start_addr+3
     inc (hl)
