@@ -122,7 +122,7 @@ dip_sw_line_addr equ $760F
 menu_header_print_addr equ $7614
 menu_line_print_addr equ $7615
 menu_palette_print_addr equ $75F6
-menu_invert_print_addr equ $75D7
+menu_invert_print_addr equ $7617
 menu_monitor_print_addr equ $75F8
 menu_sound_print_addr equ $76D9
 menu_music_print_addr equ $76DA
@@ -170,7 +170,7 @@ string_on:            DB $10, $1E, $1F, $3F
 string_off:           DB $16, $16, $1F, $3F
 string_test_select:   DB $24, $23, $15, $24, $10, $11, $10, $24, $13, $15, $1C, $15, $23, $3F
 string_palette_test:  DB $24, $23, $15, $24, $10, $15, $24, $24, $15, $1C, $11, $20, $3F
-string_invert_test:   DB $24, $22, $15, $26, $1E, $19, $10, $1E, $15, $15, $22, $13, $23, $3F
+string_invert_test:   DB $20, $19, $1C, $16, $10, $1E, $15, $15, $22, $13, $23, $3F
 string_monitor_test:  DB $24, $23, $15, $24, $10, $22, $1F, $24, $19, $1E, $1F, $1D, $3F
 string_sound_set:     DB $14, $1E, $25, $1F, $23, $3F
 string_music_set:     DB $13, $19, $23, $25, $1D, $3F
@@ -189,6 +189,6 @@ string_startup_fail:  DB $15, $22, $25, $1C, $19, $11, $16, $10, $24, $23, $15, 
 
 align $0FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "TKG TEST 5F/5E  SNESNESCUBE64   30AUG2026  V1.00"
+DB "TKG TEST 5F/5E  SNESNESCUBE64   04SEP2026  V1.00"
 
 ds $1000 - $
