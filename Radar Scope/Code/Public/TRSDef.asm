@@ -195,6 +195,6 @@ string_grid_test:     DB $24, $23, $15, $24, $10, $14, $19, $22, $17, $3F
 
 align $0FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "TRS TEST 5F     SNESNESCUBE64   05SEP2026  V1.00"
+DB "TRS TEST 5F     SNESNESCUBE64   05SEP2026  V1.01"
 
 ds $1000 - $
