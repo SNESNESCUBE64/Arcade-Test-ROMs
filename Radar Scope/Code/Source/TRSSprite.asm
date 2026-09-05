@@ -156,7 +156,7 @@ sprite_color_palette_loop:
     ld (ix+0), h
     add hl, de
     inc ix
-    ld (ix+0), $BA
+    ld (ix+0), $0E
     inc ix
     ld (ix+0), a
     inc ix
