@@ -13,13 +13,14 @@ def Take_input():
     inputString = ''
     inputString = str(INPUT)
     charArray = list(inputString)
-    charArray = list(reversed(charArray))
 
+    newString = newString + '$' + str(hex(len(charArray))[2:].zfill(2)) + ', '
     for character in charArray:
         convString = Decode(character.lower())
         newString = newString + str(convString)
 
-    newString = newString + "$3F"
+    newString = newString[:-2]
+
     Output.delete('1.0', END)
     Output.insert(END, newString)
     pyperclip.copy(newString)
