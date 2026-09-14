@@ -278,87 +278,87 @@ ram_bit_check_bit_pass1:
 
     jp (iy)
 
-process_ram_results:
-    ;print the header
-    ld de, ram_test_header_address
-    ld hl, string_ram_test
-    rst $20
+; process_ram_results:
+;     ;print the header
+;     ; ld de, ram_test_header_address
+;     ; ld hl, string_ram_test
+;     ; rst $20
 
-    ld de, ram_test_line_address
-    ld hl, string_line
-    rst $20
+;     ; ld de, ram_test_line_address
+;     ; ld hl, string_line
+;     ; rst $20
 
-    ;Copy the results to preserve original test
-    exx
-    ld e, l
-    exx
+;     ;Copy the results to preserve original test
+;     exx
+;     ld e, l
+;     exx
 
-    ld bc, $0000
-print_ram_results_loop:
-    ld de, ram0l_print_address
-    ld ix, $0000
-    add ix, de
-    add ix, bc
-    ld d, $00
-    ld e, $C0
-    ;See if RAM test passed
-    exx
-    ld a, e
-    rra
-    ld e, a
-    exx
-    ld hl, string_good
-    jr nc, print_ram_test_result
-    ld hl, string_bad
-print_ram_test_result:
-    rst $28
-    ld de, $0040
-    add ix, de
-    ld (ix+$00), $1C
-    ld a, c
-    and $01
-    jr z, print_ram_id:
-    ld (ix+$00), $18
-print_ram_id:
-    ld a, c
-    rra 
-    and $03   
-    ld (ix+$20), a
-    ld e, $60
-    add ix, de
-    ld hl, string_ram
-    rst $28
-    inc c
-    ld a, $06;The number of RAM results
-    cp c
-    jr z,bank_test_results
-    jr print_ram_results_loop
+;     ld bc, $0000
+; print_ram_results_loop:
+;     ld de, ram0l_print_address
+;     ld ix, $0000
+;     add ix, de
+;     add ix, bc
+;     ld d, $00
+;     ld e, $C0
+;     ;See if RAM test passed
+;     exx
+;     ld a, e
+;     rra
+;     ld e, a
+;     exx
+;     ld hl, string_good
+;     jr nc, print_ram_test_result
+;     ld hl, string_bad
+; print_ram_test_result:
+;     rst $28
+;     ld de, $0040
+;     add ix, de
+;     ld (ix+$00), $1C
+;     ld a, c
+;     and $01
+;     jr z, print_ram_id:
+;     ld (ix+$00), $18
+; print_ram_id:
+;     ld a, c
+;     rra 
+;     and $03   
+;     ld (ix+$20), a
+;     ld e, $60
+;     add ix, de
+;     ld hl, string_ram
+;     rst $28
+;     inc c
+;     ld a, $06;The number of RAM results
+;     cp c
+;     jr z,bank_test_results
+;     jr print_ram_results_loop
 
-bank_test_results:
-    exx
-    ld a, h
-    exx
-    ld hl, string_good
-    and ram_bank_fail_mask
-    jr z, print_ram_bank_result1
-    ld hl, string_bad
-print_ram_bank_result1:
-    exx
-    ld a, l
-    exx
-    and a
-    jr z, print_ram_bank_result
-    ld hl, string_na
+; bank_test_results:
+;     exx
+;     ld a, h
+;     exx
+;     ld hl, string_good
+;     and ram_bank_fail_mask
+;     jr z, print_ram_bank_result1
+;     ld hl, string_bad
+; print_ram_bank_result1:
+;     exx
+;     ld a, l
+;     exx
+;     and a
+;     jr z, print_ram_bank_result
+;     ld hl, string_na
 
-print_ram_bank_result:
-    ld de, ram_bank_test_address
-    rst $20
+; print_ram_bank_result:
+;     ld de, ram_bank_test_address
+;     rst $20
 
-    ld hl, string_ram_bank
-    ld de, ram_bank_test_address+$C0
-    rst $20
+;     ld hl, string_ram_bank
+;     ld de, ram_bank_test_address+$C0
+;     rst $20
 
-    ret
+;     ret
 
 check_ram_results:
     exx 
