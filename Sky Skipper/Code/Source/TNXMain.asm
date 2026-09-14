@@ -79,13 +79,18 @@ test_loop:
     call clear_screen
     ld a, $08
     call delay
-    call screen_test
+    ld hl, string_text_test
+    ld de, string_text_test_addr
+    rst $20
+    call text_test
+    ;call screen_test
     ld a, $08
     call delay
     call clear_screen
     ld a, $08
     call delay
     call background_test
+    
     ; ld a, $08
     ; call delay
     ; call clear_screen
@@ -94,12 +99,14 @@ test_loop:
     call sprite_test
     ld a, $08
     call delay
+    ;call background_test_3
+    ;call background_test2
     ; call clear_screen
     ; ld a, $08
     ; call delay
-    call background_test2
-    ld a, $08
-    call delay
+    
+    ; ld a, $08
+    ; call delay
 
 
    ; ld de, tkg_header_address
