@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
 import pyperclip
 
 root = Tk()
-root.geometry("250x200")
+root.geometry("250x250")
 root.title(" Text Converter ")
 
 def Take_input():
@@ -15,6 +16,7 @@ def Take_input():
     charArray = list(inputString)
 
     newString = newString + '$' + str(hex(len(charArray))[2:].zfill(2)) + ', '
+    newString = newString + '$' + str(hex(color_dropdown.current())[2:].zfill(2)) + ', '
     for character in charArray:
         convString = Decode(character.lower())
         newString = newString + str(convString)
@@ -51,67 +53,68 @@ def Decode(character):
         case " ":
             result = "$FF, "
         case "a":
-            result = "$11, "
+            result = "$0A, "
         case "b":
-            result = "$12, "
+            result = "$0B, "
         case "c":
-            result = "$13, "
+            result = "$0C, "
         case "d":
-            result = "$14, "
+            result = "$0D, "
         case "e":
-            result = "$15, "
+            result = "$0E, "
         case "f":
-            result = "$16, "
+            result = "$0F, "
         case "g":
-            result = "$17, "
+            result = "$10, "
         case "h":
-            result = "$18, "
+            result = "$11, "
         case "i":
-            result = "$19, "
+            result = "$12, "
         case "j":
-            result = "$1A, "
+            result = "$13, "
         case "k":
-            result = "$1B, "
+            result = "$14, "
         case "l":
-            result = "$1C, "
+            result = "$15, "
         case "m":
-            result = "$1D, "
+            result = "$16, "
         case "n":
-            result = "$1E, "
+            result = "$17, "
         case "o":
-            result = "$1F, "
+            result = "$18, "
         case "p":
-            result = "$20, "
+            result = "$19, "
         case "q":
-            result = "$21, "
+            result = "$1A, "
         case "r":
-            result = "$22, "
+            result = "$1B, "
         case "s":
-            result = "$23, "
+            result = "$1C, "
         case "t":
-            result = "$24, "
+            result = "$1D, "
         case "u":
-            result = "$25, "
+            result = "$1E, "
         case "v":
-            result = "$26, "
+            result = "$1F, "
         case "w":
-            result = "$27, "
+            result = "$20, "
         case "x":
-            result = "$28, "
+            result = "$21, "
         case "y":
-            result = "$29, "
+            result = "$22, "
         case "z":
-            result = "$2A, "
+            result = "$23, "
         case ".":
-            result = "$2B, "
+            result = "$26, "
         case "-":
-            result = "$2C, "
+            result = "$58, "
         case _:
             result = "$FF, "
 
     return result
     
 l = Label(text = "Enter Text ")
+color_label = Label(text = "Select a Color")
 inputtxt = Entry(root,
                 width = 34,
                 bg = "light yellow")
@@ -125,8 +128,14 @@ Display = Button(root, height = 2,
                  text ="Convert and copy to clip board",
                  command = lambda:Take_input())
 
+color_list = ["Yellow", "Red", "Pink", "Dark Gray", "Dark Blue", "Pink (Duplicate)", "Cyan", "Light Gray", "Salmon", "Yellow/Green", "Mint", "Yellow (Duplicate)", "White", "Blue", "Red", "Green", "Brown"]
+color_dropdown = ttk.Combobox(root, values=color_list)
+color_dropdown.set(color_list[0])
+
 l.pack()
 inputtxt.pack(pady=5)
+color_label.pack()
+color_dropdown.pack(pady=5)
 Display.pack(pady=5)
 Output.pack(pady=5)
 
