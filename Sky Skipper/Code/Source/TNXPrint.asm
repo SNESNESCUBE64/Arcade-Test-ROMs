@@ -2,60 +2,49 @@
 ;(C) SNESNESCUBE64
 
 align $20
+;hl is the string address
+;de is the destination address
+;prints both color and text
 print:
-    ld ix, $0000
-    add ix, de
-    jr print_by_address_and_length
-
-;Assume that IX is our print location
-;Assume that HL has our string
-;Assume that '$3F' is our end character
-align $28
-print_by_address_and_length:
     push af
     push bc
-    ld bc, $0020
-load_character_by_addr:    
-    ld a, (hl)
-    cp $3F
-    jr z, print_return
-    ld (ix+0), a
-    add ix, bc
+    push de
+    ld b, $00
+    ld c, (hl)
+    push bc
     inc hl
-    jr load_character_by_addr
-print_return:
+    ld a, (hl)
+    inc hl
+    ldir
+    pop de
+    pop hl
+    ld bc, $0400
+    ld d, $01
+    add hl, bc
+    call mass_write;color the text
     pop bc
     pop af
     ret
 
 ;prints a two digit character from a
 ;assumes hl is the print address
+;assumes b is the color
 ;assumes a is what is being printed
 print_two_digit:
-    push bc
-    push de
-    ld de, $0020
-
-    ld b, a
-    and a, $0F
-    call print_hex
-    add hl, de
-    ld a, b
-    and a, $F0
-    rra
-    rra
-    rra
-    rra
-    call print_hex
-    add hl, de
-    pop de
-    pop bc
-    ret
-
-print_hex:
-    cp a, $0A
-    jr c, skip_letter
-    add a, $07
-skip_letter:
-    ld (hl), a
+    push af
+    and $0F
+    ld c, a
+    pop af
+    and $F0
+    ld de, hl
+    inc h
+    inc h
+    inc h
+    inc h
+    ld (hl), b
+    inc hl
+    ld (hl), b
+    ld (de), a
+    inc de
+    ld (de), a
     ret
