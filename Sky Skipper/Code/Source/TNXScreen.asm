@@ -5,6 +5,7 @@ clear_screen:
     call clear_video
     call clear_color
     call clear_background
+    call clear_sprites
     ret
 
 clear_video:
@@ -26,7 +27,17 @@ clear_background:
     ld hl, background_ram_start_addr
     xor a
     call mass_write
+    ld de, background_ram_size
+    ld hl, background_ram_start_addr
+    ld a, $F0
+    call mass_write
     ret
+
+clear_sprites:
+    xor a
+    ld de, sprite_ram_size
+    ld hl, sprite_ram_start_addr
+    call mass_write
 
 flip_screen:
     push af
@@ -169,66 +180,28 @@ print_text_test_header_loop3:
     ret
 
 background_test:
-    ld hl, background_ram_start_addr
-    ld de, background_ram_size
     xor a
-
-background_test_loop:
-    ld (hl), a
-    inc hl
+background_loop:
+    and $0F
+    push af
+    ld b, $02
+    ld hl, $A088
+    call print_two_digit
+    pop af
+    ld de, $1000
+    ld hl, $C000
+    call mass_write
+    or $80
+    ld de, $1000
+    ld hl, $C000
+    call mass_write
+    ld b, a
+    ld a, $08
+    call delay
+    ld a, b
+    or $F0
     inc a
-    dec e
-    jr nz, background_test_loop
-    dec d
-    jr nz, background_test_loop
-    ret
-
-background_print_command: DB $0F, $0F, $0F, $0F, $0F, $0F, $09, $0F, $0A, $0A, $0A, $0A, $0A, $0A, $0A, $0A
-                          DB $0F, $09, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F, $0F
-background_test2:
-    ld hl, background_print_command
-    ld de, $8F92
-    ld c, $20
-    call background_command_1
-    ld b, $05
-    call background_command_2
-
-background_command_1:
-    ld a, (hl)
-    ld (de), a
-    inc hl
-    inc de
-    dec c
-    jr nz, background_command_1
-    ret
-
-background_command_2:
-    ex de, hl
-    ld l, $91
-    ld (hl), c
-    dec l
-    ld (hl), b
-background_command_2_loop:
-    ld a, (hl)
-    and a
-    jr nz, background_command_2_loop
-    ex de, hl
-    ret
-
-background_test_3:
-    ld hl, $8800
-    ld de, background_ram_size
-    xor a
-
-background_test_loop3:
-    ld (hl), a
-    inc hl
-    inc a
-    dec e
-    jr nz, background_test_loop3
-    dec d
-    jr nz, background_test_loop3
-    ret
+    jr nz, background_loop
 
 sprite_test:
     ld hl, $9000
@@ -243,4 +216,28 @@ sprite_test_loop:
     jr nz, sprite_test_loop
     dec d
     jr nz, sprite_test_loop
+    ret
+
+blue_background_set:
+    xor a
+    ld (entire_background_layer_addr), a
+
+black_background_set:
+    ld a, $08
+    ld (entire_background_layer_addr), a
+
+;bc - XY coordinates
+;d - sprite 1
+;e - sprite 2
+;hl - draw address
+draw_sprite:
+    ld (hl), b
+    inc hl
+    ld a, c
+    cpl
+    ld (hl), a
+    inc hl
+    ld (hl), d
+    inc hl
+    ld (hl), e
     ret

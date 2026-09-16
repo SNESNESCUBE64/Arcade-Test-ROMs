@@ -8,8 +8,12 @@ video_ram_start_addr equ $A000
 video_ram_size equ $0400
 color_ram_start_addr equ $A400
 color_ram_size equ $0400
-background_ram_start_addr equ $F000
+background_ram_start_addr equ $C000
 background_ram_size equ $1000
+sprite_ram_start_addr equ $8C04
+sprite_ram_size equ $27C
+
+
 
 rom0_checksum_addr equ $0FC7
 version_end_addr equ $0FFF
@@ -47,6 +51,9 @@ menu_sound_opt equ $6004
 menu_music_opt equ $6005
 menu_selected_opt equ $6006
 sprite_last_controls equ $6007
+
+entire_background_layer_addr equ $8C03
+
 
 
 ;String Print Addresses

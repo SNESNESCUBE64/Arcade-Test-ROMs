@@ -90,44 +90,20 @@ test_loop:
     ld a, $08
     call delay
     call background_test
-    
-    ; ld a, $08
-    ; call delay
-    ; call clear_screen
+
+    ;bc - XY coordinates
+    ;d - sprite 1
+    ;e - sprite 2
+    ;hl - draw address
+    ld bc, $8080
+    ld de, $FEFE
+    ld hl, $8C04
+    call draw_sprite
     ld a, $08
     call delay
-    call sprite_test
-    ld a, $08
-    call delay
-    ;call background_test_3
-    ;call background_test2
-    ; call clear_screen
-    ; ld a, $08
-    ; call delay
+   
     
-    ; ld a, $08
-    ; call delay
-
-
-   ; ld de, tkg_header_address
-    ;ld hl, string_tkg_startup
-    ;rst $20
-
-    ;call print_version_info
-
     xor a
-    ;call process_ram_results
-    ;call rom_check_main
-
-    ;print the header
-    ;ld de, system_header_print_address
-    ;ld hl, string_system_test
-    ;rst $20
-
-    ;ld de, system_line_print_address
-    ;ld hl, string_line
-    ;rst $20
-
     jp test_loop
 
 

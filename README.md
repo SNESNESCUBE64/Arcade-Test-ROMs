@@ -14,4 +14,4 @@ List of statuses:
 | Donkey Kong    | Completed      | In Progress       | Ready                |  4k  |     2532     |                                                                         |
 | Donkey Kong Jr | Completed      | Not Started       | Ready                |  8k  |     2764     |                                                                         |
 | Radar Scope    | Completed      | Not Started       | Ready                |  4k  |     2532     |                                                                         |
-| Sky Skipper    | In Progress    | Not Started       | In Progress          |  4k  |     2732     | This is nowhere near done, mostly just messing around with the hardware |
+| Sky Skipper    | In Progress    | Not Started       | Ready                |  4k  |     2732     | This is nowhere near done, mostly just messing around with the hardware |
