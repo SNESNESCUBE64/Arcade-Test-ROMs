@@ -27,6 +27,7 @@ bit_test1_bank2_check:
     jp ram_bit_check_readback
 bit_test1_bank3_check:
     ld iy, bit_test_count_check
+    ld hl, work_ram_start_addr + (work_ram_size * 3)
     exx
     ld c, ram_2l_fail_mask
     exx
@@ -60,7 +61,7 @@ pattern_test_2:
 pattern_test_3:
     ld iy, bank_test_fill
     exx
-    ld bc, work_ram_start_addr + (work_ram_start_addr * 2)
+    ld bc, work_ram_start_addr + (work_ram_start_addr * 3)
     ld de, ram_2_fail_mask
     exx
     jp pattern_test
