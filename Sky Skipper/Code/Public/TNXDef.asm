@@ -68,6 +68,6 @@ string_text_test_addr equ $A06C
 
 align $0FC0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "TNX TEST 2A     SNESNESCUBE64   12SEP2026  V0.01"
+DB "TNX TEST 2A     SNESNESCUBE64   12SEP2026  V0.02"
 
 ds $1000 - $
