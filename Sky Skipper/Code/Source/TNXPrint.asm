@@ -36,6 +36,10 @@ print_two_digit:
     ld c, a
     pop af
     and $F0
+    rlca
+    rlca
+    rlca
+    rlca
     ld de, hl
     inc h
     inc h
@@ -46,5 +50,5 @@ print_two_digit:
     ld (hl), b
     ld (de), a
     inc de
-    ld (de), a
+    ld (de), c
     ret
