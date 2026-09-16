@@ -62,6 +62,7 @@ build_date_addr equ $74E2
 
 
 ;Strings - string followed by print addr
+;String format - # of printable characters, text color, letters[n]
 string_text_test: DB $09, $02, $1D, $0E, $21, $1D, $FF, $1D, $0E, $1C, $1D
 string_text_test_addr equ $A06C
 
