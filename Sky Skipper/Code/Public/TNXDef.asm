@@ -69,10 +69,16 @@ build_date_addr equ $74E2
 string_text_test:           DB $09, $02, $1D, $0E, $21, $1D, $FF, $1D, $0E, $1C, $1D
 string_text_test_addr equ $A06C
 string_rom:                 DB $05, $00, $1B, $18, $16, $FF, $02
-string_rom_0_print_addr equ $A081
+string_rom_0_print_addr equ $A0D1
 string_ok:                  DB $02, $00, $18, $14
 string_nok:                 DB $03, $00, $17, $18, $14
+string_rom_test:            DB $08, $00, $1B, $18, $16, $FF, $1D, $0E, $1C, $1D
+string_line:                DB $0D, $00, $66, $66, $66, $66, $66, $66, $66, $66, $66, $66, $66, $66, $66
+string_rom_header_print_addr equ $A091
 
+string_ram_test:            DB $08, $00, $1B, $0A, $16, $FF, $1D, $0E, $1C, $1D
+string_ram_0_print_addr equ $A0C1
+string_ram_header_print_addr equ $A081
 
 align $0FC0
 ;                        2A     2B     2C     2D     2E     2F     2G     Pad

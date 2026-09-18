@@ -77,8 +77,17 @@ post_ram_test:
     call ay_init
 test_loop:
     call clear_screen
+    
+    ld de, string_ram_header_print_addr
+    ld hl, string_ram_test
+    rst $20
+    ld de, string_ram_header_print_addr+$20
+    ld hl, string_line
+    rst $20
+
+
     call rom_check_main
-    ld a, $10
+    ld a, $20
     call delay
     call clear_screen
     ld hl, string_text_test

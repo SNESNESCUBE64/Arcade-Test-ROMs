@@ -2,6 +2,13 @@
 ;(C) SNESNESCUBE64
 
 rom_check_main:
+    ld de, string_rom_header_print_addr
+    ld hl, string_rom_test
+    rst $20
+    ld de, string_rom_header_print_addr+$20
+    ld hl, string_line
+    rst $20
+
     ld a, $07
     ld de, $8000;start address for temp storage of the checksums
     ld hl, $0000
