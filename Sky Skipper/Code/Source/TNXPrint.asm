@@ -1,4 +1,4 @@
-;TKG Hardware Test ROM
+;TNX Hardware Test ROM
 ;(C) SNESNESCUBE64
 
 align $20

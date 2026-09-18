@@ -1,3 +1,6 @@
+;TNX Hardware Test ROM
+;(C) SNESNESCUBE64
+
 ;Constants
 work_ram_size equ $0400
 work_ram_bank_count equ $03
@@ -61,7 +64,7 @@ tkg_header_address equ $74E1
 build_date_addr equ $74E2
 
 
-;Strings - string followed by print addr
+;Strings - string followed by print addr if applicable
 ;String format - # of printable characters, text color, letters[n]
 string_text_test:           DB $09, $02, $1D, $0E, $21, $1D, $FF, $1D, $0E, $1C, $1D
 string_text_test_addr equ $A06C
