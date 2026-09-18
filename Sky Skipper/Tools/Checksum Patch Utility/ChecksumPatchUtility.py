@@ -26,12 +26,12 @@ def PatchChecksum(file, checksum):
         openedFile.close()
 
 #patch the checksum
-    buffer[0xFC7] = (checksum & 0xFF00) >> 8
-    buffer[0xFC8] = checksum & 0x00FF
+    buffer[0xFC0] = (checksum & 0xFF00) >> 8
+    buffer[0xFC1] = checksum & 0x00FF
 
 #Add the padding
-    buffer[0xFCE] = 0xFF - buffer[0xFC7]
-    buffer[0xFCF] = 0xFF - buffer[0xFC8]
+    buffer[0xFCE] = 0xFF - buffer[0xFC0]
+    buffer[0xFCF] = 0xFF - buffer[0xFC1]
 
     with open(file,"wb") as openedFile:
         for byte in buffer:
