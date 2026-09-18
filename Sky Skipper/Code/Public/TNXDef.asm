@@ -63,12 +63,17 @@ build_date_addr equ $74E2
 
 ;Strings - string followed by print addr
 ;String format - # of printable characters, text color, letters[n]
-string_text_test: DB $09, $02, $1D, $0E, $21, $1D, $FF, $1D, $0E, $1C, $1D
+string_text_test:           DB $09, $02, $1D, $0E, $21, $1D, $FF, $1D, $0E, $1C, $1D
 string_text_test_addr equ $A06C
+string_rom:                 DB $05, $00, $1B, $18, $16, $FF, $02
+string_rom_0_print_addr equ $A081
+string_ok:                  DB $02, $00, $18, $14
+string_nok:                 DB $03, $00, $17, $18, $14
 
 
 align $0FC0
-DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "TNX TEST 2A     SNESNESCUBE64   12SEP2026  V0.02"
+;                        2A     2B     2C     2D     2E     2F     2G     Pad
+rom_known_checksums: DW $FFFF, $6B43, $9658, $6587, $DC0B, $F1C2, $5E5F, $0000
+DB "TNX TEST 2A     SNESNESCUBE64   17SEP2026  V0.03"
 
 ds $1000 - $

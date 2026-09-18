@@ -1,53 +1,30 @@
-;TKG Hardware Test ROM
+;TNX Hardware Test ROM
 ;(C) SNESNESCUBE64
 
 rom_check_main:
-    ld de, rom_test_header_address
-    ld hl, string_rom_checksums
-    rst $20
-
-    ld de, rom_test_line_address
-    ld hl, string_line
-    rst $20
-
-    ld a, $04
-    ld hl, $0000 ;starting address
-checksum_loop:
+    ld a, $07
+    ld de, $8000;start address for temp storage of the checksums
+    ld hl, $0000
+rom_check_loop:
     call rom_checksum_calculation
-    push bc
+    ex de, hl
+    ld (hl), b
+    inc hl
+    ld (hl), c
+    inc hl
+    ex de, hl
     dec a
-    jr nz, checksum_loop
-    ld a, $04
-print_loop:
-    ld hl, rom0_print_address
-    dec a
-    ld b, 00
-    ld c, a
-    add hl, bc
-    pop bc
-    inc a
-    push af
-    ld a, c
-    call print_two_digit
-    ld a, b
-    call print_two_digit
-    pop af
-    dec a
-    ld de, $0040
-    add hl, de
-    ld (hl), a
-    add hl, de 
-    ld de, hl
-    ld hl, string_rom
-    call print
-    jr nz, print_loop
-    call rom_0_integrity_check
+    jr nz, rom_check_loop
+
+    call process_rom_results
+
     ret
 
 
 ; Assume that HL is the start address
 rom_checksum_calculation:
     push af
+    push de
     ld a, $00
     ld bc, $0000 ;result
     ld de, $1000 ;counter
@@ -66,23 +43,73 @@ rom_no_carry:
     ld a,c
     jr rom_add
 checksum_finish:
+    pop de
     pop af
     ret
 
-rom_0_integrity_check:
-    ld hl, rom0_checksum_addr
-    
-    ld a, b
-    cp (hl)
-    jr nz, rom_0_integrity_fail
-    inc hl
-    ld a, c
-    cp (hl)
-    jr nz, rom_0_integrity_fail
+process_rom_results:
+;print the headers
+    xor a
+    ld de, string_rom_0_print_addr
+print_rom_loop_info:
+    push af
+    ld hl, string_rom
+    push de
+    call print
+    or a
+    ld de, $0400
+    sbc hl, de
+    add $0A
+    ld (hl), a
+    add hl, de
+    ex de, hl
+    pop de
+    ex de, hl
+    ld bc, $0020
+    add hl, bc
+    ex de, hl
+    pop af
+    inc a
+    cp $07
+    jr nz, print_rom_loop_info
 
-    ret
-rom_0_integrity_fail:
-    ld de, rom0_if_print_address
-    ld hl, string_rom0_if
-    rst $20
+;Verify the ROMs
+    xor a
+    ld hl, rom_known_checksums
+    ld de, $8000
+    ld ix, string_rom_0_print_addr + 8
+rom_compare_loop:
+    ;load the compare values
+    ld b, (hl)
+    inc hl
+    ld c, (hl)
+    inc hl
+    push hl
+    ex de, hl
+    ld d, (hl)
+    inc hl
+    ld e, (hl)
+    inc hl
+    push hl
+    ;compare the values
+    ex de, hl
+    or a
+    sbc hl, bc
+    jr nz, rom_compare_nok
+    ld hl, string_ok
+    jr rom_compare_result_print
+rom_compare_nok:
+    ld hl, string_nok
+rom_compare_result_print:
+    push ix
+    pop de
+    call print
+    ld de, $20
+    add ix, de
+    pop de
+    pop hl
+    inc a
+    cp $07
+    jr nz, rom_compare_loop
+
     ret

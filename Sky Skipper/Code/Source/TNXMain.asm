@@ -77,8 +77,10 @@ post_ram_test:
     call ay_init
 test_loop:
     call clear_screen
-    ld a, $08
+    call rom_check_main
+    ld a, $10
     call delay
+    call clear_screen
     ld hl, string_text_test
     ld de, string_text_test_addr
     rst $20
@@ -176,7 +178,7 @@ dead_loop:
 
 
 include "TNXSystem.asm"
-;include "TNXRomTest.asm"
+include "TNXRomTest.asm"
 include "TNXRamTest.asm"
 include "TNXScreen.asm"
 include "TNXDef.asm"
