@@ -300,14 +300,6 @@ process_ram_results:
     xor a
     ld de, string_ram_0_print_addr
 print_ram_loop_info:
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
     push af
     cp $02
     jr z, next_ram_ic
