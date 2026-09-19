@@ -14,7 +14,7 @@ color_ram_size equ $0400
 background_ram_start_addr equ $C000
 background_ram_size equ $1000
 sprite_ram_start_addr equ $8C04
-sprite_ram_size equ $27C
+sprite_ram_size equ $0400
 
 
 
@@ -77,12 +77,13 @@ string_line:                DB $0D, $00, $66, $66, $66, $66, $66, $66, $66, $66,
 string_rom_header_print_addr equ $A091
 
 string_ram_test:            DB $08, $00, $1B, $0A, $16, $FF, $1D, $0E, $1C, $1D
+string_ram:                 DB $05, $00, $1B, $0A, $16, $FF, $01
 string_ram_0_print_addr equ $A0C1
 string_ram_header_print_addr equ $A081
 
 align $0FC0
 ;                        2A     2B     2C     2D     2E     2F     2G     Pad
 rom_known_checksums: DW $FFFF, $6B43, $9658, $6587, $DC0B, $F1C2, $5E5F, $0000
-DB "TNX TEST 2A     SNESNESCUBE64   17SEP2026  V0.03"
+DB "TNX TEST 2A     SNESNESCUBE64   19SEP2026  V0.04"
 
 ds $1000 - $

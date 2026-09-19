@@ -61,7 +61,7 @@ pattern_test_2:
 pattern_test_3:
     ld iy, bank_test_fill
     exx
-    ld bc, work_ram_start_addr + (work_ram_start_addr * 3)
+    ld bc, work_ram_start_addr + (work_ram_size * 3)
     ld de, ram_2_fail_mask
     exx
     jp pattern_test
@@ -83,7 +83,7 @@ ram_erase:
     ld b, $10
 ram_fill:
     ld hl, work_ram_start_addr
-    ld de, $0C00
+    ld de, $1000
 work_ram_erase:
     ld (hl), a
     inc hl
@@ -191,14 +191,6 @@ pattern_byte_loop:
     ld l, a
     exx
 pattern_high_nibble:
-    exx
-    ld a, d
-    rlca
-    ld d, a
-    ld a, e
-    rlca
-    ld e, a
-    exx
     ld a,c
     and $f0
     ld b, a
@@ -207,12 +199,27 @@ pattern_high_nibble:
     cp b
     jr z, next_pattern_byte_error
     exx
+    ;shift the error bit to the high error
+    ld a, d
+    rlca
+    ld d, a
+    ld a, e
+    rlca
+    ld e, a
+    ;Set the error
     ld a, h
     or d
     ld h, a
     ld a, l
     or e
     ld l, a
+    ;Shift the error bit back
+    ld a, d
+    rrca
+    ld d, a
+    ld a, e
+    rrca
+    ld e, a
     exx
 next_pattern_byte_error:
     ld a, c
@@ -279,87 +286,102 @@ ram_bit_check_bit_pass1:
 
     jp (iy)
 
-; process_ram_results:
-;     ;print the header
-;     ; ld de, ram_test_header_address
-;     ; ld hl, string_ram_test
-;     ; rst $20
+process_ram_results:
+    ;print the header
+    ld de, string_ram_header_print_addr
+    ld hl, string_ram_test
+    rst $20
+    ld de, string_ram_header_print_addr+$20
+    ld hl, string_line
+    rst $20
 
-;     ; ld de, ram_test_line_address
-;     ; ld hl, string_line
-;     ; rst $20
+    call rearrange_ram_error_bits
 
-;     ;Copy the results to preserve original test
-;     exx
-;     ld e, l
-;     exx
+    xor a
+    ld de, string_ram_0_print_addr
+print_ram_loop_info:
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    push af
+    cp $02
+    jr z, next_ram_ic
+    cp $06
+    jr z, next_ram_ic
+    ld hl, string_ram
+    push de
+    rst $20
+    or a
+    ld de, $0400
+    sbc hl, de
+    add $0A
+    ld (hl), a
+    inc hl
+    inc hl
+    inc hl
+    ex de, hl
+    ld hl, string_nok
+    exx
+    ld a, l
+    rrca
+    ld l, a
+    exx
+    jr c, increment_ram_counter
+    ld hl, string_ok
+increment_ram_counter:
+    rst $20
+    ex de, hl
+    add hl, de
+    ex de, hl
+    pop de
+    ex de, hl
+    ld bc, $0020
+    add hl, bc
+    ex de, hl
+next_ram_ic:
+    pop af
+    inc a
+    cp $08
+    jr nz, print_ram_loop_info
 
-;     ld bc, $0000
-; print_ram_results_loop:
-;     ld de, ram0l_print_address
-;     ld ix, $0000
-;     add ix, de
-;     add ix, bc
-;     ld d, $00
-;     ld e, $C0
-;     ;See if RAM test passed
-;     exx
-;     ld a, e
-;     rra
-;     ld e, a
-;     exx
-;     ld hl, string_good
-;     jr nc, print_ram_test_result
-;     ld hl, string_bad
-; print_ram_test_result:
-;     rst $28
-;     ld de, $0040
-;     add ix, de
-;     ld (ix+$00), $1C
-;     ld a, c
-;     and $01
-;     jr z, print_ram_id:
-;     ld (ix+$00), $18
-; print_ram_id:
-;     ld a, c
-;     rra 
-;     and $03   
-;     ld (ix+$20), a
-;     ld e, $60
-;     add ix, de
-;     ld hl, string_ram
-;     rst $28
-;     inc c
-;     ld a, $06;The number of RAM results
-;     cp c
-;     jr z,bank_test_results
-;     jr print_ram_results_loop
+    ret
 
-; bank_test_results:
-;     exx
-;     ld a, h
-;     exx
-;     ld hl, string_good
-;     and ram_bank_fail_mask
-;     jr z, print_ram_bank_result1
-;     ld hl, string_bad
-; print_ram_bank_result1:
-;     exx
-;     ld a, l
-;     exx
-;     and a
-;     jr z, print_ram_bank_result
-;     ld hl, string_na
+rearrange_ram_error_bits:
+    xor a
+    exx
+    bit 0, l
+    jr z, rearrange_bit_1
+    set 0, a
+rearrange_bit_1:
+    bit 2, l
+    jr z, rearrange_bit_2
+    set 1, a
+rearrange_bit_2:
+    bit 4, l
+    jr z, rearrange_bit_3
+    set 2, a
+rearrange_bit_3:
+    bit 1, l
+    jr z, rearrange_bit_4
+    set 3, a
+rearrange_bit_4:
+    bit 3, l
+    jr z, rearrange_bit_5
+    set 4, a
+rearrange_bit_5:
+    bit 5, l
+    jr z, rearrange_done
+    set 5, a
+rearrange_done:
+    ld l, a
+    exx
 
-; print_ram_bank_result:
-;     ld de, ram_bank_test_address
-;     rst $20
-
-;     ld hl, string_ram_bank
-;     ld de, ram_bank_test_address+$C0
-;     rst $20
-
-;     ret
+    ret
 
 check_ram_results:
     exx 
@@ -459,7 +481,7 @@ alt_sp_check3:
     ld a,b 
     and $30
     jp nz, dead_loop
-    ld sp, work_ram_start_addr + (work_ram_size * 3)
+    ld sp, work_ram_start_addr + (work_ram_size * 4)
     jr alt_sp_return
 alt_sp_return:
 

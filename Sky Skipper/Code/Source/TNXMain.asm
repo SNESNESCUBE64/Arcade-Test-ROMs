@@ -78,14 +78,7 @@ post_ram_test:
 test_loop:
     call clear_screen
     
-    ld de, string_ram_header_print_addr
-    ld hl, string_ram_test
-    rst $20
-    ld de, string_ram_header_print_addr+$20
-    ld hl, string_line
-    rst $20
-
-
+    call process_ram_results
     call rom_check_main
     ld a, $20
     call delay
