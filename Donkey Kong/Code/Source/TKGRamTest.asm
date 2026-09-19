@@ -259,14 +259,6 @@ pattern_byte_loop:
     ld l, a
     exx
 pattern_high_nibble:
-    exx
-    ld a, d
-    rlca
-    ld d, a
-    ld a, e
-    rlca
-    ld e, a
-    exx
     ld a,c
     and $f0
     ld b, a
@@ -275,12 +267,27 @@ pattern_high_nibble:
     cp b
     jr z, next_pattern_byte_error
     exx
+    ;shift the error bit to the high error
+    ld a, d
+    rlca
+    ld d, a
+    ld a, e
+    rlca
+    ld e, a
+    ;Set the error
     ld a, h
     or d
     ld h, a
     ld a, l
     or e
     ld l, a
+    ;Shift the error bit back
+    ld a, d
+    rrca
+    ld d, a
+    ld a, e
+    rrca
+    ld e, a
     exx
 next_pattern_byte_error:
     ld a, c
