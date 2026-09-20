@@ -4,10 +4,12 @@ This repo contains several test ROMs for different arcade games. The purpose of 
 
 ## List of Test ROMs
 List of statuses:
-- Not Started: No work has been done yet
-- In Progress: Work has started but is still being developed
-- Completed:   Work is done, but can still be updated in the future.
+- Not Started: No work has been done yet.
+- In Progress: Work has started but is still being developed.
+- Completed:   Work is done. Updates can still happen but no further work is planned.
 - Ready:       Work is done, tools are ready to be used.
+- On Hold:     Project is not actively being worked on but will likely have work done in the future.
+- Abandoned:   Project is incomplete and there are no plans to finish it.
 
 |    **Game**    | **ROM Status** | **Manual Status** | **Toolchain Status** | Size | **ROM Type** |                               **Comments**                              |
 |:--------------:|:--------------:|:-----------------:|:--------------------:|:----:|:------------:|:-----------------------------------------------------------------------:|
