@@ -295,8 +295,6 @@ process_ram_results:
     ld hl, string_line
     rst $20
 
-    call rearrange_ram_error_bits
-
     xor a
     ld de, string_ram_0_print_addr
 print_ram_loop_info:
@@ -342,8 +340,9 @@ next_ram_ic:
     jr nz, print_ram_loop_info
 
     ret
+    
 
-rearrange_ram_error_bits:
+check_ram_results:
     xor a
     exx
     bit 0, l
@@ -373,86 +372,30 @@ rearrange_done:
     ld l, a
     exx
 
-    ret
-
-check_ram_results:
     exx 
-    ld a, l
+    ld c, l
+    ld b, $06
+    ld iy, next_ram_test_check
+check_ram_result_loop:
+    ld a, c
+    rrca
+    ld c, a
     exx
-    ld iy, next_lower_ram_validate_bit
-    ld b, $08
-lower_ram_validate_loop:    
-    rra
-    jp c, bad_ram_result
-    jp good_ram_result
-next_lower_ram_validate_bit:
-    dec b
-    jr nz, lower_ram_validate_loop
-
-    exx 
-    ld a, h
+    jr c, bad_ram_check_result
+    ld hl, ay_high_tone_command
+    jp ay_execute_command_ram_test
+bad_ram_check_result:
+    ld hl, ay_low_tone_command
+    jp ay_execute_command_ram_test
+next_ram_test_check:
     exx
-    ld iy, next_upper_ram_validate_bit
-    ld b, $03
-upper_ram_validate_loop:    
-    rra
-    jp c, bad_ram_result
-    jp good_ram_result
-next_upper_ram_validate_bit:
     dec b
-    jr nz, upper_ram_validate_loop
-
+    jr nz, check_ram_result_loop
  check_ram_results_return:   
+    exx
     jp (ix)
 
-bad_ram_result:
-    ld hl, $FFFF
-    ld c, a
-    ld a, $0f
-    ld ($7D02), a
-bad_delay_loop1:
-    dec l
-    jr nz, bad_delay_loop1
-    dec h
-    jr nz, bad_delay_loop1
-    xor a
-    ld ($7D02), a
-    ld hl, $FFFF
-    ld a, $02
-bad_delay_loop2:
-    dec l
-    jr nz, bad_delay_loop2
-    dec h
-    jr nz, bad_delay_loop2
-    dec a
-    jr nz, bad_delay_loop2
-    ld a, c
-    jp (iy)
 
-good_ram_result:
-    ld hl, $FFFF
-    ld c, a
-    ld a, $0f
-    ld ($7D01), a
-good_delay_loop1:
-    dec l
-    jr nz, good_delay_loop1
-    dec h
-    jr nz, good_delay_loop1
-    xor a
-    ld ($7D01), a
-    ld hl, $FFFF
-    ld a, $02
-good_delay_loop2:
-    dec l
-    jr nz, good_delay_loop2
-    dec h
-    jr nz, good_delay_loop2
-    dec a
-    jr nz, good_delay_loop2
-
-    ld a, c
-    jp (iy)
 
 find_alt_sp:
     exx

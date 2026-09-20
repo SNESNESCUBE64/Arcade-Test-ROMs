@@ -49,7 +49,6 @@ nmi_routine:
     pop af
     ret
 
-main:
 ;See if any RAM errors are present
 ;If RAM errors are present, we need to set an alt stack pointer
 ;and perform sound codes
@@ -73,15 +72,39 @@ main:
 ;     ld ix, post_ram_test:
 ;     jp find_alt_sp
 
+main:
+    exx
+    ld a, l
+    and a
+    exx
+    jr z, post_ram_test
+    ld ix, post_ram_test
+    jp check_ram_results
 post_ram_test:
+;    ld iy, ay_test_main
+;     jp ay_init
+; ay_test_main:
+    ;call ay_test
+    ; call ay_play_high_tone
+    ; ld a, $08
+    ; call delay
+    ; call ay_turn_off_sound
+    ; ld a, $08
+    ; call delay
+    ; call ay_play_low_tone
+    ; ld a, $08
+    ; call delay
+    ; call ay_turn_off_sound
+    ; ld a, $7F
+    ; ld r, a
+main_test_screen:
     call ay_init
-test_loop:
     call clear_screen
-    
     call process_ram_results
     call rom_check_main
     ld a, $20
     call delay
+test_loop:  
     call clear_screen
     ld hl, string_text_test
     ld de, string_text_test_addr
@@ -129,21 +152,21 @@ delay_loop:
     pop hl
     ret
 
-delay_1s_no_ram:
-    ld a, $01
-;assume a is the coundown so long as a is greater than one.
-delay_no_ram:
-    ld hl, $ffff
+; delay_1s_no_ram:
+;     ld a, $01
+; ;assume a is the coundown so long as a is greater than one.
+; delay_no_ram:
+;     ld hl, $ffff
 
-delay_no_ram_loop:
-    dec l
-    jr nz, delay_no_ram_loop
-    dec h
-    jr nz, delay_no_ram_loop
-    dec a
-    jr nz, delay_no_ram_loop
+; delay_no_ram_loop:
+;     dec l
+;     jr nz, delay_no_ram_loop
+;     dec h
+;     jr nz, delay_no_ram_loop
+;     dec a
+;     jr nz, delay_no_ram_loop
 
-    jp (iy)
+;     jp (iy)
 
 startup_fail:
     exx
@@ -172,14 +195,14 @@ startup_fail:
 
 dead_loop:
     ;We are dead at this point. Try waiting for the watchdog, otherwise just jump back to start
-    xor a
+    ; xor a
     ;ld (int_enable_addr), a   
-    ld iy, $0000
-    ld a, $03
-    jp delay_no_ram
+    ; ld iy, $0000
+    ; ld a, $03
+    ; jp delay_no_ram
 
 
-include "TNXSystem.asm"
+include "TNXAy8910.asm"
 include "TNXRomTest.asm"
 include "TNXRamTest.asm"
 include "TNXScreen.asm"

@@ -84,6 +84,6 @@ string_ram_header_print_addr equ $A081
 align $0FC0
 ;                        2A     2B     2C     2D     2E     2F     2G     Pad
 rom_known_checksums: DW $FFFF, $6B43, $9658, $6587, $DC0B, $F1C2, $5E5F, $0000
-DB "TNX TEST 2A     SNESNESCUBE64   19SEP2026  V0.04"
+DB "TNX TEST 2A     SNESNESCUBE64   19SEP2026  V0.05"
 
 ds $1000 - $
