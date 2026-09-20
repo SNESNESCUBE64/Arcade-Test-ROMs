@@ -13,20 +13,6 @@ TNX_BUFFER_SIZE = 0x1000
 # This was accomplished by changing the address bit order and then XOR by a MASK, for this case "ROM_MASK".
 # bitorder = (15, 14, 13, 12, 11, 10, 8, 7, 0, 1, 2, 4, 5, 9, 3, 6) ^ 0xfc
 # data can be re-encrypted by doing this operatiuons backwards.
-def TNXDecryptAddress(oldAddress):
-    newAddress = 0xFFFF
-    newAddress = oldAddress & 0xFC10 #these bits are unchanged
-
-    newAddress = newAddress | ((oldAddress & 0x0040) >> 6) | \
-                 ((oldAddress & 0x0008) >> 2) | ((oldAddress & 0x0200) >> 7)  | \
-                 ((oldAddress & 0x0020) >> 2) | ((oldAddress & 0x0004) << 3)  | \
-                 ((oldAddress & 0x0002) << 5) | ((oldAddress & 0x0001) << 7)  | \
-                 ((oldAddress & 0x0080) << 1) | ((oldAddress & 0x0100) << 1) 
-    
-    newAddress = newAddress ^ TNX_ROM_MASK
-
-    return newAddress
-
 def TNXEncryptAddress(oldAddress):
     newAddress = 0xFFFF
     oldAddress = oldAddress ^ TNX_ROM_MASK #undo the mask
@@ -44,16 +30,6 @@ def TNXEncryptAddress(oldAddress):
 # TPP hardware also "encrypted" ROM data by shifting bits around.
 # bitorder = (3, 4, 2, 5, 1, 6, 0, 7)
 # data can be re-encrypted by doing this operatiuons backwards.
-def decryptROMData(data):
-    newData = 0xff
-    
-    newData = ((data & 0x80) >> 7) | ((data & 0x01) << 1) | \
-              ((data & 0x40) >> 4) | ((data & 0x02) << 2) | \
-              ((data & 0x20) >> 1) | ((data & 0x04) << 3) | \
-              ((data & 0x10) << 2) | ((data & 0x08) << 4)
-
-    return newData
-
 def encryptROMData(data):
     newData = 0xff
     
@@ -63,23 +39,6 @@ def encryptROMData(data):
               ((data & 0x40) >> 2) | ((data & 0x80) >> 4)
 
     return newData
-
-#This returns a decrypted ROM buffer that aligns both addresses and data as the machine sees it.
-#With a decrypted buffer, a decrypted ROM can be written for the purpose of easier editing by humans.
-def getDecryptedBuffer(filename, buffer_size, game):
-    buffer = [0xFF] * buffer_size
-    obfuscatedBuffer = [0xFF] * buffer_size
-
-
-    with open(filename,"rb") as openedFile:
-        for addressCounter in range(buffer_size):
-            buffer[addressCounter] = int.from_bytes(openedFile.read(1))
-
-    for addressCounter in range(buffer_size):
-        obfuscatedAddress = TNXDecryptAddress(addressCounter)
-        obfuscatedBuffer[addressCounter] = decryptROMData(buffer[obfuscatedAddress])
-
-    return obfuscatedBuffer
 
 #This returns a encrypted ROM buffer that aligns both addresses and data as the eproms are supposed to be read.
 #With an encrypted ROM buffer, a ROM can be burnt for use on the game board.
