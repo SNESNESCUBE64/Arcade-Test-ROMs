@@ -81,29 +81,23 @@ main:
     ld ix, post_ram_test
     jp check_ram_results
 post_ram_test:
-;    ld iy, ay_test_main
-;     jp ay_init
-; ay_test_main:
-    ;call ay_test
-    ; call ay_play_high_tone
-    ; ld a, $08
-    ; call delay
-    ; call ay_turn_off_sound
-    ; ld a, $08
-    ; call delay
-    ; call ay_play_low_tone
-    ; ld a, $08
-    ; call delay
-    ; call ay_turn_off_sound
     ; ld a, $7F
     ; ld r, a
 main_test_screen:
     call ay_init
     call clear_screen
+    ld hl, string_test_su_header
+    ld de, string_test_header_addr
+    rst $20
     call process_ram_results
     call rom_check_main
-    ld a, $20
-    call delay
+    call ay_channel_test
+    ; ld a, $20
+    ; call delay
+    ld hl, string_any_button
+    ld de, string_any_button_addr
+    rst $20
+    call controls_wait_for_any_button
 test_loop:  
     call clear_screen
     ld hl, string_text_test
@@ -206,4 +200,5 @@ include "TNXAy8910.asm"
 include "TNXRomTest.asm"
 include "TNXRamTest.asm"
 include "TNXScreen.asm"
+include "TNXControls.asm"
 include "TNXDef.asm"
