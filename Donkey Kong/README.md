@@ -9,10 +9,10 @@
 ## Burning the EPROM
 This process varies from programmer to programmer suite. The overall process is as follows:
 1. Plug in programmer and open software
-2. Assuming connection is successful, select device type and find your 2764 EPROM or 2864 EEPROM keeping in mind the manufacturer of the ROM matters
+2. Assuming connection is successful, select device type and find your 2532 EPROM keeping in mind the manufacturer of the ROM matters
     - Sometimes it is not obvious, however each manufacturer typically has a marking. You can find out who made the chip by searching online for "IC manufactuer symbols"
 3. After chip is selected, verify that the ROM is blank
-    - if the ROM is not blank, use the UV eraser if it is a UV EPROM or perform the erase command if it is an EEPROM
+    - if the ROM is not blank use the UV eraser if it is a UV EPROM
 4. Load the test ROM file TKGTestRom_V1_02.5e5f
     - CRC32: 70ca99f0
     - SHA-1: d147a0ee241b183c2b179b6724254efd7c2f75ac
