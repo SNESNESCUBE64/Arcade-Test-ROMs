@@ -14,6 +14,9 @@ nmi_routine:
 
 align $100
 main:
+    lxi h, $2400
+    lxi d, string_space_encounters
+    call print_string
 main_loop:
     ;read encoders
     in $00
@@ -29,4 +32,5 @@ main_loop:
     jp main_loop
 
 include "SEControlsRAM.asm"
+include "SEControlsVideo.asm"
 include "SEControlsDef.asm"
