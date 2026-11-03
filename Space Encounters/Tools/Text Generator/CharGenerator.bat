@@ -1,0 +1,2 @@
+py CharGenerator.py
+pause
