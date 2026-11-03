@@ -13,7 +13,10 @@ List of statuses:
 
 |    **Game**    | **ROM Status** | **Manual Status** | **Toolchain Status** | Size | **ROM Type** |                               **Comments**                              |
 |:--------------:|:--------------:|:-----------------:|:--------------------:|:----:|:------------:|:-----------------------------------------------------------------------:|
-| Donkey Kong    | Completed      | In Progress       | Ready                |  4k  |     2532     |                                                                         |
-| Donkey Kong Jr | Completed      | Not Started       | Ready                |  8k  |     2764     |                                                                         |
-| Radar Scope    | Completed      | Not Started       | Ready                |  4k  |     2532     |                                                                         |
-| Sky Skipper    | On Hold        | Not Started       | Ready                |  4k  |     2732     | RAM, ROM, and Sound Test is completed, Basic Video Tests Are Done       |
+| Donkey Kong      | Completed      | In Progress       | Ready                |  4k  |     2532     |                                                                         |
+| Donkey Kong Jr   | Completed      | Not Started       | Ready                |  8k  |     2764     |                                                                         |
+| Radar Scope      | Completed      | Not Started       | Ready                |  4k  |     2532     |                                                                         |
+| Sky Skipper      | On Hold        | Not Started       | Ready                |  4k  |     2732     | RAM, ROM, and Sound Test is completed, Basic Video Tests Are Done       |
+| Space Encounters | In Progress    | Not Started       | Ready                |  2k* |     2716     | Controls Test Only                                                      |
+
+Space Encounters can be strapped for 2732s as well. Binaries for both will be provided.
