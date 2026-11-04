@@ -19,8 +19,7 @@ print_string_loop:
     push d
     call get_character_address
     ;de is now the character that is getting printed
-print_character_loop:
-    
+    call print_character
     pop d
     inx d
     dec b
@@ -33,7 +32,7 @@ get_character_address:
     ana a
     jnz calculate_character_offset
     ;If we do not need to increment, just load the first character
-    lxi d, char_a
+    lxi d, char_0
     ret
 
 calculate_character_offset:
@@ -42,7 +41,7 @@ calculate_character_offset:
     
     lxi b, $0000; c is down counter
     lxi d, $0000; d is offset
-    lxi h, char_a
+    lxi h, char_0
     mov c, a
     xra a
 character_address_loop:
@@ -64,4 +63,22 @@ next_char_address:
 ;Assume DE is the character data
 ;Assume HL is the print address
 print_character:
+    push h
+    push b
+    lxi b, $0820
+    mvi a, $08
+print_character_loop:
+    ldax d
+    inx d
+    mov m, a
+    mov a, b
+    mvi b, $00
+    dad b
+    mov b, a
+    dcr b
+    jnz print_character_loop
+print_character_return:
+    pop b
+    pop h
+    inx h
     ret
