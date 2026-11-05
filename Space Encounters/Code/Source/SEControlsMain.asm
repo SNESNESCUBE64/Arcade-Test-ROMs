@@ -4,69 +4,103 @@
 org $0000
 
 lxi sp, $2400
-call clear_ram
 jp main
 init:
 
-align $66
-nmi_routine:
-    jp main
+align $08
+isr_halfbeam:
+    jp isr_halfbeam_handler
+
+align $10
+isr_vblank:
+    jp isr_vblank_handler
 
 align $100
 main:
+    call clear_ram
+    call process_encoders
+    ;enable interrupts, all the drawings 
+    ei
+    ;call print_data_labels
+    ;call print_title_header
+main_loop:
+    
+    call process_encoders
+    call process_abs_all
+    call print_data
+    
+    ;pet the watchdog
+    xra a
+    out $02
+    jp main_loop
+
+print_title_header:
     lxi h, space_encounters_print_addr
     lxi d, string_space_encounters
     call print_string
     lxi h, controls_test_print_addr
     lxi d, string_controls_test
     call print_string
-    lxi h, encoder_h_print_addr - $02
-    lxi d, string_h
-    call print_string
-    lxi h, encoder_v_print_addr - $02
-    lxi d, string_v
-    call print_string
-main_loop:
-    ;read encoders
-    mvi a, $02
-    sta $2000
-    sta $2003
-    in $00
-    mov b, a
-    ani $0F
-    sta $2002
-    mov a, b
-    ani $30
-    rrc
-    rrc
-    rrc
-    rrc
-    sta $2001
-    in $01
-    mov b, a
-    ani $0F
-    sta $2005
-    mov a, b
-    ani $30
-    rrc
-    rrc
-    rrc
-    rrc
-    sta $2004
+    ret
 
+print_data_labels:
+    lxi h, data_header_print_addr
+    lxi d, string_horiz
+    call print_string
+    lxi h, data_header_print_addr + $140
+    lxi d, string_abs
+    call print_string
+    lxi h, data_header_print_addr + $240
+    lxi d, string_rel
+    call print_string
+    lxi h, data_header_print_addr + $480
+    lxi d, string_vert
+    call print_string
+    lxi h, data_header_print_addr + $5C0
+    lxi d, string_abs
+    call print_string
+    lxi h, data_header_print_addr + $6C0
+    lxi d, string_rel
+    call print_string
+    ret
+
+print_data:
     ;Print the addresses
-    lxi d, $2000
+    lxi d, horiz_string_addr
     lxi h, encoder_h_print_addr
     call print_string
-    lxi d, $2003
+    lxi d, vert_string_addr
     lxi h, encoder_v_print_addr
     call print_string
+    ret
 
-    ;pet the watchdog
-    xra a
-    out $02
-    jp main_loop
+isr_halfbeam_handler:
+    push psw
+    push b
+    push d
+    push h
+    call print_title_header
+    pop h
+    pop d
+    pop b
+    pop psw
+    ei
+    ret
+
+isr_vblank_handler:
+    push psw
+    push b
+    push d
+    push h
+    call print_data_labels
+    pop h
+    pop d
+    pop b
+    pop psw
+    ei
+    ret
 
 include "SEControlsRAM.asm"
+include "SEControlsEncoder.asm"
 include "SEControlsVideo.asm"
 include "SEControlsDef.asm"

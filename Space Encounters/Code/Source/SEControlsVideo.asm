@@ -5,13 +5,6 @@
 ;Assume HL is the print location
 print_string:
     ;Grab the amount of characters to print
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
     ldax d
     mov b, a
     inx d

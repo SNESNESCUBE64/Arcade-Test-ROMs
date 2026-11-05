@@ -1,16 +1,28 @@
 
+;Constant Address Locations
+horiz_string_addr equ $2000
+horiz_raw_addr equ $2003
+horiz_rel_addr equ $2004
+vert_string_addr equ $2005
+vert_raw_addr equ $2008
+vert_rel_addr equ $2009
+
 ;Locations
 space_encounters_print_addr equ $2508
 controls_test_print_addr equ $2609
 
-encoder_h_print_addr equ $3006
-encoder_v_print_addr equ $3106
+encoder_h_print_addr equ $2946
+encoder_v_print_addr equ $2DC6
+
+data_header_print_addr equ $2802
 
 ;sentences
 string_space_encounters: DB $10, $1C, $19, $0A, $0C, $0E, $28, $0E, $17, $0C, $18, $1E, $17, $1D, $0E, $1B, $1C
 string_controls_test:    DB $0E, $0C, $18, $17, $1D, $1B, $18, $15, $1C, $28, $28, $1D, $0E, $1C, $1D
-string_h:                DB $02, $11, $26
-string_v:                DB $02, $1F, $26
+string_horiz:            DB $05, $11, $18, $1B, $12, $23
+string_vert:             DB $04, $1F, $0E, $1B, $1D
+string_abs:              DB $04, $0A, $0B, $1C, $26
+string_rel:              DB $04, $1B, $0E, $15, $26
 
 
 ; Font bytes
