@@ -67,6 +67,17 @@ process_abs_loop:
     jz process_abs_done
     inx h
     inr c
+    mov a, c
+    ani $0F
+    cpi $0A
+    jnz process_abs_next
+    inr c
+    inr c
+    inr c
+    inr c
+    inr c
+    inr c
+process_abs_next:
     dcr d
     jnz process_abs_loop
     ;We did not find what we needed, give a default value
