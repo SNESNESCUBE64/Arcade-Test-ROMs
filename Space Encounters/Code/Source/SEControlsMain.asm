@@ -27,7 +27,6 @@ main_loop:
     
     call process_encoders
     call process_abs_all
-    call print_data
     
     ;pet the watchdog
     xra a
@@ -69,8 +68,14 @@ print_data:
     lxi d, horiz_string_addr
     lxi h, encoder_h_print_addr
     call print_string
+    lxi d, horiz_rel_string_addr
+    lxi h, encoder_h_print_addr+$100
+    call print_string
     lxi d, vert_string_addr
     lxi h, encoder_v_print_addr
+    call print_string
+    lxi d, vert_rel_string_addr
+    lxi h, encoder_v_print_addr+$100
     call print_string
     ret
 
@@ -79,7 +84,17 @@ isr_halfbeam_handler:
     push b
     push d
     push h
-    call print_title_header
+    lda vblank_counter
+    cpi $00
+    cz print_title_header
+    cpi $04
+    cz print_data_labels
+    inr a
+    cpi $08
+    jc half_beam_return
+    xra a
+half_beam_return:
+    sta vblank_counter
     pop h
     pop d
     pop b
@@ -92,7 +107,7 @@ isr_vblank_handler:
     push b
     push d
     push h
-    call print_data_labels
+    call print_data
     pop h
     pop d
     pop b

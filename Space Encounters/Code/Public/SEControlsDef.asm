@@ -1,18 +1,27 @@
 
-;Constant Address Locations
+;Variable Address Locations
 horiz_string_addr equ $2000
-horiz_raw_addr equ $2003
-horiz_rel_addr equ $2004
-vert_string_addr equ $2005
-vert_raw_addr equ $2008
-vert_rel_addr equ $2009
+horiz_raw_addr equ horiz_string_addr + $03
+horiz_rel_string_addr equ horiz_raw_addr + $01
+horiz_rel_addr equ horiz_rel_string_addr + $03
+vert_string_addr equ horiz_rel_addr + $01
+vert_raw_addr equ vert_string_addr + $03
+vert_rel_string_addr equ vert_raw_addr + $01
+vert_rel_addr equ vert_rel_string_addr + $03
+cursor_pos equ vert_rel_addr + $01
+vblank_counter equ vert_rel_addr + $02
+
+;Constants
+vram_start equ $2400
 
 ;Locations
 space_encounters_print_addr equ $2508
 controls_test_print_addr equ $2609
 
 encoder_h_print_addr equ $2946
+encoder_h_rel_print_addr equ $2A46
 encoder_v_print_addr equ $2DC6
+encoder_v_rel_print_addr equ $2DC6
 
 data_header_print_addr equ $2802
 
