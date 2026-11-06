@@ -75,3 +75,49 @@ print_character_return:
     pop h
     inx h
     ret
+
+calculate_cursor_print_addr:
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    lxi h, vram_start
+    lxi d, $00C0
+    
+    lda vert_rel_addr
+    mov b, a
+    mvi a, encoder_max - vert_cursor_offset
+    sub b
+    inr a
+
+vpos_cursor_loop:
+    dcr a
+    jz vpos_cursor_end
+    dad d
+    jp vpos_cursor_loop
+vpos_cursor_end:
+
+    lda horiz_rel_addr
+    mvi b, $0D
+    sub b
+    jnc calc_horiz_cursor_pos1
+    mvi a, $00
+    jp calc_horiz_cursor_pos2
+calc_horiz_cursor_pos1: 
+    cpi $20
+    jc calc_horiz_cursor_pos2:
+    mvi a, $20
+calc_horiz_cursor_pos2:  
+    mov b, a
+    mvi a, (encoder_max / 2)-1
+    sub b
+    inr a
+    mov e, a
+    dad d
+
+    shld cursor_pos
+    ret

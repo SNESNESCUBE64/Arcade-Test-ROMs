@@ -27,7 +27,7 @@ main_loop:
     
     call process_encoders
     call process_abs_all
-    
+    call calculate_cursor_print_addr
     ;pet the watchdog
     xra a
     out $02
@@ -108,6 +108,13 @@ isr_vblank_handler:
     push d
     push h
     call print_data
+    lhld previous_cursor_pos
+    lxi d, string_blank
+    call print_string
+    lhld cursor_pos
+    shld previous_cursor_pos
+    lxi d, string_cursor
+    call print_string
     pop h
     pop d
     pop b

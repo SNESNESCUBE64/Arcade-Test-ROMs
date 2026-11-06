@@ -9,10 +9,13 @@ vert_raw_addr equ vert_string_addr + $03
 vert_rel_string_addr equ vert_raw_addr + $01
 vert_rel_addr equ vert_rel_string_addr + $03
 cursor_pos equ vert_rel_addr + $01
-vblank_counter equ vert_rel_addr + $02
+previous_cursor_pos equ cursor_pos + $02
+vblank_counter equ previous_cursor_pos + $02
 
 ;Constants
 vram_start equ $2400
+encoder_max equ $3F
+vert_cursor_offset equ $08
 
 ;Locations
 space_encounters_print_addr equ $2508
@@ -32,6 +35,8 @@ string_horiz:            DB $05, $11, $18, $1B, $12, $23
 string_vert:             DB $04, $1F, $0E, $1B, $1D
 string_abs:              DB $04, $0A, $0B, $1C, $26
 string_rel:              DB $04, $1B, $0E, $15, $26
+string_cursor:           DB $01, $21
+string_blank:            DB $01, $28
 
 
 ; Font bytes
@@ -84,6 +89,6 @@ char_space: DB $00, $00, $00, $00, $00, $00, $00, $00
 ; Footer
 align $07C0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "SE Controls 1H  SNESNESCUBE64   04NOV2026  V0.02"
+DB "SE Controls 1H  SNESNESCUBE64   05NOV2026  V0.03"
 
 ds $800 - $
