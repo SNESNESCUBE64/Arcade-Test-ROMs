@@ -50,7 +50,7 @@ def Decode(character):
         case "9":
             result = "$09, "
         case " ":
-            result = "$28, "
+            result = "$1D, "
         case "a":
             result = "$0A, "
         case "b":
@@ -63,56 +63,34 @@ def Decode(character):
             result = "$0E, "
         case "f":
             result = "$0F, "
-        case "g":
-            result = "$10, "
         case "h":
-            result = "$11, "
+            result = "$10, "
         case "i":
-            result = "$12, "
-        case "j":
-            result = "$13, "
-        case "k":
-            result = "$14, "
+            result = "$11, "
         case "l":
-            result = "$15, "
-        case "m":
-            result = "$16, "
+            result = "$12, "
         case "n":
-            result = "$17, "
+            result = "$13, "
         case "o":
-            result = "$18, "
+            result = "$14, "
         case "p":
-            result = "$19, "
-        case "q":
-            result = "$1A, "
+            result = "$15, "
         case "r":
-            result = "$1B, "
+            result = "$16, "
         case "s":
-            result = "$1C, "
+            result = "$17, "
         case "t":
-            result = "$1D, "
+            result = "$18, "
         case "u":
-            result = "$1E, "
+            result = "$19, "
         case "v":
-            result = "$1F, "
-        case "w":
-            result = "$20, "
-        case "x":
-            result = "$21, "
-        case "y":
-            result = "$22, "
+            result = "$1A, "
         case "z":
-            result = "$23, "
-        case "(":
-            result = "$24, "
-        case ")":
-            result = "$25, "
+            result = "$1B, "
         case ":":
-            result = "$26, "
-        case "-":
-            result = "$27, "
+            result = "$1C, "
         case _:
-            result = "$28, "
+            result = "$1D, "
 
     return result
     
