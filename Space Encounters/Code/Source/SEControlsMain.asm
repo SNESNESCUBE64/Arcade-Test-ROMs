@@ -15,7 +15,7 @@ align $10
 isr_vblank:
     jp isr_vblank_handler
 
-align $100
+align $70
 main:
     call clear_ram
     call process_encoders
@@ -25,7 +25,6 @@ main:
     ;call print_data_labels
     ;call print_title_header
 main_loop:
-    
     call process_encoders
     call process_abs_all
     call calculate_cursor_print_addr
