@@ -19,8 +19,12 @@ align $70
 hardware_init:
     lxi sp, $2400
     call clear_ram
-    ;mvi a, $0E
-    ;out $00
+    xra a
+    out $01
+    out $09
+    out $11
+    mvi a, $0D
+    out $00
     jp main
 
 main:
