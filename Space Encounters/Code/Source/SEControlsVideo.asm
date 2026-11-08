@@ -153,3 +153,42 @@ hbar_next:
     jnz calculate_hbar_loop
     ret
 
+print_vbar:
+    lxi h, vbar_print_addr
+    lxi d, $0020
+    lda vert_rel_addr
+    mov c, a
+    mvi a, $40
+    sub c
+    mov b, a
+    xra a
+
+print_vbar_loop1:
+    ana a
+    jnz print_vbar_loop1_7
+    mvi m, $C3
+    inr a
+    jp print_vbar_loop1_next
+print_vbar_loop1_7:
+    cpi $07
+    jnz print_vbar_loop1_else
+    mvi m, $C3
+    xra a
+    jp print_vbar_loop1_next
+print_vbar_loop1_else:
+    mvi m, $81
+    inr a
+print_vbar_loop1_next:
+    dad d
+    dcr b
+    jnz print_vbar_loop1
+
+    mvi a, $FF
+print_vbar_loop2:
+    mov m, a
+    dad d
+    dcr c
+    jnz print_vbar_loop2
+
+    ret
+

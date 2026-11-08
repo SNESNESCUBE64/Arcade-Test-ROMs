@@ -19,11 +19,12 @@ align $70
 main:
     call clear_ram
     call process_encoders
+    call process_abs_all
+    call calculate_cursor_print_addr
     call calculate_hbar
     ;enable interrupts, all the drawings 
     ei
-    ;call print_data_labels
-    ;call print_title_header
+    
 main_loop:
     call process_encoders
     call process_abs_all
@@ -53,29 +54,21 @@ print_data_labels:
     lxi h, data_header_print_addr + $240
     lxi d, string_rel
     call print_string
-    lxi h, data_header_print_addr + $480
+    lxi h, data_header_print_addr + $580
     lxi d, string_vert
     call print_string
-    lxi h, data_header_print_addr + $5C0
+    lxi h, data_header_print_addr + $6C0
     lxi d, string_abs
     call print_string
-    lxi h, data_header_print_addr + $6C0
+    lxi h, data_header_print_addr + $7C0
     lxi d, string_rel
     call print_string
     ret
 
 print_bars:
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    push psw
     lxi h, hbar_print_addr
     lxi d, hbar_string_addr
     call print_string
-    pop psw
     ret
 
 print_data:
@@ -95,25 +88,6 @@ print_data:
     ret
 
 isr_halfbeam_handler:
-    push psw
-    push b
-    push d
-    push h
-    lda vblank_counter
-    cpi $00
-    cz print_title_header
-    cpi $08
-    cz print_data_labels
-    inr a
-    cpi $10
-    jc half_beam_return
-    xra a
-half_beam_return:
-    sta vblank_counter
-    pop h
-    pop d
-    pop b
-    pop psw
     ei
     ret
 
@@ -124,10 +98,18 @@ isr_vblank_handler:
     push h
 
     lda vblank_counter
-    cpi $02
+    push psw
+    cpi $00
     cz print_bars
+    cpi $01
+    cz print_vbar
+    cpi $02
+    cz print_title_header
+    cpi $03
+    cz print_data_labels
+    pop psw
     inr a
-    cpi $10
+    cpi $04
     jc vblank_return
     xra a
 vblank_return:

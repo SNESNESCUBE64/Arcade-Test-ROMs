@@ -12,6 +12,7 @@ cursor_pos equ vert_rel_addr + $01
 previous_cursor_pos equ cursor_pos + $02
 vblank_counter equ previous_cursor_pos + $02
 hbar_string_addr equ vblank_counter + $01
+vbar_string_addr equ hbar_string_addr + $09
 
 ;Constants
 vram_start equ $2400
@@ -21,18 +22,16 @@ vert_cursor_offset equ $08
 ;Locations
 space_encounters_print_addr equ $2508
 controls_test_print_addr equ $2609
-
-encoder_h_print_addr equ $2946
-encoder_h_rel_print_addr equ $2A46
-encoder_v_print_addr equ $2DC6
-encoder_v_rel_print_addr equ $2DC6
-
 data_header_print_addr equ $2802
 
-hbar_print_addr equ $3A0B
+encoder_h_print_addr equ $2946
+encoder_v_print_addr equ $2EC6
 
-align $0600
+hbar_print_addr equ $3A0B
+vbar_print_addr equ $2E1A
+
 ;sentences
+align $0600
 string_space_encounters: DB $10, $17, $15, $0A, $0C, $0E, $1D, $0E, $13, $0C, $14, $19, $13, $18, $0E, $16, $17
 string_controls_test:    DB $0E, $0E, $13, $0C, $14, $0D, $0E, $16, $17, $1D, $1D, $18, $0E, $17, $18
 string_horiz:            DB $05, $10, $14, $16, $11, $1B
@@ -41,8 +40,6 @@ string_abs:              DB $04, $0A, $0B, $17, $1C
 string_rel:              DB $04, $16, $0E, $12, $1C
 string_cursor:           DB $01, $1E
 string_blank:            DB $01, $1D
-
-string_hbar:             DB $08, $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F
 
 ; Font bytes
 char_0: DB $00, $1C, $22, $32, $2A, $26, $22, $1C
