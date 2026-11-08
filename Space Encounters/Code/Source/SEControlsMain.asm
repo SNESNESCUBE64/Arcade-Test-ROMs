@@ -19,6 +19,7 @@ align $100
 main:
     call clear_ram
     call process_encoders
+    call calculate_hbar
     ;enable interrupts, all the drawings 
     ei
     ;call print_data_labels
@@ -28,6 +29,7 @@ main_loop:
     call process_encoders
     call process_abs_all
     call calculate_cursor_print_addr
+    call calculate_hbar
     ;pet the watchdog
     xra a
     out $02
@@ -63,6 +65,20 @@ print_data_labels:
     call print_string
     ret
 
+print_bars:
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    push psw
+    lxi h, hbar_print_addr
+    lxi d, hbar_string_addr
+    call print_string
+    pop psw
+    ret
+
 print_data:
     ;Print the addresses
     lxi d, horiz_string_addr
@@ -87,10 +103,10 @@ isr_halfbeam_handler:
     lda vblank_counter
     cpi $00
     cz print_title_header
-    cpi $04
+    cpi $08
     cz print_data_labels
     inr a
-    cpi $08
+    cpi $10
     jc half_beam_return
     xra a
 half_beam_return:
@@ -107,7 +123,18 @@ isr_vblank_handler:
     push b
     push d
     push h
+
+    lda vblank_counter
+    cpi $02
+    cz print_bars
+    inr a
+    cpi $10
+    jc vblank_return
+    xra a
+vblank_return:
+    sta vblank_counter
     call print_data
+    ;print cursor
     lhld previous_cursor_pos
     lxi d, string_blank
     call print_string

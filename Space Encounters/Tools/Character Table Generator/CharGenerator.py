@@ -2,7 +2,7 @@ import pyperclip
 import os
 
 FONT_PATH = ".\\font_raw.hx"
-CHAR_LIST = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "h", "i", "l", "n", "o", "p", "r", "s", "t", "u", "v", "z", "colon", "space", "crosshair", "h_bar_right", "h_bar_center", "h_bar_left", "v_bar_low", "v_bar_center", "v_bar_high"]
+CHAR_LIST = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "h", "i", "l", "n", "o", "p", "r", "s", "t", "u", "v", "z", "colon", "space", "crosshair", "hbar0", "hbar1", "hbar2", "hbar3", "hbar4", "hbar5", "hbar6", "hbar7", "hbar8"]
 
 charCounter = 0
 byteCount = 0

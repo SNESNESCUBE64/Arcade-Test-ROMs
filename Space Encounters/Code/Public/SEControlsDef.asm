@@ -11,6 +11,7 @@ vert_rel_addr equ vert_rel_string_addr + $03
 cursor_pos equ vert_rel_addr + $01
 previous_cursor_pos equ cursor_pos + $02
 vblank_counter equ previous_cursor_pos + $02
+hbar_string_addr equ vblank_counter + $01
 
 ;Constants
 vram_start equ $2400
@@ -28,6 +29,9 @@ encoder_v_rel_print_addr equ $2DC6
 
 data_header_print_addr equ $2802
 
+hbar_print_addr equ $3A0B
+
+align $0600
 ;sentences
 string_space_encounters: DB $10, $17, $15, $0A, $0C, $0E, $1D, $0E, $13, $0C, $14, $19, $13, $18, $0E, $16, $17
 string_controls_test:    DB $0E, $0E, $13, $0C, $14, $0D, $0E, $16, $17, $1D, $1D, $18, $0E, $17, $18
@@ -38,9 +42,9 @@ string_rel:              DB $04, $16, $0E, $12, $1C
 string_cursor:           DB $01, $1E
 string_blank:            DB $01, $1D
 
+string_hbar:             DB $08, $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F
 
 ; Font bytes
-align $0600
 char_0: DB $00, $1C, $22, $32, $2A, $26, $22, $1C
 char_1: DB $00, $08, $0C, $08, $08, $08, $08, $1C
 char_2: DB $00, $1C, $22, $20, $10, $08, $04, $3E
@@ -72,16 +76,19 @@ char_z: DB $00, $3E, $20, $10, $08, $04, $02, $3E
 char_colon: DB $00, $00, $02, $00, $00, $02, $00, $00
 char_space: DB $00, $00, $00, $00, $00, $00, $00, $00
 char_crosshair: DB $18, $18, $18, $E7, $E7, $18, $18, $18
-char_h_bar_right: DB $FF, $80, $80, $80, $80, $80, $80, $FF
-char_h_bar_center: DB $FF, $81, $00, $00, $00, $00, $81, $FF
-char_h_bar_left: DB $FF, $01, $01, $01, $01, $01, $01, $FF
-char_v_bar_low: DB $81, $81, $81, $81, $81, $81, $81, $FF
-char_v_bar_center: DB $C3, $81, $81, $81, $81, $81, $81, $C3
-char_v_bar_high: DB $FF, $81, $81, $81, $81, $81, $81, $81
+char_hbar0: DB $FF, $81, $00, $00, $00, $00, $81, $FF
+char_hbar1: DB $FF, $81, $01, $01, $01, $01, $81, $FF
+char_hbar2: DB $FF, $83, $03, $03, $03, $03, $83, $FF
+char_hbar3: DB $FF, $87, $07, $07, $07, $07, $87, $FF
+char_hbar4: DB $FF, $8F, $0F, $0F, $0F, $0F, $8F, $FF
+char_hbar5: DB $FF, $9F, $1F, $1F, $1F, $1F, $9F, $FF
+char_hbar6: DB $FF, $BF, $3F, $3F, $3F, $3F, $BF, $FF
+char_hbar7: DB $FF, $FF, $7F, $7F, $7F, $7F, $FF, $FF
+char_hbar8: DB $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 
 ; Footer
 align $07C0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "SE Controls 1H  SNESNESCUBE64   05NOV2026  V0.03"
+DB "SE Controls 1H  SNESNESCUBE64   07NOV2026  V0.04"
 
 ds $800 - $

@@ -15,7 +15,7 @@ print_string_loop:
     call print_character
     pop d
     inx d
-    dec b
+    dcr b
     jnz print_string_loop
     ret
 
@@ -77,14 +77,6 @@ print_character_return:
     ret
 
 calculate_cursor_print_addr:
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
     lxi h, vram_start
     lxi d, $00C0
     
@@ -121,3 +113,43 @@ calc_horiz_cursor_pos2:
 
     shld cursor_pos
     ret
+
+calculate_hbar:
+    mvi a, $08
+    lxi h, hbar_string_addr
+    mov m, a
+    inx h
+    mov b, a
+    mov c, a
+    lda horiz_rel_addr
+    mov c, a
+    mvi a, encoder_max
+    sub c;This is now how far we have to print
+    mvi c, $08
+
+calculate_hbar_loop:
+    cpi $08
+    jc hbar_nonzero
+    mvi m, $27
+    sub b
+    jp hbar_next
+hbar_nonzero:
+    ana a
+    jz hbar_zero
+    mov b, a
+    mvi a, $08
+    sub b
+    mov b, a
+    mvi a, $27
+    sub b
+    mov m, a
+    sub a
+    jp hbar_next
+hbar_zero:
+    mvi m, $1F
+hbar_next:    
+    inx h
+    dcr c
+    jnz calculate_hbar_loop
+    ret
+
