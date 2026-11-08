@@ -3,9 +3,7 @@
 
 org $0000
 
-lxi sp, $2400
-jp main
-init:
+jp hardware_init
 
 align $08
 isr_halfbeam:
@@ -16,8 +14,17 @@ isr_vblank:
     jp isr_vblank_handler
 
 align $70
-main:
+;This clears all sounds, game functions, and RAM
+;to put it a good default state
+hardware_init:
+    lxi sp, $2400
     call clear_ram
+    ;mvi a, $0E
+    ;out $00
+    jp main
+
+main:
+    ;call hardware_init
     call process_encoders
     call process_abs_all
     call calculate_cursor_print_addr
@@ -34,6 +41,8 @@ main_loop:
     xra a
     out $02
     jp main_loop
+
+
 include "SEControlsISR.asm"
 include "SEControlsRAM.asm"
 include "SEControlsEncoder.asm"
