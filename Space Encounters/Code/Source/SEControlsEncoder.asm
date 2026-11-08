@@ -24,7 +24,6 @@ process_encoders:
     call create_encoder_string
     ret
 
-
 process_abs_all:
     lda horiz_raw_addr
     mov b, a
@@ -51,18 +50,6 @@ process_abs_loop:
     jz process_abs_done
     inx h
     inr c
-    ;Convert to base 10
-;     mov a, c
-;     ani $0F
-;     cpi $0A
-;     jnz process_abs_next
-;     inr c
-;     inr c
-;     inr c
-;     inr c
-;     inr c
-;     inr c
-; process_abs_next:
     dcr d
     jnz process_abs_loop
     ;We did not find what we needed, give a default value
