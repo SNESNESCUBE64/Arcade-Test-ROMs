@@ -17,12 +17,41 @@ process_encoders:
     sta horiz_raw_addr
     lxi h, horiz_string_addr
     call create_encoder_string
+    lxi d, horiz_raw_addr
+    lxi h, h_bin_string_addr
+    call make_bin_string
     in $01
     ani $3F
     sta vert_raw_addr
     lxi h, vert_string_addr
     call create_encoder_string
+    lxi d, vert_raw_addr
+    lxi h, v_bin_string_addr
+    call make_bin_string
     ret
+
+;DE is encoder value
+;HL is the string address
+make_bin_string:
+    mvi m, $06
+    inx h
+    ldax d
+    mvi b, $06
+    rlc
+    rlc
+make_bin_loop:
+    rlc
+    jc make_bin_set
+    mvi m, $00
+    jp make_bin_loop_next
+make_bin_set:
+    mvi m, $01
+make_bin_loop_next:
+    inx h
+    dcr b
+    jnz make_bin_loop
+    ret
+
 
 process_abs_all:
     lda horiz_raw_addr

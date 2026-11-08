@@ -28,7 +28,7 @@ hardware_init:
     jp main
 
 main:
-    ;call hardware_init
+    call print_title_header
     call process_encoders
     call process_abs_all
     call calculate_cursor_print_addr

@@ -18,7 +18,7 @@ isr_vblank_handler:
     cpi $01
     cz print_vbar
     cpi $02
-    cz print_title_header
+    ;cz print_title_header
     cpi $03
     cz print_data_labels
     pop psw
@@ -36,6 +36,12 @@ vblank_return:
     lhld cursor_pos
     shld previous_cursor_pos
     lxi d, string_cursor
+    call print_string
+    lxi h, data_header_print_addr + $0340
+    lxi d, h_bin_string_addr
+    call print_string
+    lxi h, data_header_print_addr + $08C0
+    lxi d, v_bin_string_addr
     call print_string
     pop h
     pop d
