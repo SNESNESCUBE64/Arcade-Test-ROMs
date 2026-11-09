@@ -52,7 +52,6 @@ make_bin_loop_next:
     jnz make_bin_loop
     ret
 
-
 process_abs_all:
     lda horiz_raw_addr
     mov b, a
