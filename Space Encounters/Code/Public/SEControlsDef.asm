@@ -20,6 +20,9 @@ print_start_addr equ v_bin_string_addr + $07
 vram_start equ $2400
 encoder_max equ $3F
 vert_cursor_offset equ $08
+se_encoder_center equ $1D
+screen_center equ $0F
+screen_center_word equ $000F
 
 ;Locations
 space_encounters_print_addr equ $2508

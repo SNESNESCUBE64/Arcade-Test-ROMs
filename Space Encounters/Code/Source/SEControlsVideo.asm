@@ -93,23 +93,37 @@ vpos_cursor_loop:
     jp vpos_cursor_loop
 vpos_cursor_end:
 
-    lda horiz_rel_addr
-    mvi b, $0D
-    sub b
-    jnc calc_horiz_cursor_pos1
-    mvi a, $00
-    jp calc_horiz_cursor_pos2
-calc_horiz_cursor_pos1: 
-    cpi $20
-    jc calc_horiz_cursor_pos2:
-    mvi a, $20
-calc_horiz_cursor_pos2:  
+;Calculate horizontal cursor
+lda horiz_rel_addr
+cpi se_encoder_center
+jz horiz_pos_center
+jc horiz_pos_right
+horiz_pos_left:
+    sub se_encoder_center
+    rar ;divide by 2
     mov b, a
-    mvi a, (encoder_max / 2)-1
+    mvi a, screen_center
     sub b
-    inr a
     mov e, a
+    mvi d, $00
+    jp horiz_pos_finish
+horiz_pos_right:
+    ;ora a ;clear the carry flag
+    mov b, a
+    mvi a, se_encoder_center
+    sub b
+    rar ;divide by 2
+    adi screen_center
+    mov e, a
+    mvi d, $00
+    jp horiz_pos_finish
+horiz_pos_center:
+    ;Load the center value 
+    lxi d, screen_center_word
+horiz_pos_finish:
     dad d
+    shld cursor_pos
+    ret
 
     shld cursor_pos
     ret
