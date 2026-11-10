@@ -23,6 +23,8 @@ vert_cursor_offset equ $08
 se_encoder_center equ $1D
 screen_center equ $0F
 screen_center_word equ $000F
+horiz_bar_char_full equ $29
+horiz_bar_char_empty equ horiz_bar_char_full - $08
 
 ;Locations
 space_encounters_print_addr equ $2508
@@ -78,6 +80,8 @@ char_z: DB $00, $3E, $20, $10, $08, $04, $02, $3E
 char_colon: DB $00, $00, $02, $00, $00, $02, $00, $00
 char_space: DB $00, $00, $00, $00, $00, $00, $00, $00
 char_crosshair: DB $18, $18, $18, $E7, $E7, $18, $18, $18
+char_crosshair_right: DB $80, $80, $80, $70, $70, $80, $80, $80
+char_crosshair_left: DB $01, $01, $01, $0E, $0E, $01, $01, $01
 char_hbar0: DB $FF, $81, $00, $00, $00, $00, $81, $FF
 char_hbar1: DB $FF, $81, $01, $01, $01, $01, $81, $FF
 char_hbar2: DB $FF, $83, $03, $03, $03, $03, $83, $FF

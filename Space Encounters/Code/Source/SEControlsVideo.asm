@@ -144,7 +144,7 @@ calculate_hbar:
 calculate_hbar_loop:
     cpi $08
     jc hbar_nonzero
-    mvi m, $27
+    mvi m, horiz_bar_char_full
     sub b
     jp hbar_next
 hbar_nonzero:
@@ -154,13 +154,13 @@ hbar_nonzero:
     mvi a, $08
     sub b
     mov b, a
-    mvi a, $27
+    mvi a, horiz_bar_char_full
     sub b
     mov m, a
     sub a
     jp hbar_next
 hbar_zero:
-    mvi m, $1F
+    mvi m, horiz_bar_char_empty
 hbar_next:    
     inx h
     dcr c
