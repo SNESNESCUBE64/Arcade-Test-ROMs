@@ -9,7 +9,8 @@ vert_raw_addr equ vert_string_addr + $03
 vert_rel_string_addr equ vert_raw_addr + $01
 vert_rel_addr equ vert_rel_string_addr + $03
 cursor_pos equ vert_rel_addr + $01
-previous_cursor_pos equ cursor_pos + $02
+cursor_carry equ cursor_pos + $02
+previous_cursor_pos equ cursor_carry + $01
 vblank_counter equ previous_cursor_pos + $02
 hbar_string_addr equ vblank_counter + $01
 h_bin_string_addr equ hbar_string_addr + $09
@@ -46,7 +47,8 @@ string_vert:             DB $04, $1A, $0E, $16, $18
 string_abs:              DB $04, $0A, $0B, $17, $1C
 string_rel:              DB $04, $16, $0E, $12, $1C
 string_cursor:           DB $01, $1E
-string_blank:            DB $01, $1D
+string_cursor_half:      DB $02, $1F, $20
+string_blank:            DB $02, $1D, $1D
 
 ; Font bytes
 char_0: DB $00, $1C, $22, $32, $2A, $26, $22, $1C
@@ -95,6 +97,6 @@ char_hbar8: DB $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 ; Footer
 align $07C0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "SE Controls 1H  SNESNESCUBE64   07NOV2026  V0.04"
+DB "SE Controls 1H  SNESNESCUBE64   10NOV2026  V0.05"
 
 ds $800 - $

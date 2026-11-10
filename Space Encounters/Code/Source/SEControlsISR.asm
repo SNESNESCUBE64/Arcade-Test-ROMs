@@ -30,13 +30,7 @@ vblank_return:
     sta vblank_counter
     call print_data
     ;print cursor
-    lhld previous_cursor_pos
-    lxi d, string_blank
-    call print_string
-    lhld cursor_pos
-    shld previous_cursor_pos
-    lxi d, string_cursor
-    call print_string
+    call print_cursor
     lxi h, data_header_print_addr + $0340
     lxi d, h_bin_string_addr
     call print_string

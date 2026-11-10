@@ -100,6 +100,11 @@ jz horiz_pos_center
 jc horiz_pos_right
 horiz_pos_left:
     sub se_encoder_center
+    mov c, a
+    cma
+    ani $01
+    sta cursor_carry
+    mov a, c
     rar ;divide by 2
     mov b, a
     mvi a, screen_center
@@ -112,6 +117,10 @@ horiz_pos_right:
     mov b, a
     mvi a, se_encoder_center
     sub b
+    mov c, a
+    ani $01
+    sta cursor_carry
+    mov a, c
     rar ;divide by 2
     adi screen_center
     mov e, a
@@ -120,6 +129,8 @@ horiz_pos_right:
 horiz_pos_center:
     ;Load the center value 
     lxi d, screen_center_word
+    xra a
+    sta cursor_carry
 horiz_pos_finish:
     dad d
     shld cursor_pos

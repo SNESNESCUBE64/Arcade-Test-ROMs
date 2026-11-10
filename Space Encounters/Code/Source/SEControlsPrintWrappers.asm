@@ -52,3 +52,36 @@ print_data:
     lxi h, encoder_v_print_addr+$100
     call print_string
     ret
+
+print_cursor:
+    lhld cursor_pos
+    mov d, h
+    mov e, l
+    lhld previous_cursor_pos
+    mov a, h
+    sub d
+    jnz start_cursor_print
+    mov a, l
+    sub e
+    rz ;We have the same address if zero, don't bother printing
+start_cursor_print:
+    lda cursor_carry
+    ana a
+    jnz print_half_cursor
+    lhld previous_cursor_pos
+    lxi d, string_blank
+    call print_string
+    lhld cursor_pos
+    shld previous_cursor_pos
+    lxi d, string_cursor
+    call print_string
+    ret
+print_half_cursor:
+    lhld previous_cursor_pos
+    lxi d, string_blank
+    call print_string
+    lhld cursor_pos
+    shld previous_cursor_pos
+    lxi d, string_cursor_half
+    call print_string
+    ret
