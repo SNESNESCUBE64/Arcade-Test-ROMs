@@ -1,4 +1,4 @@
-; Space Encounter Controls Test ROM
+; Space Encounters Encoders Test ROM
 ; SNESNESCUBE64
 
 encoder_table: DB $3F, $3E, $3C, $3D, $39, $38, $3A, $3B ;7

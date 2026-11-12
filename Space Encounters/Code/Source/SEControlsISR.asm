@@ -1,4 +1,4 @@
-; Space Encounter Controls Test ROM
+; Space Encounters Encoders Test ROM
 ; SNESNESCUBE64
 
 isr_halfbeam_handler:
