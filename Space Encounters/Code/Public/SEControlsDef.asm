@@ -1,3 +1,5 @@
+; Space Encounter Encoders Test ROM
+; SNESNESCUBE64
 
 ;Variable Address Locations
 horiz_string_addr equ $2000
@@ -98,6 +100,6 @@ char_hbar8: DB $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 ; Footer
 align $07C0
 DB "CHKSUM:", $FF, $FF, " PAD:", $00, $00
-DB "SE Controls 1H  SNESNESCUBE64   10NOV2026  V0.05"
+DB "SE ENCODERS 1H  SNESNESCUBE64   11NOV2026  V1.00"
 
 ds $800 - $

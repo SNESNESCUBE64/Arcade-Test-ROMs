@@ -11,6 +11,7 @@ print_title_header:
     ret
 
 print_data_labels:
+    push psw
     lxi h, data_header_print_addr
     lxi d, string_horiz
     call print_string
@@ -29,12 +30,15 @@ print_data_labels:
     lxi h, data_header_print_addr + $7C0
     lxi d, string_rel
     call print_string
+    pop psw
     ret
 
 print_bars:
+    push psw
     lxi h, hbar_print_addr
     lxi d, hbar_string_addr
     call print_string
+    pop psw
     ret
 
 print_data:

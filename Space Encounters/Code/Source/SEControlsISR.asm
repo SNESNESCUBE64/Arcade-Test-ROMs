@@ -12,16 +12,16 @@ isr_vblank_handler:
     push h
 
     lda vblank_counter
-    push psw
     cpi $00
     cz print_bars
     cpi $01
     cz print_vbar
-    cpi $02
+    ;cpi $02
     ;cz print_title_header
-    cpi $03
+    cpi $02
     cz print_data_labels
-    pop psw
+    cpi $03
+    cz print_bar_ticks
     inr a
     cpi $04
     jc vblank_return

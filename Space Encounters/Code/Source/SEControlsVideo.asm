@@ -178,7 +178,34 @@ hbar_next:
     jnz calculate_hbar_loop
     ret
 
+print_bar_ticks:
+    push psw
+    lxi h, $3B0D
+    lxi d, $001A
+    mvi c, $04
+print_hbar_ticks_loop_start:
+    mvi a, $01
+    mvi b, $03
+print_hbar_ticks_loop:
+    mov m, a
+    ral
+    inx h
+    inx h
+    dcr b
+    jnz print_hbar_ticks_loop:
+    dad d
+    dcr c
+    jnz print_hbar_ticks_loop_start
+
+    mvi a, $0F
+    sta $335B
+    sta $30FB
+
+    pop psw
+    ret
+
 print_vbar:
+    push psw
     lxi h, vbar_print_addr
     lxi d, $0020
     lda vert_rel_addr
@@ -214,6 +241,7 @@ print_vbar_loop2:
     dad d
     dcr c
     jnz print_vbar_loop2
-
+    
+    pop psw
     ret
 
