@@ -11,7 +11,8 @@ vert_rel_addr equ vert_rel_string_addr + $03
 cursor_pos equ vert_rel_addr + $01
 cursor_carry equ cursor_pos + $02
 previous_cursor_pos equ cursor_carry + $01
-vblank_counter equ previous_cursor_pos + $02
+previous_cursor_carry equ previous_cursor_pos + $02
+vblank_counter equ previous_cursor_carry + $01
 hbar_string_addr equ vblank_counter + $01
 h_bin_string_addr equ hbar_string_addr + $09
 v_bin_string_addr equ h_bin_string_addr + $07

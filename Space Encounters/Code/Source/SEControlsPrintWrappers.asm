@@ -63,6 +63,11 @@ print_cursor:
     jnz start_cursor_print
     mov a, l
     sub e
+    jnz start_cursor_print 
+    lda previous_cursor_carry
+    mov b, a
+    lda cursor_carry
+    cmp b
     rz ;We have the same address if zero, don't bother printing
 start_cursor_print:
     lda cursor_carry
@@ -75,6 +80,8 @@ start_cursor_print:
     shld previous_cursor_pos
     lxi d, string_cursor
     call print_string
+    xra a
+    sta previous_cursor_carry
     ret
 print_half_cursor:
     lhld previous_cursor_pos
@@ -84,4 +91,6 @@ print_half_cursor:
     shld previous_cursor_pos
     lxi d, string_cursor_half
     call print_string
+    mvi a, $01
+    sta previous_cursor_carry
     ret
