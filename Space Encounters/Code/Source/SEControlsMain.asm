@@ -33,7 +33,8 @@ main:
     call process_abs_all
     call calculate_cursor_print_addr
     call calculate_hbar
-    ;enable interrupts, all the drawings 
+    ;enable interrupts, all the drawings
+    call trench1
     ei
     
 main_loop:
@@ -46,7 +47,7 @@ main_loop:
     out $02
     jp main_loop
 
-
+include "SEControlsTrench.asm"
 include "SEControlsISR.asm"
 include "SEControlsRAM.asm"
 include "SEControlsEncoder.asm"
