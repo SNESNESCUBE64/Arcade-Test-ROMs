@@ -61,5 +61,5 @@ Refer to the following tables for calibration values as defined by MAME.
 | Relative       |    29   |     16     |
 | Binary (Abs)   |  000010 |   100010   |
 
-#### Screenshot
+## Screenshot
 ![Screenshot](Images/SECTest_Screenshot.png)
